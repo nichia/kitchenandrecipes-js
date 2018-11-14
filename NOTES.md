@@ -23,8 +23,8 @@ To Do:
 - Refactor - DRY
 
 ## References
-### Bootstrap setup
-
+### Bootstrap
+[Bootstrap - Default navbar](https://getbootstrap.com/docs/3.3/components/#navbar-default)
 ### Postgresql database setup
 [Getting Started with PostgreSQL on Mac OSX](https://www.codementor.io/engineerapart/getting-started-with-postgresql-on-mac-osx-are8jcopb)
 [Setting up PostgreSQL with Rails Application](https://medium.com/@noordean/setting-up-postgresql-with-rails-application-357fe5e9c28)
