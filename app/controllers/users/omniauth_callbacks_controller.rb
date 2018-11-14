@@ -16,7 +16,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 	end
 
   def failure
-    # flash[:error] = 'There was a problem signing you in. Please register or try signing in later.'
     set_flash_message! :alert, :failure, kind: OmniAuth::Utils.camelize(failed_strategy.name), reason: failure_message
     redirect_to root_path
   end
@@ -25,7 +24,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
 	def callback_from(provider)
     @user = User.from_omniauth(request.env["omniauth.auth"])
-    binding.pry
     if @user.persisted?
       sign_in_and_redirect @user, event: :authentication #this will throw if @user is not activated
       set_flash_message(:notice, :success, kind: "#{provider}".capitalize) if is_navigational_format?
