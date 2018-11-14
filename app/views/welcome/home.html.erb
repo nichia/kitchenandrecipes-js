@@ -1,0 +1,7 @@
+
+<h1>Welcome#Home</h1>
+<h2>Time to list whatever</h2>
+
+<% if user_signed_in? %>
+  <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+<% end %>
