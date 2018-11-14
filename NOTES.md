@@ -25,18 +25,31 @@ To Do:
 ## References
 ### Bootstrap
 [Bootstrap - Default navbar](https://getbootstrap.com/docs/3.3/components/#navbar-default)
+
 ### Postgresql database setup
 [Getting Started with PostgreSQL on Mac OSX](https://www.codementor.io/engineerapart/getting-started-with-postgresql-on-mac-osx-are8jcopb)
+
 [Setting up PostgreSQL with Rails Application](https://medium.com/@noordean/setting-up-postgresql-with-rails-application-357fe5e9c28)
+
 ### Authentication using Devise and omniauth
 [Devise docs on getting started](https://github.com/plataformatec/devise)
+
 [Devise docs on OmniAuth: Overview - setting up omniauth strategy using Facebook](https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview)
+
 [Devise docs on Controller filters and helpers](https://github.com/plataformatec/devise#controller-filters-and-helpers)
+
 [Integrating Social Login in a Ruby on Rails Application using omniauth and Devise](https://scotch.io/tutorials/integrating-social-login-in-a-ruby-on-rails-application)
+
 [How To Setup Devise and OmniAuth for Your Rails Application](https://www.adrianprieto.com/how-to-setup-devise-and-omniauth-for-your-rails-application/)
+
 [Devise Authentication in Depth](https://www.sitepoint.com/devise-authentication-in-depth/)
+
 [User Authentication in Rails with Devise](https://gorails.com/episodes/user-authentication-with-devise)
+
 [Omniauth Docs on Auth Hash Schema](https://github.com/omniauth/omniauth/wiki/Auth-Hash-Schema)
+
 [Facebook Omniauth Strategy](https://github.com/mkdynamic/omniauth-facebook)
+
 [Github Omniauth Strategy](https://github.com/omniauth/omniauth-github)  
+
 [Google Omniauth Strategy](https://github.com/zquestz/omniauth-google-oauth2)
