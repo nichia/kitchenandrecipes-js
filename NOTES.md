@@ -1,5 +1,5 @@
-# Homecooked
-Homecooked is a ruby on rails application created to manage and share recipes.
+# KitchenandRecipes
+Kitchenandrecipes is a ruby on rails application created to manage and share recipes.
 The application uses Ruby on Rails framework and manages data through forms and RESTful routes. It provides standard user authentication, including signup, login, logout and passwords. In addition, the authentication system allows login from other third party services, Facebook, Google and Twitter.
 
 The stretch goals are:
@@ -10,12 +10,12 @@ To Do:
 - Design data models and associations
 - Write user stories
 - Sketch out rough screen layouts
-- Setup the Homecooked application to use postgresql database. Do this now so it can easily be hosted on Heroku platform later
+- Setup the Kitchenandrecipes application to use postgresql database. Do this now so it can easily be hosted on Heroku platform later
   - install and setup postgresql
 - Generate models and migrations and setup Activerecord associations. Add Activerecord validations.
 - Write RSPEC/Capybara Tests
-- Start routes, controllers, and views for home page, signup, login and logout
 - Implement authentication using Devise/OmniAuth
+  - Start routes, controllers, and views for home page, signup, login and logout
 - Add edit and delete of User account.
 - Setup seeds data for db
 - Continue with main CRUD logic for recipes and it's corresponding routes, controller and views.
