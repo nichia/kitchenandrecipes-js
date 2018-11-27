@@ -18,7 +18,7 @@ In a bash terminal, run the server.
     $ rails s
 
 ## Usage
-Open up another terminal and copy/paste the IP server address into a web browser URL (usually http://localhost:3000) to use the application.
+Open up a web browser and copy/paste the IP server address into the web browser URL (usually http://localhost:3000) to use the application.
 
 Sign up and login to keep track of and share your recipes. Or, you can use this pre-made user account setting to login:
 
