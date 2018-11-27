@@ -20,7 +20,7 @@ In a bash terminal, run the server.
 ## Usage
 Open up another terminal and copy/paste the IP server address into a web browser URL (usually http://localhost:3000) to use the application.
 
-Sign up and login to keep track of and share your favorite tools. Or, you can use this pre-made user account setting to login:
+Sign up and login to keep track of and share your recipes. Or, you can use this pre-made user account setting to login:
 
     $ username: lorem
     $ email: lorem@email.com
