@@ -7,10 +7,10 @@ In a bash terminal, clone the application repository from github then run the ap
     $ git clone git@github.com:nichia/kitchenandrecipes.git
     $ cd kitchenandrecipes
     $ mv .env.bak .env  (edit the .env file to fill in secret keys)
-    $ run bundle install
-    $ run rake db:create
-    $ run rake db:migrate
-    $ run rake db:seed
+    $ bundle install
+    $ rake db:create
+    $ rake db:migrate
+    $ rake db:seed
 
 ## Run the server
 In a bash terminal, run the server.
