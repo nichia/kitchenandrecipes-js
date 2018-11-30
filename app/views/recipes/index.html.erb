@@ -1,2 +1,30 @@
-<h1>Recipes#index</h1>
-<p>Find me in app/views/recipes/index.html.erb</p>
+<!-- /recipes/index -->
+<div class="container">
+  <div class="row">
+    <!-- Card deck -->
+    <div class="card-deck">
+      <% @recipes.each do |recipe| %>
+        <!-- Card -->
+        <div class="card mb-4">
+          <!--Card image-->
+          <div class="view overlay">
+            <img class="card-img-top" src="<%= recipe.url_image %>" alt="Card image cap">
+            <a href="/recipes/<%= recipe.slug %>">
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+
+          <!--Card content-->
+          <div class="card-body">
+            <!--Title-->
+            <h4 class="card-title"><%= recipe.title %></h4>
+            <!--Text-->
+            <p class="card-text"><%= recipe.description %></p>
+            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+            <button type="button" class="btn btn-light-blue btn-md">Read more</button>
+          </div>
+        </div> <!-- Card -->
+      <% end %>
+    </div> <!-- Card deck -->
+  </div> <!-- Row -->
+</div> <!-- Container -->
