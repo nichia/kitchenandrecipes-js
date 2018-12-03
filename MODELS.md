@@ -2,7 +2,7 @@
 
 ## Devise Users
 ### Attributes
--	username
+-	name
 -	email
 -	encrypted_password
 - first_name
@@ -22,7 +22,7 @@
 
 ## recipes
 ### Attributes
-- title
+- name
 - description
 - prep_time
 - cook_time

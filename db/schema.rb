@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 2018_11_14_005239) do
   end
 
   create_table "recipes", force: :cascade do |t|
-    t.string "title"
+    t.string "name"
     t.text "description"
     t.string "prep_time"
     t.string "cook_time"
@@ -102,7 +102,7 @@ ActiveRecord::Schema.define(version: 2018_11_14_005239) do
     t.inet "last_sign_in_ip"
     t.string "provider", default: "", null: false
     t.string "uid", default: "", null: false
-    t.string "username"
+    t.string "name"
     t.string "first_name"
     t.string "last_name"
     t.string "image"

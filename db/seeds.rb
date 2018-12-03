@@ -43,7 +43,7 @@ Category.create(category_type: 'Dish', name: 'roast')
 
 # Create users
 User.create(
-  username: "lorem",
+  name: "lorem",
   email: "lorem@email.com",
   password: "Password1!",
   first_name: "Lorem",
@@ -52,7 +52,7 @@ User.create(
 )
 
 User.create(
-  username: "Celine Dion",
+  name: "Celine Dion",
   email: Faker::Internet.safe_email("celine.dion"),
   password: Faker::Internet.password(8),
   provider: "facebook",
@@ -64,7 +64,7 @@ User.create(
 
 10.times do
   User.create(
-    username: Faker::Internet.username(8),
+    name: Faker::Internet.username(8),
     email: Faker::Internet.safe_email,
     password: Faker::Internet.password(8),
     first_name: Faker::Name.first_name,
@@ -105,7 +105,7 @@ end
 yields = ['makes 30', 'serves 6 people']
 50.times do
   recipe = Recipe.create(
-    title: Faker::Food.dish.downcase,
+    name: Faker::Food.dish.downcase,
     description: Faker::Food.description,
     prep_time: Faker::Coffee.intensifier,
     cook_time: Faker::Coffee.intensifier,

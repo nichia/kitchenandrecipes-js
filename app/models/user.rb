@@ -11,8 +11,11 @@ class User < ApplicationRecord
 
   has_many :recipes
   has_many :reviews
-  validates_presence_of :email, :username
+  validates_presence_of :email, :name
   validates_uniqueness_of :email
+
+  include Slugifiable::InstanceMethods
+  extend Slugifiable::ClassMethods
 
   # generate user based on omniauth data received from 3rd party providers
   def self.from_omniauth(auth)
@@ -37,7 +40,7 @@ class User < ApplicationRecord
 
   def self.signup_user_with_provider(auth)
     self.where(provider: auth['provider'], uid: auth['uid']).first_or_create do |user|
-      user.username = auth['info']['name']
+      user.name = auth['info']['name']
       if auth['info']['first_name']
         user.first_name = auth['info']['first_name']
       else
