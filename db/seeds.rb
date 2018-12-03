@@ -109,21 +109,24 @@ yields = ['makes 30', 'serves 6 people']
     description: Faker::Food.description,
     prep_time: Faker::Coffee.intensifier,
     cook_time: Faker::Coffee.intensifier,
-    yields: yields.sample,
+    yield: yields.sample,
     url_image: Faker::LoremPixel.image("50x60"),
-    user_id: User.find_by_id(Faker::Number.between(1, 12)),
-    category_id: Category.find_by_id(Faker::Number.between(1, 6))
+    user: User.find_by_id(Faker::Number.between(1, 12))
+  )
+
+  recipe.recipe_categories.create(
+    category: Category.find_by_id(Faker::Number.between(1, 6))
   )
 
   5.times do
-    recipe.Recipe_ingredient.create(
+    recipe.recipe_ingredients.create(
       quantity: Faker::Food.measurement,
-      measurement_id: Measurement.find_by_id(Faker::Number.between(1, 22)),
-      ingredient_id: Ingredient.find_by_id(Faker::Number.between(1, 200))
+      measurement: Measurement.find_by_id(Faker::Number.between(1, 22)),
+      ingredient: Ingredient.find_by_id(Faker::Number.between(1, 200))
     )
   end
 
   6.times do
-    recipe.Instruction.create(description: Faker::Lorem.paragraph)
+    recipe.instructions.create(description: Faker::Lorem.paragraph)
   end
 end
