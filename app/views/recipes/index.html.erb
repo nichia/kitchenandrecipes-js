@@ -1,21 +1,10 @@
 <!-- /recipes/index -->
-<div class="container">
+
+<div class="container-fluids">
   <!-- Card columns -->
   <div class="card-columns">
     <% @recipes.each do |recipe| %>
-      <!-- Card -->
-      <div class="card bg-dark text-white">
-        <!--Card image-->
-        <a href="/recipes/<%= recipe.slug %>">
-          <img class="card-img-top" src="<%= recipe.url_image %>" alt="Card image cap">
-        </a>
-        <!--Card body -->
-        <div class="card-body">
-          <h4 class="card-title"><%= recipe.name %></h4>
-          <p class="card-text"><%= recipe.description %></p>
-          <button type="button" class="btn btn-light-blue btn-md">Read more</button>
-        </div> <!-- Card body -->
-      </div> <!-- Card -->
+      <%= render partial: 'recipe', locals: {recipe: recipe} %>
     <% end %>
   </div> <!-- Card columns -->
 </div> <!-- Container -->

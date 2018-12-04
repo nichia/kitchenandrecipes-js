@@ -1,0 +1,16 @@
+<!-- _recipe -->
+
+<!-- Card -->
+<!-- div class="card bg-dark text-white" -->
+<div class="card">
+  <!--Card image-->
+  <a href="/recipes/<%= recipe.slug %>">
+    <img class="card-img-top" src="<%= recipe.url_image %>" alt="Card image cap">
+  </a>
+  <!--Card body -->
+  <div class="card-body">
+    <h4 class="card-title"><%= recipe.name %></h4>
+    <p class="card-text"><%= recipe.description %></p>
+    <button type="button" class="btn btn-light-blue btn-md">Read more</button>
+  </div> <!-- Card body -->
+</div> <!-- Card -->

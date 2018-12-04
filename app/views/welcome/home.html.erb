@@ -1,3 +1,16 @@
+<!-- /welcome/home -->
 
-<h1>Welcome#Home</h1>
-<h2>Time to list whatever</h2>
+<div class="jumbotron">
+  <div class="text-center">
+    <h1>Kitchen&Recipes</h1>
+  </div>
+</div>
+
+<div class="container-fluids">
+  <!-- Card columns -->
+  <div class="card-columns">
+    <% @recipes.each do |recipe| %>
+      <%= render partial: 'recipes/recipe', locals: {recipe: recipe} %>
+    <% end %>
+  </div> <!-- Card columns -->
+</div> <!-- Container -->
