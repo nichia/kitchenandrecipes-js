@@ -4,7 +4,7 @@
   <div class="card-columns">
     <% @recipes.each do |recipe| %>
       <!-- Card -->
-      <div class="card bg-dark text-white">
+      <div class="card bg-dark text-white" style="width: 18rem;">
         <!--Card image-->
         <a href="/recipes/<%= recipe.slug %>">
           <img class="card-img-top" src="<%= recipe.url_image %>" alt="Card image cap">
