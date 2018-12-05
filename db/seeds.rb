@@ -110,7 +110,7 @@ yields = ['makes', 'serves']
     prep_time: Faker::Coffee.intensifier,
     cook_time: Faker::Coffee.intensifier,
     yield: yields.sample,
-    yield_description: Faker::Coffee.blend_name,
+    yield_size: Faker::Coffee.blend_name,
     url_image: Faker::LoremPixel.image("50x60"),
     user: User.find_by_id(Faker::Number.between(1, 12))
   )

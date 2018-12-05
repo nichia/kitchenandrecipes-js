@@ -26,7 +26,7 @@
 - prep_time
 - cook_time
 - yield
-- yield_description
+- yield_size
 - private
 - source
 - url_image
