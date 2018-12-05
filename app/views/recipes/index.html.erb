@@ -3,8 +3,9 @@
 <div class="container-fluids">
   <!-- Card columns -->
   <div class="card-columns">
-    <% @recipes.each do |recipe| %>
-      <%= render partial: 'recipe', locals: {recipe: recipe} %>
-    <% end %>
+    <%# @recipes.each do |recipe| %>
+      <%#= render partial: 'recipe', locals: {recipe: recipe} %>
+    <%# end %>
+    <%= render partial: 'recipe', collection: @recipes %>
   </div> <!-- Card columns -->
 </div> <!-- Container -->
