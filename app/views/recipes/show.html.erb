@@ -1,4 +1,4 @@
-<!-- show -->
+<!-- /recipes/show -->
 
 <div class="container">
   <div class="text-center">
@@ -7,7 +7,7 @@
     <p><%= @recipe.description %></p>
   </div>
 
-  <p><strong>Serves:</strong> <%= @recipe.yield %></p>
+  <p><strong>Yield:</strong> <%= @recipe.yield %> <%= @recipe.yield_description %></p>
   <p><strong>Prep time:</strong> <%= @recipe.prep_time %></p>
   <p><strong>Cook time:</strong> <%= @recipe.cook_time %></p>
 
@@ -22,5 +22,4 @@
   <% @instructions.each do |instruction| %>
     <p><%= instruction.description %></p>
   <% end %>
-
 </div> <!-- Container -->

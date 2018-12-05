@@ -102,7 +102,7 @@ Measurement.create(unit: 'sprig')
 end
 
 # Create Recipes
-yields = ['makes 30', 'serves 6 people']
+yields = ['makes', 'serves']
 50.times do
   recipe = Recipe.create(
     name: Faker::Food.dish.downcase,
@@ -110,6 +110,7 @@ yields = ['makes 30', 'serves 6 people']
     prep_time: Faker::Coffee.intensifier,
     cook_time: Faker::Coffee.intensifier,
     yield: yields.sample,
+    yield_description: Faker::Coffee.blend_name,
     url_image: Faker::LoremPixel.image("50x60"),
     user: User.find_by_id(Faker::Number.between(1, 12))
   )

@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 2018_11_14_005239) do
     t.string "prep_time"
     t.string "cook_time"
     t.string "yield"
+    t.string "yield_description"
     t.boolean "private", default: false
     t.integer "source"
     t.string "url_image"

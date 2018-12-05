@@ -9,7 +9,6 @@
 - last_name
 - provider
 - uid
-- token
 - secret
 - image
 - ## Recoverable
@@ -27,6 +26,7 @@
 - prep_time
 - cook_time
 - yield
+- yield_description
 - private
 - source
 - url_image
