@@ -1,2 +1,26 @@
-<h1>Recipes#show</h1>
-<p>Find me in app/views/recipes/show.html.erb</p>
+<!-- show -->
+
+<div class="container">
+  <div class="text-center">
+    <h1><%= @recipe.name %></h1>
+    <img src="<%= @recipe.url_image %>" class="img-fluid" alt="Responsive image">
+    <p><%= @recipe.description %></p>
+  </div>
+
+  <p><strong>Serves:</strong> <%= @recipe.yield %></p>
+  <p><strong>Prep time:</strong> <%= @recipe.prep_time %></p>
+  <p><strong>Cook time:</strong> <%= @recipe.cook_time %></p>
+
+  <!-- Ingredients -->
+  <h5>Ingredients:</h5>
+  <% @recipe_ingredients.each do |recipe_ingredient| %>
+    <p><strong><%= recipe_ingredient.quantity %></strong> <%= recipe_ingredient.measurement.unit%> <%= recipe_ingredient.ingredient.name %></p>
+  <% end %>
+
+  <!-- Instrucations -->
+  <h5>Instructions:</h5>
+  <% @instructions.each do |instruction| %>
+    <p><%= instruction.description %></p>
+  <% end %>
+
+</div> <!-- Container -->

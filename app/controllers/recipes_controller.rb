@@ -15,6 +15,8 @@ class RecipesController < ApplicationController
   end
 
   def show
+    @recipe_ingredients = @recipe.recipe_ingredients
+    @instructions = @recipe.instructions
   end
 
   def update
@@ -25,6 +27,6 @@ class RecipesController < ApplicationController
 
   private
     def set_recipe
-      @recipe = Recipe.find(param[:id])
-    end    
+      @recipe = Recipe.find(params[:id])
+    end
 end
