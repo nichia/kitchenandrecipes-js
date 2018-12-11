@@ -1,4 +1,4 @@
-<!-- _form -->
+<!-- /recipes/_form -->
 
 <%= form_for(recipe) do |f| %>
   <div class="form-group">
@@ -57,9 +57,9 @@
         <%# raise ri_builder.inspect %>
         <%= render partial: 'recipe_ingredient_fields', locals: { f: ri_builder } %>
       <% end %>
-      <div class="links">
-        <%= link_to_add_association 'add an ingredient', f, :recipe_ingredients, data: { association_insertion_node: '.recipe_ingredients', association_insertion_method: :append } %>
-      </div>
+    </div>
+    <div class="links">
+      <%= link_to_add_association 'add an ingredient', f, :recipe_ingredients, data: { association_insertion_node: '.recipe_ingredients', association_insertion_method: :append } %>
     </div>
   </div>
 

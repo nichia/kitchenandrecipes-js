@@ -1,27 +1,27 @@
-<!-- _recipe_ingredeint_fields -->
+<!-- /recipes/_recipe_ingredeint_fields -->
 
 <div class="nested-fields">
   <div class="form-row">
-    <div class="form-group col-md-4">
+    <div class="col">
       <%= f.label :quantity, "Quantity" %>
       <%= f.text_field :quantity %>
     </div>
-    <div class="form-group col-md-4">
+    <div class="col">
       <%= f.label :measurement_id, "Measurement" %>
       <%= f.collection_select :measurement_id, Measurement.order(:unit), :id, :unit, prompt: '(none)' %>
    </div>
-   <div class="form-group col-md-4">
-     <%= f.collection_select :ingredient_id, Ingredient.order(:name), :id, :name, prompt: 'Choose an existing ingredient' %> or
+   <div class="col">
+     <%= f.collection_select :ingredient_id, Ingredient.order(:name), :id, :name, prompt: 'Choose an existing ingredient' %>
      <%= f.fields_for :ingredients do |ingredient_builder| %>
        <%# raise ingredient_builder.inspect %>
        <%= render partial: 'ingredient_fields', locals: { f: ingredient_builder } %>
      <% end %>
    </div>
+   <div class="col">
+     <%= f.label :description, "Ingredient description" %>
+     <%= f.text_field :description, class: "form-control" %>
+    </div>
   </div>
-
-  <%= f.label :description, "Ingredient description" %>
-  <%= f.text_field :description, class: "form-control" %>
-
   <div class="text-right">
     <%= link_to_remove_association "remove", f %>
   </div>
