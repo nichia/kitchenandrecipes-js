@@ -1,0 +1,92 @@
+<!-- _form -->
+
+<%= form_for(recipe) do |f| %>
+  <div class="form-group">
+    <%= f.label :name, "Recipe Title:" %>
+    <%= f.text_field :name, class: "form-control", placeholder: "What's the title of your recipe?" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description, "Recipe Description:" %>
+    <%= f.text_area :description, class: "form-control", placeholder: "Tell us about your recipe." %>
+  </div>
+
+  <div class="form-group">
+      <%= f.label :yield, "This recipe" %>
+      <%= f.select :yield, options_for_select([ "Serves", "Makes" ]), selected: "Serves" %>
+      <%= f.text_field :yield_size %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :category_id, "Category:" %>
+    <%= f.collection_check_boxes(:category_ids, categories, :id, :name_with_type) do |b| %>
+      <%# raise b.inspect %>
+      <!-- <br /> -->
+      <%= b.check_box %>
+      <%= b.label %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <div class="form-row">
+      <%= f.fields_for :categories, recipe.categories do |category_builder| %>
+        <%# raise category_builder.inspect %>
+        <div class="form-group col-md-4">
+          <%= category_builder.object.category_type %>
+          <%= f.label :category_id, " category:" %>
+          <%= category_builder.text_field :name %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="form-group">
+      <%= f.label :prep_time, "Prep Time:" %>
+      <%= f.time_select :prep_time, min: "00:00", max: "24:00", default: { hour: "0", min: "0"}, ignore_date: true %>
+  </div>
+
+  <div class="form-group">
+      <%= f.label :cook_time, "Cook Time:" %>
+      <%= f.time_select :cook_time, min: "00:00", max: "24:00", default: { hour: "0", min: "0"}, ignore_date: true %>
+  </div>
+
+  <div class="form-group">
+    Ingredients:
+    <div class="recipe_ingredients">
+      <%= f.fields_for :recipe_ingredients do |ri_builder| %>
+        <%# raise ri_builder.inspect %>
+        <%= render partial: 'recipe_ingredient_fields', locals: { f: ri_builder } %>
+      <% end %>
+      <div class="links">
+        <%= link_to_add_association 'add an ingredient', f, :recipe_ingredients, data: { association_insertion_node: '.recipe_ingredients', association_insertion_method: :append } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    Instructions:
+    <div class="instructions">
+      <%= f.fields_for :instructions do |instruction_builder| %>
+        <%# raise instruction_builder.inspect %>
+        <%= render partial: 'instruction_fields', locals: { f: instruction_builder } %>
+      <% end %>
+    </div>
+    <div class="links">
+      <%= link_to_add_association 'add instruction', f, :instructions, data: { association_insertion_node: '.instructions', association_insertion_method: :append } %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :url_image, "Add a photo:" %>
+    <%= f.file_field :url_image, accept: "image/png, image/gif, image/jpec", class: "form-control-file" %>
+  </div>
+
+  <div class="form-check">
+    <%= f.check_box :private, class: "form-check-input" %>
+    <%= f.label :private, "Check for Private Recipe" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Create", class: "btn btn-primary" %>
+  </div>
+<% end %>

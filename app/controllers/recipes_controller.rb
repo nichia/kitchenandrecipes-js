@@ -23,6 +23,8 @@ class RecipesController < ApplicationController
     @recipe = Recipe.new
     #@categories = Category.group_by_type
     @categories = Category.by_type
+    @ingredients = Ingredient.all
+    @measurements = Measurement.all
     @recipe.categories.build(category_type: "meal")
     @recipe.categories.build(category_type: "cuisine")
     @recipe.categories.build(category_type: "dish")
@@ -64,7 +66,7 @@ class RecipesController < ApplicationController
         :categories_ids => [],
         :categories_attributes => [:category_type, :name],
         :ingredients_attributes => [:name, :quantity, :measurement_id],
-        :instructions_attributes => [:instructions]
+        :instructions_attributes => [:id, :description, :_destroy]
       )
     end
 end

@@ -3,10 +3,10 @@ class Recipe < ApplicationRecord
   has_many :reviews
   has_many :recipe_categories
   has_many :categories, through: :recipe_categories
-  has_many :recipe_ingredients
-  has_many :ingredients, through: :recipe_ingredients
+  has_many :recipe_ingredients, inverse_of: :recipe
+  has_many :ingredients, through: :recipe_ingredients, class_name: 'Ingredient'
   has_many :measurements, through: :recipe_ingredients
-  has_many :instructions
+  has_many :instructions, inverse_of: :recipe
 
   validates :name, presence: true
 
@@ -25,22 +25,23 @@ class Recipe < ApplicationRecord
       end
     end
   end
+  
+  accepts_nested_attributes_for :recipe_ingredients, reject_if: :all_blank, allow_destroy: true
+  # def ingredients_attributes=(ingredients_attributes)
+  #   ingredients_attributes.values.each do |ingredient_attributes|
+  #     if ingredient_attributes[:name].present?
+  #       ingredient = Ingredient.find_or_create_by(name: ingredient_attributes[:name])
+  #       measurement = Measurement.find_by(id: ingredient_attributes[:measurement_id])
+  #       self.recipe_ingredients.build(quantity: ingredient_attributes[:quantity], ingredient: ingredient, measurement: measurement)
+  #     end
+  #   end
+  # end
 
-  #accepts_nested_attributes_for :ingredients
-  def ingredients_attributes=(ingredients_attributes)
-    ingredients_attributes.values.each do |ingredient_attributes|
-      if ingredient_attributes[:name].present?
-        ingredient = Ingredient.find_or_create_by(name: ingredient_attributes[:name])
-        measurement = Measurement.find_by(id: ingredient_attributes[:measurement_id])
-        self.recipe_ingredients.build(quantity: ingredient_attributes[:quantity], ingredient: ingredient, measurement: measurement)
-      end
-    end
-  end
+  accepts_nested_attributes_for :instructions, reject_if: :all_blank, allow_destroy: true
+  # def instructions_attributes=(instructions_attributes)
+  #   instructions_attributes.values.each do |instruction_attributes|
+  #     self.instructions.build(description: description)
+  #   end
+  # end
 
-  #accepts_nested_attributes_for :instructions
-  def instructions_attributes=(instructions_attributes)
-    instructions_attributes.values.each do |instruction_attributes|
-      self.instructions.build(description: description)
-    end
-  end
 end
