@@ -103,6 +103,7 @@ end
 
 # Create Recipes
 yields = ['makes', 'serves']
+preps = ['cut', 'slice', 'shred', 'squeeze', 'chopped', 'grate', 'minced']
 50.times do
   recipe = Recipe.create(
     name: Faker::Food.dish.downcase,
@@ -123,7 +124,8 @@ yields = ['makes', 'serves']
     recipe.recipe_ingredients.create(
       quantity: Faker::Food.measurement,
       measurement: Measurement.find_by_id(Faker::Number.between(1, 22)),
-      ingredient: Ingredient.find_by_id(Faker::Number.between(1, 200))
+      ingredient: Ingredient.find_by_id(Faker::Number.between(1, 200)),
+      description: "#{preps.sample} ingredient"
     )
   end
 

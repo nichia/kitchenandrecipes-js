@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 2018_11_14_005239) do
 
   create_table "recipe_ingredients", force: :cascade do |t|
     t.string "quantity"
+    t.string "description"
     t.bigint "measurement_id"
     t.bigint "recipe_id"
     t.bigint "ingredient_id"

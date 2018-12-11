@@ -70,6 +70,7 @@
 ## recipe_ingredients
 ### Attributes
 - quantity
+- description
 - measurement_id
 - recipe_id
 - ingredient_id
