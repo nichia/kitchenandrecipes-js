@@ -1,2 +1,93 @@
-<h1>Recipes#new</h1>
-<p>Find me in app/views/recipes/new.html.erb</p>
+<!-- /recipes/new -->
+
+<div class="jumbotron">
+  <h1 class="text-center display-4">Add a new recipe</h1>
+  <hr>
+</div>
+<%= form_for(@recipe) do |f| %>
+  <div class="form-group">
+    <%= f.label :name, "Recipe Title:" %>
+    <%= f.text_field :name, class: "form-control", placeholder: "What's the title of your recipe?" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description, "Recipe Description:" %>
+    <%= f.text_area :description, class: "form-control", placeholder: "Tell us about your recipe." %>
+  </div>
+
+  <div class="form-group">
+      <%= f.label :yield, "This recipe" %>
+      <%= f.select :yield, options_for_select([ "Serves", "Makes" ]), selected: "Serves" %>
+      <%= f.text_field :yield_size %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :category_id, "Category:" %>
+    <%= f.collection_check_boxes(:category_ids, @categories, :id, :name_with_type) do |b| %>
+      <%# raise b.inspect %>
+      <!-- <br /> -->
+      <%= b.check_box %>
+      <%= b.label %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <div class="form-row">
+      <%= f.fields_for :categories, @recipe.categories do |category_form| %>
+        <%# raise category_form.inspect %>
+        <div class="form-group col-md-4">
+          <%= category_form.object.category_type %>
+          <%= f.label :category_id, " category:" %>
+          <%= category_form.text_field :name %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="form-group">
+      <%= f.label :prep_time, "Prep Time:" %>
+      <%= f.time_select :prep_time, min: "00:00", max: "24:00", default: { hour: "0", min: "0"}, ignore_date: true %>
+  </div>
+
+  <div class="form-group">
+      <%= f.label :cook_time, "Cook Time:" %>
+      <%= f.time_select :cook_time, min: "00:00", max: "24:00", default: { hour: "0", min: "0"}, ignore_date: true %>
+  </div>
+
+  <div class="form-group">
+    <div class="form-row">
+      <%= f.fields_for :ingredients, @recipe.ingredients do |ingredient_form| %>
+        <%# raise ingredient_form.inspect %>
+        <%= f.label :ingredient_id, "Ingredients:" %>
+        <%= ingredient_form.text_field :name, class: "form-control" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="form-row">
+      <%= f.fields_for :instructions, @recipe.instructions do |instruction_form| %>
+        <%# raise instruction_form.inspect %>
+        <%= f.label :instruction_id do %>
+          Instruction
+          <%= instruction_form.index + 1 %>:
+        <% end %>
+        <%= instruction_form.text_field :description, class: "form-control" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :url_image, "Add a photo:" %>
+    <%= f.file_field :url_image, accept: "image/png, image/gif, image/jpec", class: "form-control-file" %>
+  </div>
+
+  <div class="form-check">
+    <%= f.check_box :private, class: "form-check-input" %>
+    <%= f.label :private, "Check for Private Recipe" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Create", class: "btn btn-primary" %>
+  </div>
+<% end %>

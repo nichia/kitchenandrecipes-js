@@ -7,12 +7,12 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 # Create Categories
-Category.create(category_type: 'meal', name: 'appetizer')
-Category.create(category_type: 'meal', name: 'breakfast')
-Category.create(category_type: 'meal', name: 'entree')
-Category.create(category_type: 'meal', name: 'dessert')
-Category.create(category_type: 'meal', name: 'beverage')
-Category.create(category_type: 'meal', name: 'side')
+Category.create(category_type: 'Meal', name: 'appetizer')
+Category.create(category_type: 'Meal', name: 'breakfast')
+Category.create(category_type: 'Meal', name: 'entree')
+Category.create(category_type: 'Meal', name: 'dessert')
+Category.create(category_type: 'Meal', name: 'beverage')
+Category.create(category_type: 'Meal', name: 'side')
 Category.create(category_type: 'Cusine', name: 'asian')
 Category.create(category_type: 'Cusine', name: 'chinese')
 Category.create(category_type: 'Cusine', name: 'vietnamese')

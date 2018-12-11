@@ -38,6 +38,7 @@
 - has many categories through recipe_categories
 - has many recipe_ingredients
 - has many ingredients through recipe_ingredients
+- has many measurements through recipe_ingredients
 - has many instructions
 
 ## reviews
@@ -89,6 +90,7 @@
 - unit
 ### Associations
 - has many recipe_ingredients
+- has many recipes through recipe_ingredients
 
 ## instructions
 ### Attributes

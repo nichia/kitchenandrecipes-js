@@ -5,7 +5,7 @@ class WelcomeController < ApplicationController
     # if current_user.blank?
     #   redirect_to new_user_session_url
     # end
-    @recipes = Recipe.all_public
+    @recipes = Recipe.public_recipes
   end
 
 end
