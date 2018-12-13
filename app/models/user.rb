@@ -9,6 +9,8 @@ class User < ApplicationRecord
           :omniauthable,
           :omniauth_providers => [:facebook, :github, :google_oauth2]
 
+  has_one_attached :avatar
+
   has_many :recipes
   has_many :reviews
   validates_presence_of :email, :name
@@ -34,7 +36,7 @@ class User < ApplicationRecord
   private
 
   def self.update_user_with_provider(user, auth)
-    user.update_attributes(provider: auth['provider'], uid: auth['uid'], image: URI.parse(auth['info']['image']))
+    user.update_attributes(provider: auth['provider'], uid: auth['uid'], avatar: URI.parse(auth['info']['image']))
     user
   end
 
@@ -52,8 +54,22 @@ class User < ApplicationRecord
         user.last_name = auth['info']['name'].split(" ", 2)[1]
       end
       user.email = auth['info']['email']
-      user.image = URI.parse(auth['info']['image'])
+      if URI.parse(auth['info']['image'])
+        # open the link
+        # avatar_file = download_remote_file(URI.parse(auth['info']['image']))
+        avatar_file = open(auth.info.image)
+
+        # upload via ActiveStorage
+        user.avatar.attach(io: avatar_file, filename: "user_avatar_#{user.id}.jpg", content_type: avatar_file.content_type)
+      end
       user.password = Devise.friendly_token[0, 20]
     end
   end
+
+  def download_remote_file(url)
+     #open(auth.info.image)
+     response = Net::HTTP.get_response(URI.parse(url))
+     StringIO.new(response.body)
+  end
+
 end

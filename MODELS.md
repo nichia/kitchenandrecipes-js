@@ -10,12 +10,11 @@
 - provider
 - uid
 - secret
-- image
 - ## Recoverable
 - ## Rememberable
 - ## Trackable
-
 ### Associations
+- has_one_attached :avatar (active storage)
 - has many recipes
 - has many reviews
 
@@ -29,9 +28,9 @@
 - yield_size
 - private
 - source
-- url_image
 - user_id
 ### Associations
+- has_one_attached :image (active storage)
 - belongs to user
 - has many reviews
 - has many recipe_categories

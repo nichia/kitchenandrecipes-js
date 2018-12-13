@@ -42,16 +42,19 @@ Category.create(category_type: 'Dish', name: 'roast')
 
 
 # Create users
-User.create(
+avatars = Dir.glob('storage/avatars/*.jpg')
+
+user = User.create(
   name: "lorem",
   email: "lorem@email.com",
   password: "Password1!",
   first_name: "Lorem",
   last_name: "Ipsum",
-  image: Faker::Avatar.image
 )
+icon = avatars.sample
+user.avatar.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/png', 'image/jpg', 'image/jpeg'])
 
-User.create(
+user = User.create(
   name: "Celine Dion",
   email: Faker::Internet.safe_email("celine.dion"),
   password: Faker::Internet.password(8),
@@ -59,18 +62,20 @@ User.create(
   first_name: "Celine",
   last_name: "Dion",
   uid: Faker::Number.between(100000, 1000000),
-  image: Faker::Avatar.image("my-own-slug")
 )
+icon = avatars.sample
+user.avatar.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/png', 'image/jpg', 'image/jpeg'])
 
 10.times do
-  User.create(
+  user = User.create(
     name: Faker::Internet.username(8),
     email: Faker::Internet.safe_email,
     password: Faker::Internet.password(8),
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
-    image: Faker::Avatar.image("my-own-slug")
   )
+  icon = avatars.sample
+  user.avatar.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/png', 'image/jpg', 'image/jpeg'])
 end
 
 # Measurement
@@ -104,6 +109,7 @@ end
 # Create Recipes
 yields = ['makes', 'serves']
 preps = ['cut', 'slice', 'shred', 'squeeze', 'chopped', 'grate', 'minced']
+images = Dir.glob('storage/images/*.jpg')
 50.times do
   recipe = Recipe.create(
     name: Faker::Food.dish.downcase,
@@ -115,17 +121,20 @@ preps = ['cut', 'slice', 'shred', 'squeeze', 'chopped', 'grate', 'minced']
     url_image: Faker::LoremPixel.image("50x60"),
     user: User.find_by_id(Faker::Number.between(1, 12))
   )
+  icon = images.sample
+  recipe.image.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/png', 'image/jpg', 'image/jpeg'])
 
   recipe.recipe_categories.create(
     category: Category.find_by_id(Faker::Number.between(1, 6))
   )
 
   5.times do
+    item = Ingredient.find_by_id(Faker::Number.between(1, 200))
     recipe.recipe_ingredients.create(
       quantity: Faker::Food.measurement,
       measurement: Measurement.find_by_id(Faker::Number.between(1, 22)),
-      ingredient: Ingredient.find_by_id(Faker::Number.between(1, 200)),
-      description: "#{preps.sample} ingredient"
+      ingredient: item,
+      description: preps.sample + " " + item.name
     )
   end
 

@@ -47,6 +47,9 @@ gem 'omniauth-google-oauth2'
 # Use Cocoon for dynamic nested forms handling
 gem 'cocoon', '~> 1.2', '>= 1.2.12'
 
+# Use Amazon S3 service
+gem 'aws-sdk-s3', require: false
+
 group :development, :test do
   # Add support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'

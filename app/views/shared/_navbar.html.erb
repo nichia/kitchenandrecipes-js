@@ -28,7 +28,7 @@
       <% if user_signed_in? %>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= current_user.email %>
+            <%= image_tag current_user.avatar, class: "img-thumbnail", style: "max-height: 30px; max-width: 30px;" %>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="<%= edit_user_registration_path %>">Profile</a>

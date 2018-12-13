@@ -1,4 +1,6 @@
 class Recipe < ApplicationRecord
+  has_one_attached :image
+  
   belongs_to :user
   has_many :reviews
   has_many :recipe_categories
@@ -25,7 +27,7 @@ class Recipe < ApplicationRecord
       end
     end
   end
-  
+
   accepts_nested_attributes_for :recipe_ingredients, reject_if: :all_blank, allow_destroy: true
   # def ingredients_attributes=(ingredients_attributes)
   #   ingredients_attributes.values.each do |ingredient_attributes|

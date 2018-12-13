@@ -3,8 +3,8 @@
 <!-- Card -->
 <div class="card">
   <!--Card image-->
-  <a href="/recipes/<%= recipe.slug %>">
-    <img class="card-img-top" src="<%= recipe.url_image %>" alt="Card image cap">
+  <a href="/recipes/<%= recipe.id %>">
+    <%= image_tag recipe.image, class: "card-img-top" %>
   </a>
   <!--Card body -->
   <div class="card-body">

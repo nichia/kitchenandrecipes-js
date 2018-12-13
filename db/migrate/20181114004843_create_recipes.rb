@@ -9,7 +9,6 @@ class CreateRecipes < ActiveRecord::Migration[5.2]
       t.string :yield_size
       t.boolean :private, default: false
       t.integer :source
-      t.string :url_image
       t.references :user, foreign_key: true
 
       t.timestamps

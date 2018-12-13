@@ -3,7 +3,8 @@
 <div class="container">
   <div class="text-center">
     <h1><%= @recipe.name %></h1>
-    <img src="<%= @recipe.url_image %>" class="img-fluid" alt="Responsive image">
+    <!-- <img src="<%#= @recipe.url_image %>" class="img-fluid" alt="Responsive image"> -->
+    <%= image_tag @recipe.image %>
     <p><%= @recipe.description %></p>
   </div>
 
