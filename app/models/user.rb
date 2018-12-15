@@ -1,3 +1,4 @@
+require 'open-uri'
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :recoverable, and :omniauthable
@@ -22,6 +23,7 @@ class User < ApplicationRecord
   # generate user based on omniauth data received from 3rd party providers
   def self.from_omniauth(auth)
     user = User.find_by_email(auth['info']['email'].downcase)
+    #binding.pry
     if user
       self.update_user_with_provider(user, auth)
     else
@@ -36,7 +38,11 @@ class User < ApplicationRecord
   private
 
   def self.update_user_with_provider(user, auth)
-    user.update_attributes(provider: auth['provider'], uid: auth['uid'], avatar: URI.parse(auth['info']['image']))
+    if user.avatar.attached?
+      user.avatar.purge
+    end
+    user.update_attributes(provider: auth['provider'], uid: auth['uid'])
+    attach_user_avatar(user, auth)
     user
   end
 
@@ -54,22 +60,17 @@ class User < ApplicationRecord
         user.last_name = auth['info']['name'].split(" ", 2)[1]
       end
       user.email = auth['info']['email']
-      if URI.parse(auth['info']['image'])
-        # open the link
-        # avatar_file = download_remote_file(URI.parse(auth['info']['image']))
-        avatar_file = open(auth.info.image)
-
-        # upload via ActiveStorage
-        user.avatar.attach(io: avatar_file, filename: "user_avatar_#{user.id}.jpg", content_type: avatar_file.content_type)
-      end
       user.password = Devise.friendly_token[0, 20]
+      attach_user_avatar(user, auth)
     end
   end
 
-  def download_remote_file(url)
-     #open(auth.info.image)
-     response = Net::HTTP.get_response(URI.parse(url))
-     StringIO.new(response.body)
+  def self.attach_user_avatar(user, auth)
+     if URI.parse(auth['info']['image'])
+       avatar_url = open(auth.info.image)
+       # attach image file via ActiveStorage
+       user.avatar.attach(io: avatar_url, filename: "user_avatar_#{user.email}.#{avatar_url.content_type.split(/\//).last}", content_type: avatar_url.content_type)
+     end
   end
 
 end
