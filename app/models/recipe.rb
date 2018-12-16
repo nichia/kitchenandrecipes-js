@@ -1,16 +1,15 @@
 class Recipe < ApplicationRecord
   has_one_attached :image
-  
   belongs_to :user
   has_many :reviews
   has_many :recipe_categories
   has_many :categories, through: :recipe_categories
-  has_many :recipe_ingredients, inverse_of: :recipe
-  has_many :ingredients, through: :recipe_ingredients, class_name: 'Ingredient'
+  has_many :recipe_ingredients, inverse_of: :recipe # inverse_of use by cocoon gem
+  has_many :ingredients, through: :recipe_ingredients, class_name: 'Ingredient' # class_name use by cocoon gem
   has_many :measurements, through: :recipe_ingredients
-  has_many :instructions, inverse_of: :recipe
+  has_many :instructions, inverse_of: :recipe       # inverse_of use by cocoon gem
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 
   include Slugifiable::InstanceMethods
   extend Slugifiable::ClassMethods

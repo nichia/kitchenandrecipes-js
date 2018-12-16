@@ -6,6 +6,10 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+Faker::Lorem.unique.clear
+Faker::Food.unique.clear
+Faker::Internet.unique.clear
+
 # Create Categories
 Category.create(category_type: 'Meal', name: 'appetizer')
 Category.create(category_type: 'Meal', name: 'breakfast')
@@ -49,28 +53,28 @@ user = User.create(
   email: "lorem@email.com",
   password: "Password1!",
   first_name: "Lorem",
-  last_name: "Ipsum",
+  last_name: "Ipsum"
 )
 icon = avatars.sample
 user.avatar.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/png', 'image/jpg', 'image/jpeg'])
 
 user = User.create(
-  name: "Celine Dion",
+  name: "CDion",
   email: Faker::Internet.safe_email("celine.dion"),
-  password: Faker::Internet.password(8),
+  password: "#{Faker::Internet.password(8)}A1@",
   provider: "facebook",
   first_name: "Celine",
   last_name: "Dion",
-  uid: Faker::Number.between(100000, 1000000),
+  uid: Faker::Number.between(100000, 1000000)
 )
 icon = avatars.sample
 user.avatar.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/png', 'image/jpg', 'image/jpeg'])
 
 10.times do
   user = User.create(
-    name: Faker::Internet.username(8),
-    email: Faker::Internet.safe_email,
-    password: Faker::Internet.password(8),
+    name: Faker::Internet.username(8, %w(. _)),
+    email: Faker::Internet.unique.safe_email,
+    password: "#{Faker::Internet.password(8)}A1@",
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
   )
@@ -103,16 +107,16 @@ Measurement.create(unit: 'sprig')
 
 # Create Ingredients
 200.times do
-  Ingredient.create(name: Faker::Food.ingredient.downcase)
+  Ingredient.create(name: Faker::Food.unique.ingredient.downcase)
 end
 
 # Create Recipes
 yields = ['makes', 'serves']
 preps = ['cut', 'slice', 'shred', 'squeeze', 'chopped', 'grate', 'minced']
 images = Dir.glob('storage/images/*.jpg')
-50.times do
+100.times do
   recipe = Recipe.create(
-    name: Faker::Food.dish.downcase,
+    name: "#{Faker::Food.dish.downcase} #{Faker::Lorem.unique.word}",
     description: Faker::Food.description,
     prep_time: Faker::Coffee.intensifier,
     cook_time: Faker::Coffee.intensifier,
@@ -134,7 +138,7 @@ images = Dir.glob('storage/images/*.jpg')
       quantity: Faker::Food.measurement,
       measurement: Measurement.find_by_id(Faker::Number.between(1, 22)),
       ingredient: item,
-      description: preps.sample + " " + item.name
+      description: "#{preps.sample} #{item.name}"
     )
   end
 
