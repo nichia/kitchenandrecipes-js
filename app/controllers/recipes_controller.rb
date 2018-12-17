@@ -20,12 +20,9 @@ class RecipesController < ApplicationController
     @categories = Category.by_type
     @ingredients = Ingredient.all
     @measurements = Measurement.all
-    @recipe.categories.build(category_type: "meal")
-    @recipe.categories.build(category_type: "cuisine")
     @recipe.categories.build(category_type: "dish")
     @recipe.instructions.build
     @recipe.recipe_ingredients.build
-    #binding.pry
   end
 
   def edit

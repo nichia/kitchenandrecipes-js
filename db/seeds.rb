@@ -11,39 +11,12 @@ Faker::Food.unique.clear
 Faker::Internet.unique.clear
 
 # Create Categories
-Category.create(category_type: 'Meal', name: 'appetizer')
-Category.create(category_type: 'Meal', name: 'breakfast')
-Category.create(category_type: 'Meal', name: 'entree')
-Category.create(category_type: 'Meal', name: 'dessert')
-Category.create(category_type: 'Meal', name: 'beverage')
-Category.create(category_type: 'Meal', name: 'side')
-Category.create(category_type: 'Cusine', name: 'asian')
-Category.create(category_type: 'Cusine', name: 'chinese')
-Category.create(category_type: 'Cusine', name: 'vietnamese')
-Category.create(category_type: 'Cusine', name: 'japanese')
-Category.create(category_type: 'Cusine', name: 'korean')
-Category.create(category_type: 'Cusine', name: 'malaysian')
-Category.create(category_type: 'Cusine', name: 'indian')
-Category.create(category_type: 'Cusine', name: 'western')
-Category.create(category_type: 'Cusine', name: 'african')
-Category.create(category_type: 'Cusine', name: 'american')
-Category.create(category_type: 'Cusine', name: 'french')
-Category.create(category_type: 'Cusine', name: 'greek')
-Category.create(category_type: 'Cusine', name: 'irish')
-Category.create(category_type: 'Cusine', name: 'italian')
-Category.create(category_type: 'Cusine', name: 'mexican')
-Category.create(category_type: 'Cusine', name: 'middle eastern')
-Category.create(category_type: 'Dish', name: 'bread')
-Category.create(category_type: 'Dish', name: 'cake')
-Category.create(category_type: 'Dish', name: 'pasta')
-Category.create(category_type: 'Dish', name: 'soup')
-Category.create(category_type: 'Dish', name: 'stew')
-Category.create(category_type: 'Dish', name: 'pizza')
-Category.create(category_type: 'Dish', name: 'pie')
-Category.create(category_type: 'Dish', name: 'salad')
-Category.create(category_type: 'Dish', name: 'sandwich')
-Category.create(category_type: 'Dish', name: 'roast')
-
+Category.create(category_type: 'meal', name: 'appetizer')
+Category.create(category_type: 'meal', name: 'breakfast')
+Category.create(category_type: 'meal', name: 'entree')
+Category.create(category_type: 'meal', name: 'dessert')
+Category.create(category_type: 'meal', name: 'beverage')
+Category.create(category_type: 'meal', name: 'side')
 
 # Create users
 avatars = Dir.glob('storage/avatars/*.jpg')
@@ -122,7 +95,6 @@ images = Dir.glob('storage/images/*.jpg')
     cook_time: Faker::Coffee.intensifier,
     yield: yields.sample,
     yield_size: Faker::Coffee.blend_name,
-    url_image: Faker::LoremPixel.image("50x60"),
     user: User.find_by_id(Faker::Number.between(1, 12))
   )
   icon = images.sample

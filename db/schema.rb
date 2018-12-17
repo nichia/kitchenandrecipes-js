@@ -94,7 +94,6 @@ ActiveRecord::Schema.define(version: 2018_12_13_141934) do
     t.string "yield_size"
     t.boolean "private", default: false
     t.integer "source"
-    t.string "url_image"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -128,7 +127,6 @@ ActiveRecord::Schema.define(version: 2018_12_13_141934) do
     t.string "name"
     t.string "first_name"
     t.string "last_name"
-    t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true

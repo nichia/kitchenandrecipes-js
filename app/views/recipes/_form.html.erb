@@ -12,32 +12,18 @@
   </div>
 
   <div class="form-group">
-      <%= f.label :yield, "This recipe" %>
-      <%= f.select :yield, options_for_select([ "Serves", "Makes" ]), selected: "Serves" %>
-      <%= f.text_field :yield_size %>
-  </div>
-
-  <div class="form-group">
     <%= f.label :category_id, "Category:" %>
-    <%= f.collection_check_boxes(:category_ids, categories, :id, :name_with_type) do |b| %>
-      <%# raise b.inspect %>
-      <!-- <br /> -->
-      <%= b.check_box %>
-      <%= b.label %>
+    <%= f.collection_select :category_ids, categories, :id, :name, prompt: 'Choose a category' %>
+    <%= f.fields_for :categories, recipe.categories do |category_builder| %>
+      <%= f.label :category_id, "or" %>
+      <%= category_builder.text_field :name, placeholder: 'enter a new category' %>
     <% end %>
   </div>
 
   <div class="form-group">
-    <div class="form-row">
-      <%= f.fields_for :categories, recipe.categories do |category_builder| %>
-        <%# raise category_builder.inspect %>
-        <div class="form-group col-md-4">
-          <%= category_builder.object.category_type %>
-          <%= f.label :category_id, " category:" %>
-          <%= category_builder.text_field :name %>
-        </div>
-      <% end %>
-    </div>
+      <%= f.label :yield, "This recipe" %>
+      <%= f.select :yield, options_for_select([ "Serves", "Makes" ]), selected: "Serves" %>
+      <%= f.text_field :yield_size %>
   </div>
 
   <div class="form-group">
