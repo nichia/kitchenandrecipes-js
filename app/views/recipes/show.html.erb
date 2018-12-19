@@ -3,7 +3,7 @@
 <div class="container">
   <div class="text-center">
     <h1><%= @recipe.name %></h1>
-    <%= image_tag @recipe.image %>
+    <%= image_tag @recipe.image.variant(combine_options: { resize: "500x400", extent: "500x400", background: "grey", gravity: "center"}) %>
     <p><%= @recipe.description %></p>
   </div>
 

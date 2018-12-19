@@ -15,9 +15,8 @@ class Recipe < ApplicationRecord
   include Slugifiable::InstanceMethods
   extend Slugifiable::ClassMethods
 
-  scope :public_recipes, -> { where(private: false) }
-  scope :existing_instructions, -> { order(private: false) }
-@existing_instructions
+  scope :public_recipes, -> { where(private: false).order("id DESC") }
+
   #accepts_nested_attributes_for :categories
   def categories_attributes=(categories_attributes)
     categories_attributes.values.each do |category_attributes|

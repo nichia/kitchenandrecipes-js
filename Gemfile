@@ -50,6 +50,11 @@ gem 'cocoon', '~> 1.2', '>= 1.2.12'
 # Use Amazon S3 service
 gem 'aws-sdk-s3', require: false
 
+# Manipulate images with minimal use of memory via ImageMagick
+gem "mini_magick"
+# Set of higher-level helper methods for image processing of activestorage
+gem 'image_processing', '~> 1.2'
+
 group :development, :test do
   # Add support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
