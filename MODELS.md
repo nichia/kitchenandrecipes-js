@@ -24,8 +24,8 @@
 - description
 - prep_time
 - cook_time
-- yield
-- yield_size
+- yields
+- yields_size
 - private
 - source
 - user_id

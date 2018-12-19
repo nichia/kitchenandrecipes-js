@@ -107,8 +107,8 @@ images = Dir.glob('storage/images/*.jpg')
     description: Faker::Food.description,
     prep_time: Faker::Time.between(DateTime.now - 2, DateTime.now),
     cook_time: Faker::Time.between(DateTime.now - 2, DateTime.now),
-    yield: yields.sample,
-    yield_size: Faker::Coffee.blend_name,
+    yields: yields.sample,
+    yields_size: Faker::Coffee.blend_name,
     user: User.find_by_id(Faker::Number.between(1, 12))
   ) do |r|
     Rails.root.join(icon).open('rb') do |io|

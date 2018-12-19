@@ -90,8 +90,8 @@ ActiveRecord::Schema.define(version: 2018_12_13_141934) do
     t.text "description"
     t.time "prep_time"
     t.time "cook_time"
-    t.string "yield"
-    t.string "yield_size"
+    t.string "yields"
+    t.string "yields_size"
     t.boolean "private", default: false
     t.integer "source"
     t.bigint "user_id"
