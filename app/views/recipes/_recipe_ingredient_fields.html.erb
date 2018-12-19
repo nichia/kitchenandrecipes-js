@@ -6,10 +6,14 @@
       <%= f.label :quantity, "Quantity" %>
       <%= f.text_field :quantity %>
     </div>
+
+    <!-- Measurement -->
     <div class="col">
       <%= f.label :measurement_id, "Measurement" %>
       <%= f.collection_select :measurement_id, Measurement.order(:unit), :id, :unit, prompt: '(none)' %>
     </div>
+
+    <!-- Ingredient nested form -->
     <div class="col">
       <%= f.collection_select :ingredient_id, Ingredient.order(:name), :id, :name, prompt: 'Choose an existing ingredient' %>
       <%= f.fields_for :ingredients do |ingredient_builder| %>
@@ -25,4 +29,5 @@
   <div class="text-right">
     <%= link_to_remove_association "remove", f %>
   </div>
+  
 </div>

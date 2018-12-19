@@ -11,6 +11,7 @@
     <%= f.text_area :description, class: "form-control", placeholder: "Tell us about your recipe." %>
   </div>
 
+  <!-- Category -->
   <div class="form-group">
     <%= f.label :category_id, "Category:" %>
     <%= f.collection_select :category_ids, categories, :id, :name, prompt: 'Choose a category' %>
@@ -21,12 +22,14 @@
     <% end %>
   </div>
 
+  <!-- Yields -->
   <div class="form-group">
       <%= f.label :yield, "This recipe" %>
       <%= f.select :yield, options_for_select([ "Serves", "Makes" ]), selected: "Serves" %>
       <%= f.text_field :yield_size %>
   </div>
 
+  <!-- Prep and cook time -->
   <div class="form-group">
       <%= f.label :prep_time, "Prep Time (hrs:min):" %>
       <%= f.time_select :prep_time, {minute_step: 5, default: { hour: '0', minute: '0'}}, min: "00:00", max: "24:00", ignore_date: true %>
@@ -37,6 +40,7 @@
       <%= f.time_select :cook_time, {minute_step: 5, default: { hour: '0', minute: '0'}}, min: "00:00", max: "24:00", ignore_date: true %>
   </div>
 
+  <!-- Recipe Ingredients nested form -->
   Ingredients:
   <div class="form-group">
     <div class="recipe_ingredients">
@@ -50,6 +54,7 @@
     </div>
   </div>
 
+  <!-- Instructions nested form -->
   <div class="form-group">
     Instructions:
     <div class="instructions">
@@ -63,6 +68,7 @@
     </div>
   </div>
 
+  <!-- Image and other flags -->
   <div class="form-group">
     <%= f.label :image, "Add a photo:" %>
     <%= f.file_field :image, accept: "image/gif, image/png, image/jpg, image/jpeg", class: "form-control-file" %>

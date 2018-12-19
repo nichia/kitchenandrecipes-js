@@ -26,9 +26,6 @@ class RecipesController < ApplicationController
   # POST /recipes
   def create
     #raise params.inspect
-    # prep_time = "#{params[:recipe]['prep_time(4i)']}:#{params[:recipe]['prep_time(5i)']}"
-    # cook_time = "#{params[:recipe]['cook_time(4i)']}:#{params[:recipe]['cook_time(5i)']}"
-
     @recipe = Recipe.new(recipe_params)
     @recipe.user = current_user
     binding.pry
@@ -38,6 +35,7 @@ class RecipesController < ApplicationController
         redirect_to recipe_url(@recipe) and return
       end
     end
+
     # if recipe is not valid or there're errors with recipe save,
     # list error messages and go back to new
     flash.now[:message] = ("Errors creating the recipe:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)

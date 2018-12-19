@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  before_action :authenticate_user! #-> routes to the login / signup if not authenticated
+  # routes to the login / signup if not authenticated
+  before_action :authenticate_user!, :except => [:home, :show, :index]
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protected
