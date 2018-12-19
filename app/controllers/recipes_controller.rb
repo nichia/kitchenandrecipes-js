@@ -1,6 +1,7 @@
 class RecipesController < ApplicationController
   before_action :set_recipe, only: [:show, :edit, :update, :destroy]
   before_action :set_select_collections, only: [:edit, :update, :new, :create]
+  before_action :check_permission, only: [:edit, :update, :destroy]
 
  # GET /recipes
   def index
@@ -28,7 +29,6 @@ class RecipesController < ApplicationController
     #raise params.inspect
     @recipe = Recipe.new(recipe_params)
     @recipe.user = current_user
-    binding.pry
     if @recipe.valid?
       if @recipe.save
         flash[:message] = "Recipe successfully created"
@@ -36,18 +36,36 @@ class RecipesController < ApplicationController
       end
     end
 
-    # if recipe is not valid or there're errors with recipe save,
+    # if recipe is not valid or errors with save action,
     # list error messages and go back to new
-    flash.now[:message] = ("Errors creating the recipe:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
+    flash.now[:message] = ("Please fix the following:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
+
+    # re-populate the category field
     category = params[:recipe][:categories_attributes].values[0]
     @recipe.categories.build(category_type: category[:category_type], name: category[:name])
+
     render :new
   end
 
  # PATCH /recipes/:id
   def update
-    raise params.inspect
+    #raise params.inspect
+    if @recipe.valid?
+      if @recipe.update(recipe_params)
+        flash[:success] = "Recipe successfuly updated"
+        redirect_to recipe_url(@recipe) and return
+      end
+    end
 
+    # if recipe is not valid or errors with update action,
+    # list error messages and go back to new
+    flash.now[:message] = ("Please fix the following:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
+
+    # re-populate the category field
+    category = params[:recipe][:categories_attributes].values[0]
+    @recipe.categories.build(category_type: category[:category_type], name: category[:name])
+
+    render :edit
   end
 
  # DELETE /recipes/:id
@@ -68,9 +86,17 @@ class RecipesController < ApplicationController
     end
 
     def set_recipe_nested_forms
-      @recipe.categories.build(category_type: "dish")
+      # moved this line to form view so edit action will display a blank input field instead of the existing category name
+      # @recipe.categories.build(category_type: "meal")
       @recipe.instructions.build
       @recipe.recipe_ingredients.build
+    end
+
+    def check_permission
+      if @recipe.user != current_user
+        flash[:message] = "You don't have permision to edit, update nor delete recipe " + @recipe.name
+        redirect_back(fallback_location: root_path)
+      end
     end
 
     def recipe_params

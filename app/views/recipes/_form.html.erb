@@ -15,7 +15,7 @@
   <div class="form-group">
     <%= f.label :category_id, "Category:" %>
     <%= f.collection_select :category_ids, categories, :id, :name, prompt: 'Choose a category' %>
-    <%= f.fields_for :categories, recipe.categories do |category_builder| %>
+    <%= f.fields_for :categories, recipe.categories.build(category_type: "meal") do |category_builder| %>
       <%= f.label :category_id, "or" %>
       <%= category_builder.text_field :name, placeholder: 'enter a new category' %>
       <%= category_builder.hidden_field :category_type %>
@@ -44,7 +44,7 @@
   Ingredients:
   <div class="form-group">
     <div class="recipe_ingredients">
-      <%= f.fields_for :recipe_ingredients do |ri_builder| %>
+      <%= f.fields_for :recipe_ingredients, (recipe.recipe_ingredients.ordered_recipe_ingredients if f.object.id) do |ri_builder| %>
         <%# raise ri_builder.inspect %>
         <%= render partial: 'recipe_ingredient_fields', locals: { f: ri_builder } %>
       <% end %>
@@ -58,7 +58,8 @@
   <div class="form-group">
     Instructions:
     <div class="instructions">
-      <%= f.fields_for :instructions do |instruction_builder| %>
+      <%= f.fields_for :instructions, (recipe.instructions.ordered_instructions if f.object.id) do |instruction_builder| %>
+      <%#= f.fields_for :instructions, (recipe.ordered_instructions.order("id ASC") if f.object.id) do |instruction_builder| %>
         <%# raise instruction_builder.inspect %>
         <%= render partial: 'instruction_fields', locals: { f: instruction_builder } %>
       <% end %>
@@ -80,6 +81,6 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Create", class: "btn btn-primary" %>
+    <%= f.submit class: 'btn btn-primary' %>
   </div>
 <% end %>

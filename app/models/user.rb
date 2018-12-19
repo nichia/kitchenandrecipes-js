@@ -71,7 +71,7 @@ class User < ApplicationRecord
         errors.add(:avatar, 'must be an image file with gif, jpeg, jpg or png format')
       end
     else
-      errors.add(:avatar, 'must be included')
+      errors.add(:avatar, 'must be added')
     end
   end
 

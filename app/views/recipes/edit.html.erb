@@ -1,2 +1,8 @@
-<h1>Recipes#edit</h1>
-<p>Find me in app/views/recipes/edit.html.erb</p>
+<!-- /recipes/edit -->
+
+<div class="jumbotron">
+  <h1 class="text-center display-4">Edit recipe</h1>
+  <hr>
+</div>
+
+<%= render partial: 'form', locals: { recipe: @recipe, categories: @categories, ingredients: @ingredients, measurements: @measurements } %>

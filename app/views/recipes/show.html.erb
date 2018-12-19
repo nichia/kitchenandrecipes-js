@@ -13,13 +13,13 @@
 
   <!-- Ingredients -->
   <h5>Ingredients:</h5>
-  <% @recipe_ingredients.each do |recipe_ingredient| %>
+  <% @recipe_ingredients.reverse_each do |recipe_ingredient| %>
     <p><strong><%= recipe_ingredient.quantity %></strong> <%= recipe_ingredient.measurement.try(:unit) %> <%= recipe_ingredient.ingredient.name %> <%= recipe_ingredient.description %></p>
   <% end %>
 
   <!-- Instrucations -->
   <h5>Instructions:</h5>
-  <% @instructions.each do |instruction| %>
-    <p><%= instruction.description %></p>
+  <% @instructions.reverse_each.with_index do |instruction, i| %>
+    <p> <%= i+1 %> <%= instruction.description %></p>
   <% end %>
 </div> <!-- Container -->

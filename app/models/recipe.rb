@@ -10,13 +10,14 @@ class Recipe < ApplicationRecord
   has_many :instructions, dependent: :destroy, inverse_of: :recipe # inverse_of use by cocoon gem
 
   validates :name, presence: true, uniqueness: true
-  validate :image_validation 
+  validate :image_validation
 
   include Slugifiable::InstanceMethods
   extend Slugifiable::ClassMethods
 
   scope :public_recipes, -> { where(private: false) }
-
+  scope :existing_instructions, -> { order(private: false) }
+@existing_instructions
   #accepts_nested_attributes_for :categories
   def categories_attributes=(categories_attributes)
     categories_attributes.values.each do |category_attributes|
@@ -53,7 +54,7 @@ class Recipe < ApplicationRecord
         errors.add(:image, 'must be an image file with gif, jpeg, jpg or png format')
       end
     else
-      errors.add(:image, 'must be included')
+      errors.add(:image, 'must be added')
     end
   end
 
