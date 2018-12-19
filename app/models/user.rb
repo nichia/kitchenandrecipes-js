@@ -29,12 +29,12 @@ class User < ApplicationRecord
     (?=.*\d)           # Must contain a digit
     (?=.*[a-z])        # Must contain a lower case character
     (?=.*[A-Z])        # Must contain an upper case character
-    (?=.*[[:^alnum:]]) # Must contain a symbol [POSIX bracket expressions]
+    # (?=.*[[:^alnum:]]) # Must contain a symbol [POSIX bracket expressions]
   /x
 
   validates :name,
     presence: { message: "Username must be provided" },
-    format: { with: USERNAME_REGEX, message: "Username must include alphanumeric, underscores, dashes and '.' only" }
+    format: { with: USERNAME_REGEX, message: "Username must include alphanumeric, underscores, dashes and . character" }
   validates :email,
     presence: true,
     uniqueness: { case_sensitive: false },
@@ -42,7 +42,7 @@ class User < ApplicationRecord
   validates :password,
     presence: true,
     format: { with: PASSWORD_FORMAT, message: "format must include a digit, symbol, upper and lower cases, and have 6 or more characters" }
-  # validate :avatar_validation  # facebook image is not in png, jpg, jpeg format
+  validate :avatar_validation  # facebook image is not in png, jpg, jpeg format
 
   include Slugifiable::InstanceMethods
   extend Slugifiable::ClassMethods
@@ -67,7 +67,11 @@ class User < ApplicationRecord
 
   def avatar_validation
     if avatar.attached?
-      errors.add(:avatar, 'must be an image file with jpeg, jpg or png format') if !avatar.content_type.in?(['image/png', 'image/jpg', 'image/jpeg'])
+      if !avatar.content_type.in?(['image/gif', 'image/png', 'image/jpg', 'image/jpeg'])
+        errors.add(:avatar, 'must be an image file with gif, jpeg, jpg or png format')
+      end
+    else
+      errors.add(:avatar, 'must be included')
     end
   end
 
@@ -82,7 +86,7 @@ class User < ApplicationRecord
 
   def self.signup_user_with_provider
     self.where(provider: @auth['provider'], uid: @auth['uid']).first_or_create do |user|
-      user.name = @auth['info']['name']
+      user.name = @auth['info']['name'].gsub(/\s+/, "")
       if @auth['info']['first_name']
         user.first_name = @auth['info']['first_name']
       else

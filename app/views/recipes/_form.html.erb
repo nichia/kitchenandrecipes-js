@@ -17,6 +17,7 @@
     <%= f.fields_for :categories, recipe.categories do |category_builder| %>
       <%= f.label :category_id, "or" %>
       <%= category_builder.text_field :name, placeholder: 'enter a new category' %>
+      <%= category_builder.hidden_field :category_type %>
     <% end %>
   </div>
 
@@ -27,17 +28,17 @@
   </div>
 
   <div class="form-group">
-      <%= f.label :prep_time, "Prep Time:" %>
+      <%= f.label :prep_time, "Prep Time (hrs:min):" %>
       <%= f.time_select :prep_time, min: "00:00", max: "24:00", default: { hour: "0", min: "0"}, ignore_date: true %>
   </div>
 
   <div class="form-group">
-      <%= f.label :cook_time, "Cook Time:" %>
+      <%= f.label :cook_time, "Cook Time (hrs:min):" %>
       <%= f.time_select :cook_time, min: "00:00", max: "24:00", default: { hour: "0", min: "0"}, ignore_date: true %>
   </div>
 
+  Ingredients:
   <div class="form-group">
-    Ingredients:
     <div class="recipe_ingredients">
       <%= f.fields_for :recipe_ingredients do |ri_builder| %>
         <%# raise ri_builder.inspect %>
@@ -63,8 +64,8 @@
   </div>
 
   <div class="form-group">
-    <%= f.label :url_image, "Add a photo:" %>
-    <%= f.file_field :url_image, accept: "image/png, image/gif, image/jpec", class: "form-control-file" %>
+    <%= f.label :image, "Add a photo:" %>
+    <%= f.file_field :image, accept: "image/gif, image/png, image/jpg, image/jpeg", class: "form-control-file" %>
   </div>
 
   <div class="form-check">

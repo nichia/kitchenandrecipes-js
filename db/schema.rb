@@ -88,8 +88,8 @@ ActiveRecord::Schema.define(version: 2018_12_13_141934) do
   create_table "recipes", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.string "prep_time"
-    t.string "cook_time"
+    t.time "prep_time"
+    t.time "cook_time"
     t.string "yield"
     t.string "yield_size"
     t.boolean "private", default: false

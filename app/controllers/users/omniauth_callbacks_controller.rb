@@ -24,12 +24,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
 	def callback_from(provider)
     @user = User.from_omniauth(request.env["omniauth.auth"])
-    #binding.pry
     if @user.persisted?
       sign_in_and_redirect @user, event: :authentication #this will throw if @user is not activated
       set_flash_message(:notice, :success, kind: "#{provider}".capitalize) if is_navigational_format?
     else
-      flash[:error] = "There was a problem signing you in through #{provider}."
+      flash[:error] = "There was a problem signing you in through #{provider}: #{@user.errors.full_messages.join("<br/>")}"
       session["devise.#{provider}_data"] = request.env["omniauth.auth"]
       redirect_to new_user_registration_url
     end

@@ -15,7 +15,7 @@
   <!-- Ingredients -->
   <h5>Ingredients:</h5>
   <% @recipe_ingredients.each do |recipe_ingredient| %>
-    <p><strong><%= recipe_ingredient.quantity %></strong> <%= recipe_ingredient.measurement.unit%> <%= recipe_ingredient.ingredient.name %></p>
+    <p><strong><%= recipe_ingredient.quantity %></strong> <%= recipe_ingredient.measurement.try(:unit) %> <%= recipe_ingredient.ingredient.name %> <%= recipe_ingredient.description %></p>
   <% end %>
 
   <!-- Instrucations -->

@@ -29,7 +29,7 @@ user = User.create(
   last_name: "Ipsum"
 )
 icon = avatars.sample
-user.avatar.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/png', 'image/jpg', 'image/jpeg'])
+user.avatar.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/gif', 'image/png', 'image/jpg', 'image/jpeg'])
 
 user = User.create(
   name: "CDion",
@@ -41,7 +41,7 @@ user = User.create(
   uid: Faker::Number.between(100000, 1000000)
 )
 icon = avatars.sample
-user.avatar.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/png', 'image/jpg', 'image/jpeg'])
+user.avatar.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/gif', 'image/png', 'image/jpg', 'image/jpeg'])
 
 10.times do
   user = User.create(
@@ -52,7 +52,7 @@ user.avatar.attach(io: File.open(icon), filename: icon.split(/\//).last, content
     last_name: Faker::Name.last_name,
   )
   icon = avatars.sample
-  user.avatar.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/png', 'image/jpg', 'image/jpeg'])
+  user.avatar.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/gif', 'image/png', 'image/jpg', 'image/jpeg'])
 end
 
 # Measurement
@@ -98,7 +98,7 @@ images = Dir.glob('storage/images/*.jpg')
     user: User.find_by_id(Faker::Number.between(1, 12))
   )
   icon = images.sample
-  recipe.image.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/png', 'image/jpg', 'image/jpeg'])
+  recipe.image.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/gif', 'image/png', 'image/jpg', 'image/jpeg'])
 
   recipe.recipe_categories.create(
     category: Category.find_by_id(Faker::Number.between(1, 6))
