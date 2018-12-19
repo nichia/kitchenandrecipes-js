@@ -3,14 +3,13 @@
 <div class="container">
   <div class="text-center">
     <h1><%= @recipe.name %></h1>
-    <!-- <img src="<%#= @recipe.url_image %>" class="img-fluid" alt="Responsive image"> -->
     <%= image_tag @recipe.image %>
     <p><%= @recipe.description %></p>
   </div>
 
   <p><strong>Yield:</strong> <%= @recipe.yield %> <%= @recipe.yield_size %></p>
-  <p><strong>Prep time:</strong> <%= @recipe.prep_time %></p>
-  <p><strong>Cook time:</strong> <%= @recipe.cook_time %></p>
+  <p><strong>Prep time:</strong> <%= @recipe.prep_time.strftime("%H hrs %M min") %></p>
+  <p><strong>Cook time:</strong> <%= @recipe.cook_time.strftime("%H hrs %M min") %></p>
 
   <!-- Ingredients -->
   <h5>Ingredients:</h5>
