@@ -31,14 +31,14 @@ class RecipesController < ApplicationController
     @recipe.user = current_user
     if @recipe.valid?
       if @recipe.save
-        flash[:message] = "Recipe successfully created"
+        flash[:info] = "Recipe successfully created"
         redirect_to recipe_url(@recipe) and return
       end
     end
 
     # if recipe is not valid or errors with save action,
     # list error messages and go back to new
-    flash.now[:message] = ("Please fix the following:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
+    flash.now[:danger] = ("Please fix the following errors:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
 
     # re-populate the category field
     category = params[:recipe][:categories_attributes].values[0]
@@ -52,14 +52,14 @@ class RecipesController < ApplicationController
     #raise params.inspect
     if @recipe.valid?
       if @recipe.update(recipe_params)
-        flash[:success] = "Recipe successfuly updated"
+        flash[:info] = "Recipe successfuly updated"
         redirect_to recipe_url(@recipe) and return
       end
     end
 
     # if recipe is not valid or errors with update action,
     # list error messages and go back to new
-    flash.now[:message] = ("Please fix the following:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
+    flash.now[:danger] = ("Please fix the following errors:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
 
     # re-populate the category field
     category = params[:recipe][:categories_attributes].values[0]
@@ -94,7 +94,7 @@ class RecipesController < ApplicationController
 
     def check_permission
       if @recipe.user != current_user
-        flash[:message] = "You don't have permision to edit, update nor delete recipe " + @recipe.name
+        flash[:danger] = "You don't have permision to edit, update nor delete recipe " + @recipe.name
         redirect_back(fallback_location: root_path)
       end
     end
