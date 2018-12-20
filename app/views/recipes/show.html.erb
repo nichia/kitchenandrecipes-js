@@ -24,4 +24,11 @@
   <% @instructions.reverse_each.with_index do |instruction, i| %>
     <p> <%= i+1 %> <%= instruction.description %></p>
   <% end %>
+
+  <div class="text-center">
+    <% if current_user == @recipe.user %>
+      <%= link_to "Edit Recipe", edit_recipe_path(@recipe), class: 'btn btn-primary' %>
+      <%= link_to "Delete Recipe", @recipe, method: :delete, data: { confirm: "Are you sure you want to delete this recipe?" }, class: 'btn btn-danger' %>
+    <% end %>
+  </div>
 </div> <!-- Container -->
