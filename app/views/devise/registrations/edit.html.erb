@@ -28,6 +28,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :avatar, "Upload avatar photo:" %><br />
+    <%= f.file_field :avatar, autofocus: true, autocomplete: "avatar", accept: "image/gif, image/png, image/jpg, image/jpeg" %>
+  </div>
+
+  <div class="field">
     <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
     <%= f.password_field :password %>
     <% if @minimum_password_length %>

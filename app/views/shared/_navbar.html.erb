@@ -1,53 +1,71 @@
 <!-- navbar -->
 <!-- navbar-static-top instead of navbar-fixed-top to fix overlapping issue -->
 <nav class="navbar navbar-static-top navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Kitchen&Recipes</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <a class="navbar-brand" href="/">Kitchen&Recipes</a>
 
     <ul class="navbar-nav mr-auto">
+      <!-- current_user home -->
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+      <!-- Browse category by type -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Browse
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item">Meal Type</a>
+          <div class="dropdown-divider"></div>
+            <% Category.by_meal_type.each do |category| %>
+              <a class="dropdown-item" href="#"><%= category.name.titleize %></a>
+            <% end %>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">All Categories</a>
+        </div>
       </li>
+      <!-- Search -->
       <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Find a recipe" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
       </li>
     </ul>
+  </div> <!-- .collapse navbar-collapse -->
 
-    <ul class="navbar-nav navbar-right">
-      <% if user_signed_in? %>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag current_user.avatar, class: "img-thumbnail", style: "max-height: 30px; max-width: 30px;" %>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="<%= edit_user_registration_path %>">Profile</a>
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <div class="dropdown-item">
-              <%= link_to "Logout", destroy_user_session_path, method: :delete %>
-            </div>
-          </div>
-        </li>
-      <% else %>
-        <li class="nav-item">
-          <a class="nav-link" href="<%= new_user_registration_path %>">Sign Up</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<%= new_user_session_path %>">Login</a>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+
+  <ul class="navbar-nav navbar-right">
+    <% if user_signed_in? %>
+    <!-- Avatar -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <%= image_tag current_user.avatar, class: "img-thumbnail", style: "max-height: 35px; max-width: 35px;" %>
+        <span class="caret"></span>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="<%= edit_user_registration_path %>"><%= current_user.name.titleize %><br/>Profile</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item">
+          <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+        </div>
+      </div>
+    </li>
+    <% else %>
+    <!-- New user registration/session -->
+    <li class="nav-item">
+      <a class="nav-link" href="<%= new_user_registration_path %>">Sign Up</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="<%= new_user_session_path %>">Login</a>
+    </li>
+    <% end %>
+  </ul>
 </nav>
