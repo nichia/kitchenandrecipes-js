@@ -1,8 +1,5 @@
 <!-- /recipes/new -->
 
-<div class="jumbotron">
-  <h1 class="text-center display-4">Add a new recipe</h1>
-  <hr>
-</div>
+<%= render partial: 'shared/jumbotron', locals: { title: "Add a new recipe" } %>
 
 <%= render partial: 'form', locals: { recipe: @recipe, categories: @categories, ingredients: @ingredients, measurements: @measurements } %>

@@ -1,13 +1,7 @@
 <!-- /welcome/home -->
 
-<div class="jumbotron">
-  <div class="text-center">
-    <h1>Kitchen&Recipes</h1>
-    <!-- <strong>Group by</strong><br> -->
-      <!-- <%#= link_to "Meal category", categories_group_path %> |
-      <%#= link_to "Recipe Owner", users_group_path %> -->
-  </div>
-</div>
+<%= render partial: 'shared/jumbotron', locals: { title: "Kitchen&Recipes" } %>
+
 
 <div class="container-fluids">
   <!-- Card columns -->
