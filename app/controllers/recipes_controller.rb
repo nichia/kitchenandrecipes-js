@@ -5,7 +5,16 @@ class RecipesController < ApplicationController
 
  # GET /recipes
   def index
-    @recipes = Recipe.public_recipes
+    if params[:user_id]
+      if user = User.find_by(id: params[:user_id])
+        @recipes = user.recipes
+      else
+        flash[:danger] = "User not found"
+        redirect_to recipes_path
+      end
+    else
+      @recipes = Recipe.public_recipes
+    end
   end
 
   # GET /recipes/new
@@ -27,12 +36,12 @@ class RecipesController < ApplicationController
   # POST /recipes
   def create
     #raise params.inspect
-    @recipe = Recipe.new(recipe_params)
-    @recipe.user = current_user
+    @recipe = current_user.Recipe.new(recipe_params)
+
     if @recipe.valid?
       if @recipe.save
         flash[:info] = "Recipe successfully created"
-        redirect_to recipe_url(@recipe) and return
+        redirect_to recipe_path(@recipe) and return
       end
     end
 
@@ -50,28 +59,32 @@ class RecipesController < ApplicationController
  # PATCH /recipes/:id
   def update
     #raise params.inspect
-    if @recipe.valid?
-      if @recipe.update(recipe_params)
+    if @recipe.valid? && @recipe.update(recipe_params)
         flash[:info] = "Recipe successfuly updated"
-        redirect_to recipe_url(@recipe) and return
-      end
+        redirect_to user_recipe_path(current_user, @recipe)
+    else
+      # if recipe is not valid or errors with update action,
+      # list error messages and go back to new
+      flash.now[:danger] = ("Please fix the following errors:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
+
+      # re-populate the category field
+      category = params[:recipe][:categories_attributes].values[0]
+      @recipe.categories.build(category_type: category[:category_type], name: category[:name])
+
+      render :edit
     end
-
-    # if recipe is not valid or errors with update action,
-    # list error messages and go back to new
-    flash.now[:danger] = ("Please fix the following errors:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
-
-    # re-populate the category field
-    category = params[:recipe][:categories_attributes].values[0]
-    @recipe.categories.build(category_type: category[:category_type], name: category[:name])
-
-    render :edit
   end
 
  # DELETE /recipes/:id
   def destroy
-    raise params.inspect
-
+    if @recipe = Recipe.find_by(id: params[:id])
+      @recipe.destroy
+      flash[:info] = "Recipe successfuly deleted!"
+      redirect_to user_recipes_path(current_user)
+    else
+      flash.now[:danger] = "This recipe does not exist"
+      redirect_to '/'
+    end
   end
 
   private
@@ -94,7 +107,7 @@ class RecipesController < ApplicationController
 
     def check_permission
       if @recipe.user != current_user
-        flash[:danger] = "You don't have permision to edit, update nor delete recipe " + @recipe.name
+        flash[:danger] = "You don't have permision to do that"
         redirect_back(fallback_location: root_path)
       end
     end

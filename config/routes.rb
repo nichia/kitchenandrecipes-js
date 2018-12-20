@@ -8,9 +8,8 @@ Rails.application.routes.draw do
   }
 
   resources :users, only: [:show] do
-    resources :recipes, only: [:show, :index, :new, :edit]
+    resources :recipes, only: [:show, :index, :new, :edit, :update]
   end
 
-  resources :recipes
-
+  resources :recipes, only: [:show, :index, :destroy]
 end

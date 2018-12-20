@@ -3,9 +3,12 @@
 <!-- Card -->
 <div class="card">
   <!--Card image-->
-  <a href="/recipes/<%= recipe.id %>">
-    <%= image_tag recipe.image, class: "card-img-top" %>
-  </a>
+  <% if current_user == recipe.user %>
+    <%= link_to image_tag(recipe.image, class: "card-img-top"), user_recipe_path(current_user, recipe) %>
+  <% else %>
+    <%= link_to image_tag(recipe.image, class: "card-img-top"), recipe_path(recipe) %>
+  <% end %>
+
   <!--Card body -->
   <div class="card-body">
     <h4 class="card-title"><%= recipe.name %></h4>

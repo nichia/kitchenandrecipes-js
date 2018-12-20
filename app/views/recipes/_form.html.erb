@@ -1,6 +1,6 @@
 <!-- /recipes/_form -->
 
-<%= form_for(recipe) do |f| %>
+<%= form_for [user, recipe] do |f| %>
   <div class="form-group">
     <%= f.label :name, "Recipe Title:" %>
     <%= f.text_field :name, class: "form-control", placeholder: "What's the title of your recipe?" %>
