@@ -1,0 +1,14 @@
+<!-- /users/show -->
+
+<div class="text-center">
+  <h1 class="display-4"><%= @user.name %></h1>
+  <%= image_tag @user.avatar.variant(combine_options: { resize: "300x200", extent: "300x200", background: "grey", gravity: "center"}) %>
+  <hr>
+</div>
+
+<div class="container-fluids">
+  <!-- Card columns -->
+  <div class="card-columns">
+    <%= render partial: 'recipes/recipe', collection: @recipes %>
+  </div> <!-- Card columns -->
+</div> <!-- Container -->

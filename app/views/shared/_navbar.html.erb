@@ -51,7 +51,7 @@
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="<%= edit_user_registration_path %>"><%= current_user.name.titleize %><br/>Profile</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item">My Dashboard</a>
+          <a class="dropdown-item" href="<%= user_path(current_user) %>">My Dashboard</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Favorites</a>
           <a class="dropdown-item" href="#">Reviews</a>

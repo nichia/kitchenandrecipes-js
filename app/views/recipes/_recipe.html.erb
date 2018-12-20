@@ -11,6 +11,7 @@
 
   <!--Card body -->
   <div class="card-body">
+    <p class="card-text"><small class="text-muted">by <%= link_to recipe.user.name.titleize, user_path(recipe.user) %></small></p>
     <h4 class="card-title"><%= recipe.name %></h4>
     <p class="card-text"><%= recipe.description %></p>
     <button type="button" class="btn btn-light-blue btn-md">Read more</button>
