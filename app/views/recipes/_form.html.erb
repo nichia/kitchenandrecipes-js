@@ -71,9 +71,15 @@
     </div>
   </div>
 
+  <% if recipe.image.attached? %>
+    <div class="text-left">
+      <%= image_tag recipe.image, class: "img-thumbnail", style: "max-height: 100px; max-width: 100px;" %>
+    </div>
+  <% end %>
+
   <!-- Image and other flags -->
   <div class="form-group">
-    <%= f.label :image, "Upload recipe photo:" %>
+    <%= f.label :image, "Upload recipe:" %>
     <%= f.file_field :image, accept: "image/gif, image/png, image/jpg, image/jpeg", class: "form-control-file" %>
   </div>
 

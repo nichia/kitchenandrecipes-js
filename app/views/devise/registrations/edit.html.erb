@@ -1,7 +1,16 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<h2>Edit <%= resource_name.to_s.humanize %> Profile</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <% devise_error_messages! %>
+
+  <div class="text-left">
+    <%= image_tag current_user.avatar, class: "img-thumbnail", style: "max-height: 80px; max-width: 80px;" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :avatar, "Upload Avatar"%><br />
+    <%= f.file_field :avatar, autofocus: true, autocomplete: "avatar", accept: "image/gif, image/png, image/jpg, image/jpeg" %>
+  </div>
 
   <div class="field">
     <%= f.label :email %><br />
@@ -25,11 +34,6 @@
   <div class="field">
     <%= f.label :last_name %><br />
     <%= f.text_field :last_name, autofocus: true, autocomplete: "last_name" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :avatar, "Upload avatar photo:" %><br />
-    <%= f.file_field :avatar, autofocus: true, autocomplete: "avatar", accept: "image/gif, image/png, image/jpg, image/jpeg" %>
   </div>
 
   <div class="field">
