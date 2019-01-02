@@ -134,24 +134,4 @@ class RecipesController < ApplicationController
         :instructions_attributes => [:id, :_destroy, :description]
       )
     end
-
-    def recipe_copy_params
-      # skip :id and :_destroy field from the hashes
-      # recipe_ingredients_atributes and instructions_attributes
-      params.require(:recipe).permit(
-        :name,
-        :description,
-        :prep_time,
-        :cook_time,
-        :yields,
-        :yields_size,
-        :image,
-        :private,
-        :source,
-        :category_ids,
-        :categories_attributes => [:name, :category_type],
-        :recipe_ingredients_attributes => [:name, :quantity, :measurement_id, :ingredient_id, :description, ingredients: [:name]],
-        :instructions_attributes => [:description]
-      )
-    end
 end
