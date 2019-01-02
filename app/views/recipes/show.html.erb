@@ -3,7 +3,8 @@
 <div class="container">
   <div class="text-center">
     <h1><%= @recipe.name %></h1>
-    <%= image_tag @recipe.image.variant(combine_options: { resize: "500x400", extent: "500x400", background: "grey", gravity: "center"}) %>
+    <%= image_tag @recipe.image.variant(combine_options: { resize: "400x300", extent: "400x300", background: "grey", gravity: "center"}) %>
+    <hr>
     <p><%= @recipe.description %></p>
   </div>
 
@@ -29,6 +30,8 @@
     <% if current_user == @recipe.user %>
       <%= link_to "Edit Recipe", edit_user_recipe_path(current_user, @recipe), class: 'btn btn-primary' %>
       <%= link_to "Delete Recipe", @recipe, method: :delete, data: { confirm: "Are you sure you want to delete this recipe?" }, class: 'btn btn-danger' %>
+    <% elsif current_user %>
+      <%= link_to "Clone Recipe", recipe_copy_path(@recipe), method: :post, data: { confirm: "Are you sure you want to clone this recipe?" }, class: 'btn btn-primary' %>
     <% end %>
   </div>
 </div> <!-- Container -->

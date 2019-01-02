@@ -8,8 +8,11 @@ Rails.application.routes.draw do
   }
 
   resources :users, only: [:show] do
-    resources :recipes, only: [:show, :index, :new, :edit, :update]
+    resources :recipes #, only: [:show, :index, :new, :edit, :update]
   end
 
-  resources :recipes, only: [:show, :index, :destroy]
+  resources :recipes, only: [:show, :index, :create]
+
+  post '/recipes/:id/copy', to: 'recipes#create_copy', as: 'recipe_copy'
+
 end

@@ -1,5 +1,5 @@
 class RecipesController < ApplicationController
-  before_action :set_recipe, only: [:show, :edit, :update, :destroy]
+  before_action :set_recipe, only: [:show, :edit, :update, :destroy, :create_copy]
   before_action :set_select_collections, only: [:edit, :update, :new, :create]
   before_action :check_permission, only: [:edit, :update, :destroy]
 
@@ -10,7 +10,7 @@ class RecipesController < ApplicationController
         @recipes = user.recipes
       else
         flash[:danger] = "User not found"
-        redirect_to recipes_path
+        redirect_to root_path
       end
     else
       @recipes = Recipe.public_recipes
@@ -33,10 +33,16 @@ class RecipesController < ApplicationController
   def edit
   end
 
+  # POST /recipes/copy
+  def create_copy
+    copy = @recipe.recipe_cloner(current_user)
+    redirect_to recipe_path(copy)
+  end
+
   # POST /recipes
   def create
     #raise params.inspect
-    @recipe = current_user.Recipe.new(recipe_params)
+    @recipe = current_user.recipes.new(recipe_params)
 
     if @recipe.valid?
       if @recipe.save
@@ -46,7 +52,7 @@ class RecipesController < ApplicationController
     end
 
     # if recipe is not valid or errors with save action,
-    # list error messages and go back to new
+    # list error messages and go back to new view
     flash.now[:danger] = ("Please fix the following errors:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
 
     # re-populate the category field
@@ -59,9 +65,9 @@ class RecipesController < ApplicationController
  # PATCH /recipes/:id
   def update
     #raise params.inspect
-    if @recipe.valid? && @recipe.update(recipe_params)
-        flash[:info] = "Recipe successfuly updated"
-        redirect_to user_recipe_path(current_user, @recipe)
+    if @recipe.update(recipe_params)
+      flash[:info] = "Recipe successfuly updated"
+      redirect_to user_recipe_path(current_user, @recipe)
     else
       # if recipe is not valid or errors with update action,
       # list error messages and go back to new
@@ -77,19 +83,18 @@ class RecipesController < ApplicationController
 
  # DELETE /recipes/:id
   def destroy
-    if @recipe = Recipe.find_by(id: params[:id])
-      @recipe.destroy
-      flash[:info] = "Recipe successfuly deleted!"
-      redirect_to user_recipes_path(current_user)
-    else
-      flash.now[:danger] = "This recipe does not exist"
-      redirect_to '/'
-    end
+    @recipe.destroy
+    flash[:info] = "Recipe successfuly deleted!"
+    redirect_to user_recipes_path(current_user)
   end
 
   private
     def set_recipe
-      @recipe = Recipe.find(params[:id])
+      @recipe = Recipe.find_by(id: params[:id])
+      if @recipe == nil
+        flash[:danger] = "This recipe #{params[:id]} does not exist"
+        redirect_to root_path
+      end
     end
 
     def set_select_collections
@@ -127,6 +132,26 @@ class RecipesController < ApplicationController
         :categories_attributes => [:name, :category_type],
         :recipe_ingredients_attributes => [:id, :_destroy, :name, :quantity, :measurement_id, :ingredient_id, :description, ingredients: [:name]],
         :instructions_attributes => [:id, :_destroy, :description]
+      )
+    end
+
+    def recipe_copy_params
+      # skip :id and :_destroy field from the hashes
+      # recipe_ingredients_atributes and instructions_attributes
+      params.require(:recipe).permit(
+        :name,
+        :description,
+        :prep_time,
+        :cook_time,
+        :yields,
+        :yields_size,
+        :image,
+        :private,
+        :source,
+        :category_ids,
+        :categories_attributes => [:name, :category_type],
+        :recipe_ingredients_attributes => [:name, :quantity, :measurement_id, :ingredient_id, :description, ingredients: [:name]],
+        :instructions_attributes => [:description]
       )
     end
 end

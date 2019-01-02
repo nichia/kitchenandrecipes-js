@@ -44,7 +44,7 @@
   Ingredients:
   <div class="form-group">
     <div class="recipe_ingredients">
-      <!-- sort recipe_ingredients by id in ascending order or edit action -->
+      <!-- sort recipe_ingredients by id in ascending order for edit action -->
       <%= f.fields_for :recipe_ingredients, (recipe.recipe_ingredients.ordered_recipe_ingredients if f.object.id) do |ri_builder| %>
         <%# raise ri_builder.inspect %>
         <%= render partial: 'recipe_ingredient_fields', locals: { f: ri_builder } %>
@@ -79,7 +79,7 @@
 
   <!-- Image and other flags -->
   <div class="form-group">
-    <%= f.label :image, "Upload recipe:" %>
+    <%= f.label :image, "Upload recipe image:" %>
     <%= f.file_field :image, accept: "image/gif, image/png, image/jpg, image/jpeg", class: "form-control-file" %>
   </div>
 

@@ -46,6 +46,38 @@ class Recipe < ApplicationRecord
   #   end
   # end
 
+  def recipe_cloner(curr_user)
+    time = Time.new
+
+    copy = self.dup
+    copy.user = curr_user
+    copy.source = self.id
+    copy.name = "#{self.name} #{copy.user_id} #{time.strftime("%Y%m%d%H%M%S")}"
+    ActiveStorage::Downloader.new(self.image).download_blob_to_tempfile do |tempfile|
+      copy.image.attach({
+        io: tempfile,
+        filename: self.image.blob.filename,
+        content_type: self.image.blob.content_type
+        })
+      end
+
+    if copy.save
+      # copy the recipe_categories
+      self.recipe_categories.find_each do |c|
+        copy.recipe_categories << c.dup
+      end
+      # copy the recipe_ingredients
+      self.recipe_ingredients.find_each do |c|
+        copy.recipe_ingredients << c.dup
+      end
+      # copy the instructions
+      self.instructions.find_each do |i|
+        copy.instructions << i.dup
+      end
+    end
+    copy
+  end
+
   private
   def image_validation
     if image.attached?
