@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-   # GET /recipes/:id
+   # GET /users/:id
    def show
      @user = User.find(params[:id])
      if @user == current_user

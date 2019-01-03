@@ -1,0 +1,18 @@
+<!-- /categories/index -->
+
+<%= render partial: 'shared/jumbotron', locals: { title: "Kitchen&Recipes" } %>
+
+<div class="container-fluids">
+  <div class="card-columns">
+    <% @categories.each do |category| %>
+      <!-- Card -->
+      <div class="card">
+        <!--Card image-->
+        <!--Card body -->
+        <div class="card-body">
+          <h4 class="card-title"><%= link_to category.name.titleize, category_path(category) %></h4>
+        </div> <!-- Card body -->
+      </div> <!-- Card -->
+    <% end %>
+  </div> <!-- Card columns -->
+</div> <!-- Container -->

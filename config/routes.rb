@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   resources :recipes, only: [:show, :index, :create]
 
+  resources :categories, only: [:show, :index]
+
   post '/recipes/:id/copy', to: 'recipes#create_copy', as: 'recipe_copy'
 
 end

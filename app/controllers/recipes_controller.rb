@@ -5,13 +5,10 @@ class RecipesController < ApplicationController
 
  # GET /recipes
   def index
-    if params[:user_id]
-      if user = User.find_by(id: params[:user_id])
-        @recipes = user.recipes
-      else
-        flash[:danger] = "User not found"
-        redirect_to root_path
-      end
+    # check for current_user instead of user_signed_in as
+    # user_signed_in is not updated if user close app without logging out first
+    if current_user
+      @recipes = Recipe.public_or_user_recipes(current_user)
     else
       @recipes = Recipe.public_recipes
     end
@@ -25,6 +22,9 @@ class RecipesController < ApplicationController
 
   # GET /recipes/:id
   def show
+    if @recipe.private
+      check_permission
+    end
     @recipe_ingredients = @recipe.recipe_ingredients
     @instructions = @recipe.instructions
   end
@@ -98,7 +98,7 @@ class RecipesController < ApplicationController
     end
 
     def set_select_collections
-      @categories = Category.by_type
+      @categories = Category.by_meal_type
       @ingredients = Ingredient.all
       @measurements = Measurement.all
     end
@@ -112,7 +112,7 @@ class RecipesController < ApplicationController
 
     def check_permission
       if @recipe.user != current_user
-        flash[:danger] = "You don't have permision to do that"
+        flash[:danger] = "You don't have permision to access this recipe"
         redirect_back(fallback_location: root_path)
       end
     end

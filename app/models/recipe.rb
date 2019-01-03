@@ -15,7 +15,13 @@ class Recipe < ApplicationRecord
   include Slugifiable::InstanceMethods
   extend Slugifiable::ClassMethods
 
-  scope :public_recipes, -> { where(private: false).order("id DESC") }
+  scope :public_recipes, -> { where("private = ?", false).order("id DESC") }
+  scope :public_or_user_recipes, -> (uid) { where("private = ? or (private = ? and user_id = ?)", false, true, uid).order("id DESC") }
+  #scope :private_and_user_recipes, -> (uid) { where("private = ? and user_id = ?", true, uid) }
+  # returns Array instead of ActiveRecord_Relation, so not chainable
+  #scope :public_or_user_recipes, -> (uid) { public_recipes + private_and_user_recipes(uid) }
+  # .or not working
+  #scope :public_or_user_recipes, -> (uid) { public_recipes.or(private_and_user_recipes(uid)) }
 
   #accepts_nested_attributes_for :categories
   def categories_attributes=(categories_attributes)

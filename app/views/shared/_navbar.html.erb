@@ -22,10 +22,10 @@
           <a class="dropdown-item">Meal Type</a>
           <div class="dropdown-divider"></div>
             <% Category.by_meal_type.each do |category| %>
-              <a class="dropdown-item" href="#"><%= category.name.titleize %></a>
+              <a class="dropdown-item" href="<%= category_path(category) %>"><%= category.name.titleize %></a>
             <% end %>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">All Categories</a>
+          <a class="dropdown-item" href="<%= categories_path %>">All Categories</a>
         </div>
       </li>
       <!-- Search -->
