@@ -3,16 +3,17 @@
 <%= render partial: 'shared/jumbotron', locals: { title: "Kitchen&Recipes" } %>
 
 <div class="container-fluids">
-  <div class="card-columns">
-    <% @categories.each do |category| %>
+  <div class="row mt-5 justify-content-center">
+    <% @categories.each.with_index do |category, i| %>
       <!-- Card -->
-      <div class="card">
+      <div class="card mx-2 mb-3" style="max-width: 256px">
         <!--Card image-->
+        <%= link_to image_tag("categories#{i}.jpeg", class: "card-img-top"), category_path(category) %>
         <!--Card body -->
         <div class="card-body">
           <h4 class="card-title"><%= link_to category.name.titleize, category_path(category) %></h4>
         </div> <!-- Card body -->
       </div> <!-- Card -->
     <% end %>
-  </div> <!-- Card columns -->
+  </div> <!-- Card decks -->
 </div> <!-- Container -->
