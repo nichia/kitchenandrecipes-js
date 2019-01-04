@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: [:show]
 
- # GET /categories
+  # GET /categories
   def index
     @categories = Category.by_meal_type
   end

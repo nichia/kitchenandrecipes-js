@@ -3,24 +3,34 @@ class RecipesController < ApplicationController
   before_action :set_select_collections, only: [:edit, :update, :new, :create]
   before_action :check_permission, only: [:edit, :update, :destroy]
 
- # GET /recipes
+  # GET /recipes
+  # GET /users/:user_id/recipes
   def index
-    # check for current_user instead of user_signed_in as
-    # user_signed_in is not updated if user close app without logging out first
-    if current_user
-      @recipes = Recipe.public_or_user_recipes(current_user)
+    if params[:user_id]
+      # Dropdown option 'My Recipe' navbar avatar
+      user = User.find(params[:user_id])
+      @recipes = user.recipes
     else
-      @recipes = Recipe.public_recipes
+      # navbar Kitchen&Recipes button
+      # check for current_user instead of user_signed_in as
+      # user_signed_in is not updated if user close app without logging out first
+      if current_user
+        @recipes = Recipe.public_or_user_recipes(current_user)
+      else
+        @recipes = Recipe.public_recipes
+      end
     end
   end
 
   # GET /recipes/new
+  # GET /users/:user_id/recipes/new
   def new
     @recipe = Recipe.new
     set_recipe_nested_forms
   end
 
   # GET /recipes/:id
+  # GET /users/:user_id/recipes/:id
   def show
     if @recipe.private
       check_permission
@@ -30,16 +40,28 @@ class RecipesController < ApplicationController
   end
 
   # GET /recipes/:id/edit
+  # GET /users/:user_id/recipes/:id/edit
   def edit
   end
 
-  # POST /recipes/copy
+  # GET /search
+  def search
+    if params[:recipe_name]
+      @recipes = Recipe.search_recipes(params[:recipe_name])
+    else
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
+  # POST /recipes/:id/copy
   def create_copy
+    #raise params.inspect
     copy = @recipe.recipe_cloner(current_user)
     redirect_to recipe_path(copy)
   end
 
   # POST /recipes
+  # POST /users/:user_id/recipes
   def create
     #raise params.inspect
     @recipe = current_user.recipes.new(recipe_params)
@@ -62,7 +84,8 @@ class RecipesController < ApplicationController
     render :new
   end
 
- # PATCH /recipes/:id
+  # PATCH /recipes/:id
+  # PATCH /users/:user_id/recipes/:id
   def update
     #raise params.inspect
     if @recipe.update(recipe_params)
@@ -82,6 +105,7 @@ class RecipesController < ApplicationController
   end
 
  # DELETE /recipes/:id
+ # DELETE /users/:user_id/recipes/:id
   def destroy
     @recipe.destroy
     flash[:info] = "Recipe successfuly deleted!"

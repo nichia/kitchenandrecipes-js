@@ -17,4 +17,6 @@ Rails.application.routes.draw do
 
   post '/recipes/:id/copy', to: 'recipes#create_copy', as: 'recipe_copy'
 
+  get 'search', to: 'recipes#search', as: 'recipe_search'
+
 end

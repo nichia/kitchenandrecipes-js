@@ -30,17 +30,21 @@
       </li>
       <!-- Search -->
       <li class="nav-item">
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Find a recipe" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <div class="form-inline my-2 my-lg-0">
+          <%= form_tag(recipe_search_path, method: "get") do %>
+            <%= text_field_tag :recipe_name, params[:recipe_name], placeholder: "Find a recipe", class: "form-control mr-sm-2" %>
+            <%= submit_tag "Search", class: "btn btn-outline-success my-2 my-sm-0" %>
+          <% end %>
+          <!-- <input class="form-control mr-sm-2" type="search" placeholder="Find a recipe" aria-label="Search"> -->
+          <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+        </div>
       </li>
     </ul>
   </div> <!-- .collapse navbar-collapse -->
 
 
   <ul class="navbar-nav navbar-right">
-    <% if user_signed_in? %>
+    <% if current_user %>
 
       <!-- Avatar / dashboard-->
       <li class="nav-item dropdown">
@@ -54,9 +58,9 @@
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="<%= user_path(current_user) %>">My Dashboard</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Favorites</a>
-          <a class="dropdown-item" href="#">Reviews</a>
-          <a class="dropdown-item" href="<%= user_recipes_path(current_user) %>">My  Recipes</a>
+          <!-- <a class="dropdown-item" href="#">Favorites</a>
+          <a class="dropdown-item" href="#">Reviews</a> -->
+          <a class="dropdown-item" href="<%= user_recipes_path(current_user) %>">My Recipes</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="<%= new_user_recipe_path(current_user) %>">Add a Recipe</a>
           <div class="dropdown-divider"></div>
