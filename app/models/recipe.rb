@@ -9,21 +9,24 @@ class Recipe < ApplicationRecord
   has_many :measurements, through: :recipe_ingredients
   has_many :instructions, dependent: :destroy, inverse_of: :recipe # inverse_of use by cocoon gem
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :description, presence: true
+  validates :yields, presence: true
+  validates :yields_size, presence: true
   validate :image_validation
 
   include Slugifiable::InstanceMethods
   extend Slugifiable::ClassMethods
 
-  scope :public_recipes, -> { where("private = ?", false).order(id: :desc) }
-  scope :public_or_user_recipes, -> (uid) { where("private = ? or (private = ? and user_id = ?)", false, true, uid).order(id: :desc) }
+  scope :public_recipes, -> { where("private = ?", false).order("id DESC") }
+  scope :public_or_user_recipes, -> (uid) { where("private = ? or (private = ? and user_id = ?)", false, true, uid).order("id DESC") }
   #scope :private_and_user_recipes, -> (uid) { where("private = ? and user_id = ?", true, uid) }
   # returns Array instead of ActiveRecord_Relation, so not chainable
   #scope :public_or_user_recipes, -> (uid) { public_recipes + private_and_user_recipes(uid) }
   # .or not working
   #scope :public_or_user_recipes, -> (uid) { public_recipes.or(private_and_user_recipes(uid)) }
 
-  scope :search_recipes, -> (name) { public_recipes.where("name LIKE ?", "%#{name}%").order(name: :asc) }
+  scope :search_recipes, -> (name) { public_recipes.where("lower(name) LIKE ?", "%#{name.downcase}%").order("lower(name) ASC") }
 
   #accepts_nested_attributes_for :categories
   def categories_attributes=(categories_attributes)

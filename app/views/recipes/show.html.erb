@@ -2,7 +2,7 @@
 
 <div class="container">
   <div class="text-center">
-    <h1><%= @recipe.name %></h1>
+    <h1><%= @recipe.name.titleize %></h1>
     <%= image_tag @recipe.image.variant(combine_options: { resize: "400x300", extent: "400x300", background: "grey", gravity: "center"}) %>
     <p class="card-text"><small class="text-muted">by <%= link_to @recipe.user.name.titleize, user_path(@recipe.user) %></br>category <%= link_to @recipe.categories[0].name.titleize, category_path(@recipe.categories[0]) %></small></p>
     <hr>

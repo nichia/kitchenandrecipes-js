@@ -7,6 +7,7 @@
 </div>
 
 <div class="container-fluids">
+  <p class="text-center card-text"><small class="text-muted"><%= pluralize(@recipes.count, 'Recipe') %></small></p>
   <!-- Card columns -->
   <div class="card-columns">
     <%= render partial: 'recipes/recipe', collection: @recipes %>

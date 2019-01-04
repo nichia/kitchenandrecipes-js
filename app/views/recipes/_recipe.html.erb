@@ -12,7 +12,7 @@
   <!--Card body -->
   <div class="card-body">
     <p class="card-text"><small class="text-muted">by <%= link_to recipe.user.name.titleize, user_path(recipe.user) %></small></p>
-    <h4 class="card-title"><%= recipe.name %></h4>
+    <h4 class="card-title"><%= recipe.name.titleize %></h4>
     <p class="card-text"><%= recipe.description %></p>
   </div> <!-- Card body -->
 </div> <!-- Card -->

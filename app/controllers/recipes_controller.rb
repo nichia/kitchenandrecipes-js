@@ -47,6 +47,7 @@ class RecipesController < ApplicationController
   # GET /search
   def search
     if params[:recipe_name]
+      @recipe_name = params[:recipe_name]
       @recipes = Recipe.search_recipes(params[:recipe_name])
     else
       redirect_back(fallback_location: root_path)
