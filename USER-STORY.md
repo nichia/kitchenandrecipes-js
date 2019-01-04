@@ -23,19 +23,19 @@ Acceptance Criteria
 4. User is able to enter the ingredients. Each ingredient will have associated with is a measure of size/weight/volume which they user is able to select and in the form it is required to be - e.g. chopped, sliced, etc.
 5. User is able to enter the instructions, where each step is an individual data entry
 
-## Review publicly available recipes
+## Review publicly available recipes (To do)
 As a user. I'm able to review all recipes that are published for public viewing.
 
 Acceptance Criteria
 1. The user is able to list all recipes
 2. The user is able to sort recipes by: (i) origin (e.g. country, region); (ii) course; (iii) Difficulty level
 
-## Search for recipes
+## Search for recipes (Basic search done)
 As a user, I want to be able to search the large numbers of the recipe that I may be interested in.
 
 Acceptance Criteria:
 1. The user is able to search recipes by: (i) origin (e.g. country, region); (ii) course; (iii) Difficulty level; (iv) author of the recipe
 2. Able to sort the list of recipes by: (i) origin; (ii) course; (iii) Difficulty levels
 
-## Rating recipes
+## Rating recipes (To do)
 As a user, I want to be able to rate recipes on scale of 1 to 5 and/or add a brief description.

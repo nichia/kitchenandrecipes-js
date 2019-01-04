@@ -24,7 +24,8 @@ To Do:
 
 ## References
 ### Bootstrap
-[Bootstrap - Default navbar](https://getbootstrap.com/docs/3.3/components/#navbar-default)
+[Bootstrap - Default navbar](https://getbootstrap.com/docs/4.1/components/#navbar-default)
+[Bootstrap Card Component](https://www.sitepoint.com/bootstrap-card-component-introduction/)
 
 ### Postgresql database setup
 [Getting Started with PostgreSQL on Mac OSX](https://www.codementor.io/engineerapart/getting-started-with-postgresql-on-mac-osx-are8jcopb)
@@ -53,3 +54,15 @@ To Do:
 [Github Omniauth Strategy](https://github.com/omniauth/omniauth-github)  
 
 [Google Omniauth Strategy](https://github.com/zquestz/omniauth-google-oauth2)
+
+### Cocoon
+[Cocoon](https://github.com/nathanvda/cocoon)
+
+### Rails ActiveStorage
+[Rails 5.2: Active Storage and beyond](https://evilmartians.com/chronicles/rails-5-2-active-storage-and-beyond)
+[Active Storage Overview](https://edgeguides.rubyonrails.org/active_storage_overview.html)
+[How do I duplicate a file stored in ActiveStorage in Rails 5.2](https://stackoverflow.com/questions/49631530/how-do-i-duplicate-a-file-stored-in-activestorage-in-rails-5-2)
+
+### Amazon S3
+[Setting up Rails 5 Active Storage with Amazon S3](https://medium.com/alturasoluciones/setting-up-rails-5-active-storage-with-amazon-s3-3d158cf021ff)
+[Connecting AWS’s S3 to your Heroku hosted Rails App](https://medium.com/@bmcilhen/connecting-amazons-s3-to-your-heroku-hosted-rails-app-or-d6290f622162)
