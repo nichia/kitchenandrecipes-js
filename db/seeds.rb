@@ -17,9 +17,12 @@ Category.create(category_type: 'meal', name: 'entree')
 Category.create(category_type: 'meal', name: 'dessert')
 Category.create(category_type: 'meal', name: 'beverage')
 Category.create(category_type: 'meal', name: 'side')
+Category.create(category_type: 'meal', name: 'snack')
+Category.create(category_type: 'meal', name: 'salad')
+Category.create(category_type: 'meal', name: 'soup')
 
 # Create users
-avatars = Dir.glob('storage/avatars/*.jpg')
+avatars = Dir.glob('storage/avatars/*.*')
 icon = avatars.sample
 
 usr = User.create(
@@ -99,7 +102,7 @@ end
 # Create Recipes
 yields = ['makes', 'serves']
 preps = ['cut', 'slice', 'shred', 'squeeze', 'chopped', 'grate', 'minced']
-images = Dir.glob('storage/images/*.jpg')
+images = Dir.glob('storage/images/*.*')
 100.times do
   icon = images.sample
   recipe = Recipe.create(
@@ -118,7 +121,7 @@ images = Dir.glob('storage/images/*.jpg')
   # recipe.image.attach(io: File.open(icon), filename: icon.split(/\//).last, content_type: ['image/gif', 'image/png', 'image/jpg', 'image/jpeg'])
 
   recipe.recipe_categories.create(
-    category: Category.find_by_id(Faker::Number.between(1, 6))
+    category: Category.find_by_id(Faker::Number.between(1, 9))
   )
 
   5.times do
