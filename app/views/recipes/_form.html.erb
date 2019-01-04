@@ -15,11 +15,13 @@
   <div class="form-group">
     <%= f.label :category_id, "Category:" %>
     <%= f.collection_select :category_ids, categories, :id, :name, prompt: 'Choose a category' %>
-    <%= f.fields_for :categories, recipe.categories.build(category_type: "meal") do |category_builder| %>
-      <%= f.label :category_id, "or" %>
-      <%= category_builder.text_field :name, placeholder: 'enter a new category' %>
-      <%= category_builder.hidden_field :category_type %>
-    <% end %>
+    <!-- Todo: Setup different type of category records (i.e. Cuisine, Dish type, Occassion). Add a dropdown menu for user to select each category type. -->
+    <!-- Remove code below as this should only be setup by adminstrator. -->
+    <%#= f.fields_for :categories, recipe.categories.build(category_type: "meal") do |category_builder| %>
+      <%#= f.label :category_id, "or" %>
+      <%#= category_builder.text_field :name, placeholder: 'enter a new category' %>
+      <%#= category_builder.hidden_field :category_type %>
+    <%# end %>
   </div>
 
   <!-- Yields -->
