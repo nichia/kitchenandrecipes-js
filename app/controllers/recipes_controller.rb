@@ -12,13 +12,14 @@ class RecipesController < ApplicationController
       @recipes = user.recipes
     else
       # navbar Kitchen&Recipes button
+      @recipes = Recipe.public_and_current_user_recipes(current_user)
       # check for current_user instead of user_signed_in as
       # user_signed_in is not updated if user close app without logging out first
-      if current_user
-        @recipes = Recipe.public_or_user_recipes(current_user)
-      else
-        @recipes = Recipe.public_recipes
-      end
+      # if current_user
+      #   @recipes = Recipe.public_or_user_recipes(current_user)
+      # else
+      #   @recipes = Recipe.public_recipes
+      # end
     end
   end
 

@@ -5,11 +5,7 @@ class UsersController < ApplicationController
     # Dropdown option 'My Dashboard' navbar avatar, and
     # when click on author of recipe link
     @user = User.find(params[:id])
-    if @user == current_user
-      @recipes = @user.recipes
-    else
-      @recipes = @user.recipes.public_recipes
-    end
+    @recipes = @user.recipes.public_and_current_user_recipes(current_user)
   end
 
 end

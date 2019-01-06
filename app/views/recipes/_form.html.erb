@@ -46,8 +46,8 @@
   Ingredients:
   <div class="form-group">
     <div class="recipe_ingredients">
-      <!-- sort recipe_ingredients by id in ascending order for edit action -->
-      <%= f.fields_for :recipe_ingredients, (recipe.recipe_ingredients.ordered_recipe_ingredients if f.object.id) do |ri_builder| %>
+      <!-- sort_recipe_ingredients by id in ascending order for edit action -->
+      <%= f.fields_for :recipe_ingredients, sort_recipe_ingredients(recipe, f.object.id) do |ri_builder| %>
         <%# raise ri_builder.inspect %>
         <%= render partial: 'recipe_ingredient_fields', locals: { f: ri_builder } %>
       <% end %>
@@ -61,8 +61,8 @@
   <div class="form-group">
     Instructions:
     <div class="instructions">
-      <!-- sort instructions by id in ascending order for edit action -->
-      <%= f.fields_for :instructions, (recipe.instructions.ordered_instructions if f.object.id) do |instruction_builder| %>
+      <!-- sort_instructions by id in ascending order for edit action -->
+      <%= f.fields_for :instructions, sort_instructions(recipe, f.object.id) do |instruction_builder| %>
       <%#= f.fields_for :instructions, (recipe.ordered_instructions.order("id ASC") if f.object.id) do |instruction_builder| %>
         <%# raise instruction_builder.inspect %>
         <%= render partial: 'instruction_fields', locals: { f: instruction_builder } %>

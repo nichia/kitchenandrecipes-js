@@ -8,11 +8,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories/:id
   def show
-    if current_user
-      @recipes = @category.recipes.public_or_user_recipes(current_user)
-    else
-      @recipes = @category.recipes.public_recipes
-    end
+    @recipes = @category.recipes.public_and_current_user_recipes(current_user)
   end
 
   private

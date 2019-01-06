@@ -28,6 +28,15 @@ class Recipe < ApplicationRecord
 
   scope :search_recipes, -> (name) { public_recipes.where("lower(name) LIKE ?", "%#{name.downcase}%").order("lower(name) ASC") }
 
+# Class method to query public recipes or public plus current users recipes
+  def self.public_and_current_user_recipes(curr_user = nil)
+    if curr_user
+      self.public_or_user_recipes(curr_user)
+    else
+      self.public_recipes
+    end
+  end
+
   #accepts_nested_attributes_for :categories
   def categories_attributes=(categories_attributes)
     categories_attributes.values.each do |category_attributes|
