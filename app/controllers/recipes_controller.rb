@@ -79,9 +79,9 @@ class RecipesController < ApplicationController
     # list error messages and go back to new view
     flash.now[:danger] = ("Please fix the following errors:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
 
-    # re-populate the category field
-    category = params[:recipe][:categories_attributes].values[0]
-    @recipe.categories.build(category_type: category[:category_type], name: category[:name])
+    # re-populate the category field (removed: to be added for admin only)
+    # category = params[:recipe][:categories_attributes].values[0]
+    # @recipe.categories.build(category_type: category[:category_type], name: category[:name])
 
     render :new
   end
@@ -98,9 +98,9 @@ class RecipesController < ApplicationController
       # list error messages and go back to new
       flash.now[:danger] = ("Please fix the following errors:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
 
-      # re-populate the category field
-      category = params[:recipe][:categories_attributes].values[0]
-      @recipe.categories.build(category_type: category[:category_type], name: category[:name])
+      # re-populate the category field (removed: to be added for admin only)
+      # category = params[:recipe][:categories_attributes].values[0]
+      # @recipe.categories.build(category_type: category[:category_type], name: category[:name])
 
       render :edit
     end

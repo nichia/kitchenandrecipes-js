@@ -1,7 +1,7 @@
 <!-- /recipes/_instruction_fields -->
 
 <div class="nested-fields">
-  <%= f.text_field :description, class: "form-control" %>
+  <%= f.text_field :description, class: "form-control", required: true %>
   <div class="text-right">
     <%= link_to_remove_association f do %>
       <span class="closebtn">&times;</span> remove

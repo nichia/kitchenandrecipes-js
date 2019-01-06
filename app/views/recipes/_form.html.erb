@@ -3,18 +3,18 @@
 <%= form_for [user, recipe] do |f| %>
   <div class="form-group">
     <%= f.label :name, "Recipe Title:" %>
-    <%= f.text_field :name, class: "form-control", placeholder: "What's the title of your recipe?" %>
+    <%= f.text_field :name, class: "form-control", required: true, placeholder: "What's the title of your recipe?" %>
   </div>
 
   <div class="form-group">
     <%= f.label :description, "Recipe Description:" %>
-    <%= f.text_area :description, class: "form-control", placeholder: "Tell us about your recipe." %>
+    <%= f.text_area :description, class: "form-control", required: true, placeholder: "Tell us about your recipe." %>
   </div>
 
   <!-- Category -->
   <div class="form-group">
     <%= f.label :category_id, "Category:" %>
-    <%= f.collection_select :category_ids, categories, :id, :name, prompt: 'Choose a category' %>
+    <%= f.collection_select :category_ids, categories, :id, :name, {prompt: 'Choose a category'}, {:required => true}%>
     <!-- Todo: Setup different type of category records (i.e. Cuisine, Dish type, Occassion). Add a dropdown menu for user to select each category type. -->
     <!-- Remove code below as this should only be setup by adminstrator. -->
     <%#= f.fields_for :categories, recipe.categories.build(category_type: "meal") do |category_builder| %>
@@ -28,7 +28,7 @@
   <div class="form-group">
       <%= f.label :yields, "This recipe" %>
       <%= f.select :yields, options_for_select([ "Serves", "Makes" ]), selected: "Serves" %>
-      <%= f.text_field :yields_size %>
+      <%= f.text_field :yields_size, required: true %>
   </div>
 
   <!-- Prep and cook time -->
