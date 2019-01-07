@@ -41,7 +41,14 @@ class User < ApplicationRecord
     format: { with: EMAIL_REGEX, message: "format must be jsmith@example.com" }
   validates :password,
     presence: true,
-    format: { with: PASSWORD_FORMAT, message: "format must include a digit, symbol, upper and lower cases, and have 6 or more characters" }
+    length: { in: 6..64 },
+    format: { with: PASSWORD_FORMAT, message: "format must include a digit, symbol, upper and lower cases, and have 6 or more characters" },
+    on: :create
+    validates :password,
+     allow_nil: true,
+     length: { in: 6..64 },
+     format: { with: PASSWORD_FORMAT, message: "format must include a digit, symbol, upper and lower cases, and have 6 or more characters" },
+     on: :update
   validate :avatar_validation  # facebook image is not in png, jpg, jpeg format
 
   include Slugifiable::InstanceMethods

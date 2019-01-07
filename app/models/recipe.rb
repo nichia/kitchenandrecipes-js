@@ -13,8 +13,6 @@ class Recipe < ApplicationRecord
   validates :description, presence: true
   validates :yields, presence: true
   validates :yields_size, presence: true
-  validates :categories, presence: true
-  validates :instructions, presence: true
   validate :image_validation
 
   include Slugifiable::InstanceMethods
