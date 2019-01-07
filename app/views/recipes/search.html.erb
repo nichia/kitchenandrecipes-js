@@ -4,6 +4,11 @@
 
 <div class="container-fluids">
   <p class="text-center card-text"><small class="text-muted"><%= pluralize(@recipes.count, 'Recipe') %></small></p>
+
+  <% if @recipes.count == 0 %>
+    <p class="text-left">Sorry, no recipes found. Try more unspecific terms or change the search terms.</p>
+  <% end %>
+  
   <!-- Card columns -->
   <div class="card-columns">
     <%= render partial: 'recipe', collection: @recipes %>
