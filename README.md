@@ -7,6 +7,7 @@ In a bash terminal, clone the application repository from github then run the ap
     $ git clone git@github.com:nichia/kitchenandrecipes.git
     $ cd kitchenandrecipes
     $ mv .env.bak .env  (edit the .env file to fill in secret keys)
+    $ rvm --default use 2.5.0 (set default Ruby version 2.5.0)
     $ bundle install
     $ rake db:create
     $ rake db:migrate
