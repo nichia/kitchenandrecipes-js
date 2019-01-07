@@ -1,6 +1,6 @@
 # KitchenandRecipes
 Kitchenandrecipes is a ruby on rails application created to manage and share recipes.
-The application uses Ruby on Rails framework and manages data through forms and RESTful routes. It provides standard user authentication, including signup, login, logout and passwords. In addition, the authentication system allows login from other third party services, Facebook, Google and Twitter.
+The application uses Ruby on Rails framework and manages data through forms and RESTful routes. It provides standard user authentication, including signup, login, logout and passwords. In addition, the authentication system allows login from other third party services, Facebook, Google and Github.
 
 The stretch goals are:
 -	Write Tests for the project using RSPEC and Capybara
