@@ -4,4 +4,6 @@ class Ingredient < ApplicationRecord
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
+  scope :search_ingredients, -> (name) { where("lower(name) LIKE ?", "%#{name.downcase}%").order("name ASC") }
+
 end

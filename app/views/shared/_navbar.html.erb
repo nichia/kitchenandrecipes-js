@@ -26,11 +26,22 @@
             <% end %>
         </div>
       </li>
-      <!-- Search -->
+      <!-- Search by recipe-->
       <li class="nav-item">
         <div class="form-inline my-2 my-lg-0">
           <%= form_tag(recipe_search_path, method: "get") do %>
-            <%= text_field_tag :recipe_name, params[:recipe_name], placeholder: "Find a recipe", class: "form-control mr-sm-2" %>
+            <%= text_field_tag :recipe_name, params[:recipe_name], placeholder: "Find a recipe by name", class: "form-control mr-sm-2" %>
+            <%= submit_tag "Search", class: "btn btn-outline-success my-2 my-sm-0" %>
+          <% end %>
+          <!-- <input class="form-control mr-sm-2" type="search" placeholder="Find a recipe" aria-label="Search"> -->
+          <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+        </div>
+      </li>
+      <!-- Search by ingredients -->
+      <li class="nav-item">
+        <div class="form-inline my-2 my-lg-0">
+          <%= form_tag(recipe_search_path, method: "get") do %>
+            <%= text_field_tag :ingredient_name, params[:ingredient_name], placeholder: "Find a recipe by ingredients", class: "form-control mr-sm-2" %>
             <%= submit_tag "Search", class: "btn btn-outline-success my-2 my-sm-0" %>
           <% end %>
           <!-- <input class="form-control mr-sm-2" type="search" placeholder="Find a recipe" aria-label="Search"> -->

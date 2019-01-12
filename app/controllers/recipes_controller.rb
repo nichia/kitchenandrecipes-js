@@ -50,6 +50,9 @@ class RecipesController < ApplicationController
     if params[:recipe_name]
       @recipe_name = params[:recipe_name]
       @recipes = Recipe.search_recipes(params[:recipe_name])
+    elsif params[:ingredient_name]
+      @ingredient_name = params[:ingredient_name]
+      @recipes = Recipe.search_recipes_by_ingredients(params[:ingredient_name])
     else
       redirect_back(fallback_location: root_path)
     end

@@ -26,7 +26,16 @@ class Recipe < ApplicationRecord
   # .or not working
   #scope :public_or_user_recipes, -> (uid) { public_recipes.or(private_and_user_recipes(uid)) }
 
-  scope :search_recipes, -> (name) { public_recipes.where("lower(name) LIKE ?", "%#{name.downcase}%").order("lower(name) ASC") }
+  scope :search_recipes, -> (name) { public_recipes.where("lower(name) LIKE ?", "%#{name.downcase}%").order("name ASC") }
+
+  def self.search_recipes_by_ingredients(name)
+    @ingredients = Ingredient.search_ingredients(name).to_a
+    @recipes = Recipe.none
+    @ingredients.each do |ingredient|
+      @recipes += ingredient.recipes
+    end
+    @recipes
+  end
 
 # Class method to query public recipes or public plus current users recipes
   def self.public_and_current_user_recipes(curr_user = nil)
