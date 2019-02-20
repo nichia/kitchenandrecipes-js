@@ -28,6 +28,26 @@
   <% end %>
 
   <div class="text-center">
+    <% if !@recipe.reviews.empty?  %>
+      <h2 class="text-center">Reviews</h2>
+      <div class="reviews">
+        <% @recipe.reviews.each do |review| %>
+            <p> <strong> <%= link_to review.reviewer.name.titleize, user_path(review.reviewer) %> says: </strong>
+              <p>"<%= review.comment %>"</p>
+              <p>Rating: <%= review.rating %></p>
+              <% if current_user == review.reviewer %>
+                <div class="text-center">
+                  <%= link_to "Edit", edit_recipe_review_path(review.recipe, review) %> |
+                  <%= link_to "Remove", recipe_review_path(review.recipe, review), method: :delete %>
+                </div><br>
+              <% end %>
+        <% end %>
+    <% end %>
+    </div>
+  </div>
+
+  <div class="text-center">
     <%= link_to_recipe_actions(@recipe) %>
   </div>
+
 </div> <!-- Container -->
