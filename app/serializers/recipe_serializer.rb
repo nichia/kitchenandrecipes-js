@@ -1,4 +1,5 @@
 class RecipeSerializer < ActiveModel::Serializer
+  include FastJsonapi::ObjectSerializer
   include Rails.application.routes.url_helpers
   
   attributes :id, :user_id, :name, :description, :prep_time, :cook_time, :yields, :yields_size, :image, :private, :source

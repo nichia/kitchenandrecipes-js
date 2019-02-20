@@ -21,4 +21,7 @@ Rails.application.routes.draw do
 
   get 'search', to: 'recipes#search', as: 'recipe_search'
 
+  get '/api/recipes', to: 'api#index'
+  get '/api/users/:id/recipes', to: 'api#index'
+  get '/api/recipes/:id', to: 'api#show'
 end

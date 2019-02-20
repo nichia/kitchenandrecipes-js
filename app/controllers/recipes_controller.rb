@@ -16,7 +16,7 @@ class RecipesController < ApplicationController
     end
     respond_to do |format|
       format.html { render :index }
-      format.json { render json: @recipes }
+      format.json { render json: RecipeSerializer.new(@recipes).serialized_json }
     end
   end
 
@@ -37,7 +37,7 @@ class RecipesController < ApplicationController
     @instructions = @recipe.instructions
     respond_to do |format|
       format.html { render :show }
-      format.json { render json: @recipe }
+      format.json { render json: RecipeSerializer.new(@recipe).serialized_json }
     end
   end
 
