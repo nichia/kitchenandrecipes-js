@@ -4,7 +4,7 @@
   <div class="text-center">
     <h1><%= @recipe.name.titleize %></h1>
     <%= image_tag @recipe.image.variant(combine_options: { resize: "400x300", extent: "400x300", background: "grey", gravity: "center"}) %>
-    <p class="card-text"><small class="text-muted">by <%= link_to @recipe.user.name.titleize, user_path(@recipe.user) %> | <%= @recipe.created_at.strftime("%B %e, %Y") %> | <%= @recipe.reviews.size %> Reviews </br>category <%= link_to @recipe.categories[0].name.titleize, category_path(@recipe.categories[0]) %></small></p>
+    <p class="card-text"><small class="text-muted">by <%= link_to @recipe.user.name.titleize, user_path(@recipe.user) %> | <%= @recipe.created_at.strftime("%b %e, %Y") %> | <%= pluralize(@recipe.reviews.size, 'Review') %></br>category <%= link_to @recipe.categories[0].name.titleize, category_path(@recipe.categories[0]) %></small></p>
     <hr>
     <p><%= @recipe.description %></p>
   </div>
@@ -28,30 +28,20 @@
   <% end %>
 
   <hr>
-  
-<%# <!-- Todo: use cards to display reviews, similar to recipe index _recipe --> %>
-  <%= render partial: 'reviews/review', collection: @recipe.reviews %>
-
-  <div class="text-center">
-    <% if @recipe.reviews.exists?  %>
-      <h2 class="text-center"><%= @recipe.reviews.size %> Reviews</h2>
-      <div class="reviews">
-        <% @recipe.reviews.each do |review| %>
-            <p><%= link_to (image_tag review.reviewer.avatar, class: "img-thumbnail", style: "max-height: 35px; max-width: 35px;"), user_path(review.reviewer) %><strong> <%= link_to review.reviewer.name.titleize, user_path(review.reviewer) %></strong> Rating: <%= review.rating %>  / 5</p>
-              <p><%= review.comment %></p>
-              <% if current_user == review.reviewer %>
-                <div class="text-center">
-                  <%= link_to "Edit", edit_recipe_review_path(review.recipe, review) %> |
-                  <%= link_to "Remove", recipe_review_path(review.recipe, review), method: :delete %>
-                </div><br>
-              <% end %>
-        <% end %>
-    <% end %>
-    </div>
-  </div>
 
   <div class="text-center">
     <%= link_to_recipe_actions(@recipe) %>
   </div>
+  
+  <div class="container-fluids">
+    <hr>
+    <% if @recipe.reviews.exists?  %>
+      <p class="text-center card-text"><small class="text-muted"><%= pluralize(@recipe.reviews.size, 'Review') %></small></p>
+      <!-- Card columns -->
+      <div class="card-columns">
+        <%= render partial: 'reviews/review', collection: @recipe.reviews %>
+      </div> <!-- Card columns -->
+    <% end %>
+  </div> <!-- Container -->
 
 </div> <!-- Container -->
