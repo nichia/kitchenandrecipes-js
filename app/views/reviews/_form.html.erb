@@ -9,7 +9,7 @@
         <%= form_for ([recipe, review]) do |f| %>
           <%= f.collection_select :rating, [1, 2, 3, 4, 5], :to_i, :to_i, {prompt: "Rate recipe:"}, class: "form-control" %> <br>
           <%= f.label :comment, "Comments:"  %>
-          <%= f.text_area :comment, maxlength: 128, class: "form-control" %><br></br>
+          <%= f.text_area :comment, maxlength: 256, class: "form-control" %><br></br>
           <%= f.submit "Review", class: 'btn btn-primary' %>
         <% end %>
       </div>

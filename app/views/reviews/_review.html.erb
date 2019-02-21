@@ -1,0 +1,18 @@
+<!-- /reviews/_review -->
+<!-- Todo: use cards to display reviews, similar to recipe index _recipe -->
+
+<h2 class="text-center"><%= @recipe.reviews.size %> Reviews</h2>
+<!-- Card -->
+<div class="card">
+  <!--Card image-->
+  <!--Card body -->
+  <div class="card-body">
+    <p><%= link_to (image_tag review.reviewer.avatar, class: "img-thumbnail", style: "max-height: 35px; max-width: 35px;"), user_path(review.reviewer) %><strong> <%= link_to review.reviewer.name.titleize, user_path(review.reviewer) %></strong> Rating: <%= review.rating %>  / 5</p>
+      <p><%= review.comment %></p>
+      <% if current_user == review.reviewer %>
+          <%= link_to "Edit", edit_recipe_review_path(review.recipe, review) %> |
+          <%= link_to "Remove", recipe_review_path(review.recipe, review), method: :delete %>
+        <br>
+      <% end %>
+  </div> <!-- Card body -->
+</div> <!-- Card -->
