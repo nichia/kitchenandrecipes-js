@@ -45,7 +45,7 @@ class Recipe < ApplicationRecord
       self.public_recipes
     end
   end
-
+  
   #accepts_nested_attributes_for :categories
   def categories_attributes=(categories_attributes)
     categories_attributes.values.each do |category_attributes|
@@ -56,7 +56,7 @@ class Recipe < ApplicationRecord
       end
     end
   end
-
+  
   accepts_nested_attributes_for :recipe_ingredients, reject_if: :all_blank, allow_destroy: true
   # def ingredients_attributes=(ingredients_attributes)
   #   ingredients_attributes.values.each do |ingredient_attributes|
@@ -67,17 +67,17 @@ class Recipe < ApplicationRecord
   #     end
   #   end
   # end
-
+  
   accepts_nested_attributes_for :instructions, reject_if: :all_blank, allow_destroy: true
   # def instructions_attributes=(instructions_attributes)
   #   instructions_attributes.values.each do |instruction_attributes|
   #     self.instructions.build(description: description)
   #   end
   # end
-
+  
   def recipe_cloner(curr_user)
     time = Time.new
-
+    
     copy = self.dup
     copy.user = curr_user
     copy.source = self.id
@@ -87,9 +87,9 @@ class Recipe < ApplicationRecord
         io: tempfile,
         filename: self.image.blob.filename,
         content_type: self.image.blob.content_type
-        })
-      end
-
+      })
+    end
+    
     if copy.save
       # copy the recipe_categories
       self.recipe_categories.find_each do |c|
@@ -107,6 +107,11 @@ class Recipe < ApplicationRecord
     copy
   end
 
+  # Calculate average rating for the recipe instance
+  def rating_average
+    self.reviews.average(:rating).round(2)
+  end
+  
   private
   def image_validation
     if image.attached?
