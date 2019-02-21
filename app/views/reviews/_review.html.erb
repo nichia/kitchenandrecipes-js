@@ -1,19 +1,16 @@
 <!-- /reviews/_review -->
-<!-- Todo: use cards to display reviews, similar to recipe index _recipe -->
 
 <!-- Card -->
-<div class="card">
-  <!--Card image-->
-  <!--Card body -->
+<div class="card border-light mb-3" style="max-width: 18rem;">
+  <div class="card-header"><%= link_to (image_tag review.reviewer.avatar, class: "img-thumbnail", style: "max-height: 35px; max-width: 35px;"), user_path(review.reviewer) %><strong> <%= link_to review.reviewer.name.titleize, user_path(review.reviewer) %></strong>
+  </div><!-- Card header -->
   <div class="card-body">
-    <p class="card-text"><%= link_to (image_tag review.reviewer.avatar, class: "img-thumbnail", style: "max-height: 35px; max-width: 35px;"), user_path(review.reviewer) %><strong> <%= link_to review.reviewer.name.titleize, user_path(review.reviewer) %></strong></p>
     <p class="card-text"><small class="text-muted"><%= review.created_at.strftime("%b %e, %Y") %></small></p>
     <p class="card-text">Rating: <%= review.rating %>  / 5</p>
     <p class="card-text"><%= review.comment %></p>
-    <p class="card-text">
-      <% if current_user == review.reviewer %>
-          <%= link_to "Edit", edit_recipe_review_path(review.recipe, review) %> |
-          <%= link_to "Remove", recipe_review_path(review.recipe, review), method: :delete %>
-      <% end %></p>
+    <% if current_user == review.reviewer %>
+      <footer class="blockquote-footer"><%= link_to "Edit", edit_recipe_review_path(review.recipe, review) %> |
+      <%= link_to "Remove", recipe_review_path(review.recipe, review), method: :delete %></footer>
+    <% end %>
   </div> <!-- Card body -->
 </div> <!-- Card -->
