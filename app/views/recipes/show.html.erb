@@ -34,7 +34,6 @@
   </div>
   
   <div class="container-fluids">
-    <hr>
     <% if @recipe.reviews.exists?  %>
       <p class="text-center card-text"><small class="text-muted"><%= pluralize(@recipe.reviews.size, 'Review') %></small></p>
       <!-- Card columns -->

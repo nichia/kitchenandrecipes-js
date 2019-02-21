@@ -153,16 +153,30 @@ def create_recipes
       recipe.instructions.create(description: Faker::Lorem.paragraph)
     end
 
-    if recipe.user_id < 6
-      # Create reviews (by reviewers id of 6 and above) for recipes with user_id < 6
+    if recipe.user_id > 9
+      # Create reviews (reviewers 1 to 8) for recipes with user_id > 9
       # This prevents recipe owners from reviewing their own recipe. 
-      12.times do
-        recipe.reviews.create( 
-          rating: [1, 2, 3, 4, 5].sample, 
-          comment: Faker::Lorem.paragraph, 
-          reviewer: User.find_by_id(Faker::Number.between(6, 12))
-        )
-      end
+      # User id 9 did not create any reviews
+      recipe.reviews.create( 
+        rating: [1, 2, 3, 4, 5].sample, 
+        comment: Faker::Lorem.paragraph, 
+        reviewer: User.find_by_id(Faker::Number.between(1, 2))
+      )
+      recipe.reviews.create( 
+        rating: [1, 2, 3, 4, 5].sample, 
+        comment: Faker::Lorem.paragraph, 
+        reviewer: User.find_by_id(Faker::Number.between(3, 4))
+      )
+      recipe.reviews.create( 
+        rating: [1, 2, 3, 4, 5].sample, 
+        comment: Faker::Lorem.paragraph, 
+        reviewer: User.find_by_id(Faker::Number.between(5, 6))
+      )
+      recipe.reviews.create( 
+        rating: [1, 2, 3, 4, 5].sample, 
+        comment: Faker::Lorem.paragraph, 
+        reviewer: User.find_by_id(Faker::Number.between(7, 8))
+      )
     end
 
     print ">"
