@@ -34,12 +34,13 @@
   </div>
   
   <div class="container-fluids">
-    <% if @recipe.reviews.exists?  %>
-      <p class="text-center card-text"><small class="text-muted"><%= pluralize(@recipe.reviews.size, 'Review') %> | <%= @recipe.rating_average %> / <%= pluralize(@recipe.reviews.size, 'rating') %></small></p>
+    <% if @reviews.exists?  %>
+      <p class="text-center card-text"><small class="text-muted"><%= pluralize(@reviews.total_count, 'Review') %> | <%= @recipe.rating_average %> / <%= pluralize(@reviews.total_count, 'rating') %></small></p>
       <!-- Card columns -->
       <div class="card-columns">
-        <%= render partial: 'reviews/review', collection: @recipe.reviews %>
+        <%= render partial: 'reviews/review', collection: @reviews %>
       </div> <!-- Card columns -->
+      <%= paginate @reviews, window: 2 %>
     <% end %>
   </div> <!-- Container -->
 
