@@ -8,7 +8,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories/:id
   def show
-    @recipes = @category.recipes.public_and_current_user_recipes(current_user)
+    @recipes = @category.recipes.public_and_current_user_recipes(current_user).page(params[:page])
   end
 
   private

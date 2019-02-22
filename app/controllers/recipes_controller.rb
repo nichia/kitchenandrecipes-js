@@ -9,10 +9,10 @@ class RecipesController < ApplicationController
     if params[:user_id]
       # Dropdown option 'My Recipe' navbar avatar
       user = User.find(params[:user_id])
-      @recipes = user.recipes
+      @recipes = user.recipes.page(params[:page])
     else
       # navbar Kitchen&Recipes button
-      @recipes = Recipe.public_and_current_user_recipes(current_user)
+      @recipes = Recipe.public_and_current_user_recipes(current_user).page(params[:page])
     end
     respond_to do |format|
       format.html { render :index }
@@ -50,10 +50,10 @@ class RecipesController < ApplicationController
   def search
     if params[:recipe_name]
       @recipe_name = params[:recipe_name]
-      @recipes = Recipe.search_recipes(params[:recipe_name])
+      @recipes = Recipe.search_recipes(params[:recipe_name]).page(params[:page])
     elsif params[:ingredient_name]
       @ingredient_name = params[:ingredient_name]
-      @recipes = Recipe.search_recipes_by_ingredients(params[:ingredient_name])
+      @recipes = Recipe.search_recipes_by_ingredients(params[:ingredient_name]).page(params[:page])
     else
       redirect_back(fallback_location: root_path)
     end
