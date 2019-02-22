@@ -7,4 +7,25 @@
 </div>
 
 <!-- Render recipes  -->
-<%= render partial: 'recipes/recipe', locals: { recipes: @recipes } %>
+<!-- To-do: getting errors with pagination, so remove it for now -->
+<%#= render partial: 'recipes/recipe', locals: { recipes: @recipes } %>
+<div class="container-fluids">
+  <p class="text-center card-text"><small class="text-muted"><%= pluralize(@recipes.size, 'Recipe') %></small></p>
+  <!-- Card columns -->
+  <div class="card-columns">
+    <!-- Card -->
+    <% @recipes.each do |recipe| %>
+      <div class="card">
+        <!--Card image-->
+        <%= link_to_image_tag(recipe) %>
+
+        <!--Card body -->
+        <div class="card-body">
+          <p class="card-text"><small class="text-muted">by <%= link_to recipe.user.name.titleize, user_path(recipe.user) %></small></p>
+          <h4 class="card-title"><%= link_to_recipe_name(recipe) %></h4>
+          <p class="card-text"><%= recipe.description %></p>
+        </div> <!-- Card body -->
+      </div> <!-- Card -->
+    <% end %>
+  </div> <!-- Card columns -->
+</div> <!-- Container -->

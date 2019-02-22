@@ -8,7 +8,10 @@ class CategoriesController < ApplicationController
 
   # GET /categories/:id
   def show
-    @recipes = @category.recipes.public_and_current_user_recipes(current_user).page(params[:page])
+    # To-do: getting errors with pagination, so remove it for now
+    # PG::AmbiguousColumn: ERROR: column reference "id" is ambiguous (on order by id field of scope method :public_or_user_recipes)
+    # @recipes = @category.recipes.public_and_current_user_recipes(current_user).page(params[:page])
+    @recipes = @category.recipes.public_and_current_user_recipes(current_user)
   end
 
   private
