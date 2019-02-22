@@ -2,7 +2,7 @@
 
 <!-- Card -->
 <div class="card border-light mb-3" style="max-width: 18rem;">
-  <div class="card-header"><%= link_to (image_tag review.reviewer.avatar, class: "img-thumbnail", style: "max-height: 35px; max-width: 35px;"), user_path(review.reviewer) %><strong> <%= link_to review.reviewer.name.titleize, user_path(review.reviewer) %></strong>
+  <div class="card-header"><%= link_to (image_tag review.reviewer.avatar, class: "rounded-circle", style: "max-height: 35px; max-width: 35px;"), user_path(review.reviewer) %><strong> <%= link_to review.reviewer.name.titleize, user_path(review.reviewer) %></strong>
   </div><!-- Card header -->
   <div class="card-body">
     <p class="card-text"><small class="text-muted"><%= review.created_at.strftime("%b %e, %Y") %></small></p>

@@ -58,7 +58,7 @@
       <!-- Avatar / dashboard-->
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <%= image_tag current_user.avatar, class: "img-thumbnail", style: "max-height: 35px; max-width: 35px;" %>
+          <%= image_tag current_user.avatar, class: "rounded-circle", style: "max-height: 35px; max-width: 35px;" %>
           <%#= image_tag(url_for(current_user.avatar.variant(resize: "128x128"))) %>
           <span class="caret"></span>
         </a>
