@@ -31,13 +31,7 @@ class Recipe < ApplicationRecord
   scope :search_recipes, -> (name) { public_recipes.where("lower(name) LIKE ?", "%#{name.downcase}%").order("name ASC") }
 
   def self.search_recipes_by_ingredients(name)
-    @ingredients = Ingredient.search_ingredients(name).to_a
-    @recipes = Recipe.none
-    @ingredients.each do |ingredient|
-      @recipes += ingredient.recipes
-    end
-    binding.pry
-    @recipes
+    @recipes = self.includes(:ingredients).where("lower(ingredients.name) LIKE ?", "%#{name.downcase}%").references(:ingredients).order("recipes.name ASC")
   end
 
 # Class method to query public recipes or public plus current users recipes
