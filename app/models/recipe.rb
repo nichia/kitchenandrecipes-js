@@ -36,6 +36,7 @@ class Recipe < ApplicationRecord
     @ingredients.each do |ingredient|
       @recipes += ingredient.recipes
     end
+    binding.pry
     @recipes
   end
 
