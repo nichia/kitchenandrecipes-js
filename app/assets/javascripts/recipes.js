@@ -27,12 +27,35 @@ function getAllRecipes() {
     dataType: 'json'
   }).done(function (response) {
     console.log('response: ', response);
-    debugger;
+    // debugger;
     let recipes = response;
+    let recipeObj = "";
     let recipeString = "";
     recipes["data"].forEach((recipe) => {
-      recipeString += '<li>' + recipe["attributes"]["name"] + '</li>';
+      // recipeString += '<li>' + recipe["attributes"]["name"] + '</li>';
+      recipeObj = new Recipe(recipe["attributes"]);
+      recipeString += recipeObj.recipeHTML()
     });
     $("#ajax-container").html(recipeString)
   });
+}
+
+class Recipe {
+  constructor(obj) {
+    this.id = obj.id;
+    this.name = obj.name;
+    this.description = obj.description;
+    this.prep_time = obj.prep_time;
+    this.cook_time = obj.cook_time;
+    this.yields = obj.yields;
+    this.yields_size = obj.yields_size;
+    this.image = obj.image;
+    this.private = obj.private;
+  }
+}
+
+Recipe.prototype.recipeHTML = function () {
+  return (`
+    <li> ${this.id} ${this.name} ${this.description} </li>
+  `)
 }
