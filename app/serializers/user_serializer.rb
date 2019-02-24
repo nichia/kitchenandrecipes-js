@@ -1,5 +1,4 @@
 class UserSerializer < ActiveModel::Serializer
-  include FastJsonapi::ObjectSerializer
   include Rails.application.routes.url_helpers
 
   attributes :id, :email, :provider, :name, :first_name, :last_name, :avatar

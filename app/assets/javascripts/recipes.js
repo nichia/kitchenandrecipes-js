@@ -31,9 +31,9 @@ function getAllRecipes() {
     let recipes = response;
     let recipeObj = "";
     let recipeString = "";
-    recipes["data"].forEach((recipe) => {
-      // recipeString += '<li>' + recipe["attributes"]["name"] + '</li>';
-      recipeObj = new Recipe(recipe["attributes"]);
+    recipes.forEach((recipe) => {
+      // recipeString += '<li>' + recipe["name"] + '</li>';
+      recipeObj = new Recipe(recipe);
       recipeString += recipeObj.recipeHTML()
     });
     $("#ajax-container").html(recipeString)
