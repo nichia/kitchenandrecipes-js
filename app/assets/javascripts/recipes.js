@@ -4,8 +4,8 @@ $(document).on('turbolinks:load', function () {
 })
 
 // $(document).ready(function() {
-$(function () {
-  console.log('index.js jQuery loaded..');
+  $(function () {
+    console.log('index.js jQuery loaded..');
 })
 
 
@@ -27,5 +27,12 @@ function getAllRecipes() {
     dataType: 'json'
   }).done(function (response) {
     console.log('response: ', response);
+    debugger;
+    let recipes = response;
+    let recipeString = "";
+    recipes["data"].forEach((recipe) => {
+      recipeString += '<li>' + recipe["attributes"]["name"] + '</li>';
+    });
+    $("#ajax-container").html(recipeString)
   });
 }
