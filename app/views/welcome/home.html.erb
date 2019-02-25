@@ -5,5 +5,7 @@
 <!-- Render recipes  -->
 <%#= render partial: 'recipes/recipe', locals: { recipes: @recipes } %>
 
-<button id="all-recipes">Get Recipes</button>
-<div id="ajax-container">************ DUMMY TEXT AJAX CONTAINER *************</div>
+<div id="ajax-container">
+  <%# <button id="all-recipes">Get Recipes</button> %>
+  <%= link_to "All Recipes", recipes_path, :class => "all_recipes" %>
+</div>

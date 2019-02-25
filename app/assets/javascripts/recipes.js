@@ -10,38 +10,59 @@ $(document).on('turbolinks:load', function () {
 
 
 function listenForClickAllRecipes() {
-  let doc = document.getElementById('all-recipes');
+  // let doc = document.getElementById('all-recipes');
+  // doc.addEventListener('click', function (event) {
+  $("a.all_recipes").on("click", function (event) {
+    // Fire ajax
+    $.ajax({
+      method: "GET",
+      url: this.href,
+      dataType: 'json'
+    }).done(function (response) {
+      console.log('response: ', response);
+      debugger;
+      // Get a response
+      let recipes = response;
+      let recipeObj = "";
 
-  doc.addEventListener('click', function (event) {
+      // <p class="text-center card-text"><small class="text-muted"><%= pluralize(recipes.total_count, 'Recipe') %></small></p>
+
+      let htmlResp = `
+      <div class="container-fluids">
+      <p class="text-center card-text"><small class="text-muted">101 Recipes</small></p>
+      <div class="card-columns">`;  // Open div tags
+      recipes.forEach((recipe) => {
+        // htmlResp += '<li>' + recipe["name"] + '</li>';
+        // recipeObj = new Recipe(recipe);
+        // htmlResp += recipeObj.recipeHTML();
+        // htmlResp += `<li> ${recipe["name"]} </li>`
+        htmlResp += getAllRecipesHtml(recipe);
+      });
+      htmlResp += `</div></div>`; // Close div tags
+
+      // Load the response into the DOM (add it to the current page)
+      $("#ajax-container").html(htmlResp);
+    });
     event.preventDefault();
-    getAllRecipes();
   });
 }
 
-function getAllRecipes() {
-  console.log('--> getAllRecipes')
-  $.ajax({
-    type: "get",
-    url: "/recipes",
-    method: "get",
-    dataType: 'json'
-  }).done(function (response) {
-    console.log('response: ', response);
-    // debugger;
-    let recipes = response;
-    let recipeObj = "";
-    let recipeString = "";
-    recipes.forEach((recipe) => {
-      // recipeString += '<li>' + recipe["name"] + '</li>';
-      recipeObj = new Recipe(recipe);
-      recipeString += recipeObj.recipeHTML()
-    });
-    $("#ajax-container").html(recipeString)
-  });
+function getAllRecipesHtml(recipe) {
+  return (`
+    <div class="card" >
+      <a href="/recipes/${recipe["id"]}"><img class="card-img-top" src="${recipe["image"]}"></a>
+      <div class="card-body">
+          <p class="card-text"><small class="text-muted">by <a href="/users/${recipe["user_id"]}">${recipe.user["name"]}</a></small></p>
+          <h4 class="card-title"><a href="/recipes/${recipe["id"]}">${recipe["name"]}</a></h4>
+          <p class="card-text">${recipe["description"]}</p>
+        </div>
+    </div>
+  `);
 }
 
 class Recipe {
   constructor(obj) {
+    // debugger
     this.id = obj.id;
     this.name = obj.name;
     this.description = obj.description;
@@ -51,11 +72,15 @@ class Recipe {
     this.yields_size = obj.yields_size;
     this.image = obj.image;
     this.private = obj.private;
+    this.category_name = obj.categories[0]["name"];
+    this.image = obj.image;
+    this.recipe_ingredients = obj.recipe_ingredients;
+    this.instructions = obj.instructions;
   }
 }
 
 Recipe.prototype.recipeHTML = function () {
   return (`
-    <li> ${this.id} ${this.name} ${this.description} </li>
+    <li> ${this.id} | ${this.name} | ${this.category_name} </li>
   `)
 }
