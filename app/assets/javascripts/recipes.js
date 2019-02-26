@@ -25,10 +25,15 @@ function listenForClickAllRecipes() {
     }).done(function (response) {
       console.log('AllRecipes response: ', response);
       // Get a response
-      let htmlResp = getRecipes(response);
+      // let htmlResp = getRecipes(response);
+      // $("#ajax-container").html(htmlResp);
 
+      // Invoke handlebar templates for recipes_index
+      recipesIndexHtml = HandlebarsTemplates['recipes_index']({
+        recipes: response
+      });
       // Load the response into the DOM (add it to the current page)
-      $("#ajax-container").html(htmlResp);
+      $("#ajax-container").html(recipesIndexHtml);
     });
   });
 }
@@ -46,10 +51,15 @@ function listenForClickMyRecipes() {
     }).done(function (response) {
       console.log('MyRecipes response: ', response);
       // Get a response
-      let htmlResp = getRecipes(response);
+      // let htmlResp = getRecipes(response);
+      // $("#ajax-container").html(htmlResp);
 
+      // Invoke handlebar templates for recipes_index
+      recipesIndexHtml = HandlebarsTemplates['recipes_index']({
+        recipes: response
+      });
       // Load the response into the DOM (add it to the current page)
-      $("#ajax-container").html(htmlResp);
+      $("#ajax-container").html(recipesIndexHtml);
     });
   });
 }

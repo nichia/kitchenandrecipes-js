@@ -19,7 +19,8 @@ gem 'uglifier', '>= 1.3.0'
 # bootstrap
 gem "bootstrap", ">= 4.3.1"
 gem 'jquery-rails'
-
+# Use Handlebars.js templates with the Rails asset pipelines
+gem 'handlebars_assets'
 # Use ActiveModel Serializers
 gem 'active_model_serializers'
 # Use CoffeeScript for .coffee assets and views
