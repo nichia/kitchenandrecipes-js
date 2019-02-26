@@ -29,7 +29,7 @@ function listenForClickAllRecipes() {
       // $("#ajax-container").html(htmlResp);
 
       // Invoke handlebar templates for recipes_index
-      recipesIndexHtml = HandlebarsTemplates['recipes_index']({
+      recipesIndexHtml = HandlebarsTemplates['recipes/index']({
         recipes: response
       });
       // Load the response into the DOM (add it to the current page)
@@ -55,7 +55,7 @@ function listenForClickMyRecipes() {
       // $("#ajax-container").html(htmlResp);
 
       // Invoke handlebar templates for recipes_index
-      recipesIndexHtml = HandlebarsTemplates['recipes_index']({
+      recipesIndexHtml = HandlebarsTemplates['recipes/index']({
         recipes: response
       });
       // Load the response into the DOM (add it to the current page)
