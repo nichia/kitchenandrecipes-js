@@ -5,14 +5,12 @@ $(document).on('turbolinks:load', function () {
 })
 
 // $(document).ready(function() {
-$(function () {
-  console.log('JS jQuery loaded..');
-})
+// $(function () {
+//   console.log('JS jQuery loaded..');
+// })
 
 function listenForClickAllRecipes() {
   console.log('listForClickAllRecipes..');
-  // let doc = document.getElementById('all-recipes');
-  // doc.addEventListener('click', function (event) {
   // Listen for click on link with class all_recipes
   $("a.all_recipes").on("click", function (event) {
     event.preventDefault();
@@ -24,10 +22,6 @@ function listenForClickAllRecipes() {
       dataType: 'json'
     }).done(function (response) {
       console.log('AllRecipes response: ', response);
-      // Get a response
-      // let htmlResp = getRecipes(response);
-      // $("#ajax-container").html(htmlResp);
-
       // Invoke handlebar templates for recipes_index
       recipesIndexHtml = HandlebarsTemplates['recipes/index']({
         recipes: response
@@ -50,10 +44,6 @@ function listenForClickMyRecipes() {
       dataType: 'json'
     }).done(function (response) {
       console.log('MyRecipes response: ', response);
-      // Get a response
-      // let htmlResp = getRecipes(response);
-      // $("#ajax-container").html(htmlResp);
-
       // Invoke handlebar templates for recipes_index
       recipesIndexHtml = HandlebarsTemplates['recipes/index']({
         recipes: response
@@ -62,42 +52,6 @@ function listenForClickMyRecipes() {
       $("#ajax-container").html(recipesIndexHtml);
     });
   });
-}
-    
-function getRecipes(data) {
-  let recipes = data;
-  let recipeObj = "";
-  
-  // <p class="text-center card-text"><small class="text-muted"><%= pluralize(recipes.total_count, 'Recipe') %></small></p>
-  
-  let htmlResp = `
-    <div class="container-fluids">
-    <p class="text-center card-text"><small class="text-muted">101 Recipes</small></p>
-    <div class="card-columns">
-  `;  // Open div tags
-  recipes.forEach((recipe) => {
-    // htmlResp += '<li>' + recipe["name"] + '</li>';
-    // recipeObj = new Recipe(recipe);
-    // htmlResp += recipeObj.recipeHTML();
-    // htmlResp += `<li> ${recipe["name"]} </li>`
-    htmlResp += getRecipesHtml(recipe);
-  });
-  htmlResp += `</div></div>`; // Close div tags
-  
-  return htmlResp;
-}
-    
-function getRecipesHtml(recipe) {
-  return (`
-    <div class="card" >
-      <a href="/recipes/${recipe["id"]}"><img class="card-img-top" src="${recipe["image"]}"></a>
-      <div class="card-body">
-          <p class="card-text"><small class="text-muted">by <a href="/users/${recipe["user_id"]}">${recipe.user["name"]}</a></small></p>
-          <h4 class="card-title"><a href="/recipes/${recipe["id"]}">${recipe["name"]}</a></h4>
-          <p class="card-text">${recipe["description"]}</p>
-        </div>
-    </div>
-  `);
 }
     
 class Recipe {
@@ -122,5 +76,5 @@ class Recipe {
 Recipe.prototype.recipeHTML = function () {
   return (`
     <li> ${this.id} | ${this.name} | ${this.category_name} </li>
-  `)
+  `);
 }
