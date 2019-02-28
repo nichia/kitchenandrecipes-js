@@ -1,12 +1,11 @@
 <!-- /welcome/home -->
 
-<%= render partial: 'shared/jumbotron', locals: { title: "Kitchen&Recipes" } %>
-
-<!-- Render recipes  -->
-<%#= render partial: 'recipes/recipe', locals: { recipes: @recipes } %>
-
 <div id="ajax-container">
-  <%# <button id="all-recipes">Get Recipes</button> %>
+  <%= render partial: 'shared/jumbotron', locals: { title: "Kitchen&Recipes" } %>
+  
+  <!-- Render recipes  -->
+  <%#= render partial: 'recipes/recipe', locals: { recipes: @recipes } %>
+
   <%= link_to "All Recipes", api_recipes_path, class: "all_recipes" %>
 
   <% if current_user %>
