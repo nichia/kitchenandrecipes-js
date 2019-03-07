@@ -4,6 +4,7 @@ class RecipeSerializer < ActiveModel::Serializer
   attributes :id, :user_id, :name, :description, :prep_time, :cook_time, :yields, :yields_size, :image, :private, :source
 
   belongs_to :user
+  has_many :reviews
   has_many :recipe_categories
   has_many :categories, through: :recipe_categories
   has_many :recipe_ingredients

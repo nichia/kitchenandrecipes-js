@@ -1,4 +1,5 @@
 {{!-- /recipes/index --}}
+
 {{> partials/_jumbotron title = "Kitchen&Recipes"}}
 
 <div class="container-fluids">
@@ -6,10 +7,10 @@
   <div class="card-columns">
     {{#each recipes}}
       <div class="card">
-        <a href="/recipes/{{id}}"><img class="card-img-top" src="{{image}}"></a>
+        <a href="/recipes/{{id}}"><img class="card-img-top show_recipe" src="{{image}}"></a>
         <div class="card-body">
-          <p class="card-text"><small class="text-muted">by <a href="/users/{{user_id}}">{{name}}</a></small></p>
-          <h4 class="card-title"><a href="/recipes/{{id}}">{{name}}</a></h4>
+          <p class="card-text"><small class="text-muted">by <a href="/users/{{user.id}}">{{user.name}}</a></small></p>
+          <h4 class="card-title"><a href="/recipes/{{id}}", class="show_recipe">{{name}}</a></h4>
           <p class="card-text">{{description}}</p>
         </div>
       </div>
