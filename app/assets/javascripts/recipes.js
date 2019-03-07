@@ -31,6 +31,7 @@ function listenForClickRecipes() {
       $("#ajax-container").html(recipesIndexHtml);
 
       listenForClickShowRecipe();
+      listenForClickRecipes();
     });
   });
 }
@@ -40,9 +41,9 @@ function listenForClickShowRecipe() {
   // Listen for click on link with class my_recipes
   $(".show_recipe").on("click", function (event) {
     event.preventDefault();
-    // Fire ajax
     var thisUrl = this.href || this.parentElement.href
     // debugger;
+    // Fire ajax
     $.ajax({
       method: "GET",
       url: thisUrl,
@@ -70,7 +71,7 @@ class Recipe {
     this.private = obj.private;
     this.category_name = obj.categories[0]["name"];
     this.image = obj.image;
-    // this.created_at = obj.created_at;
+    this.created_at = obj.created_at;
     this.recipe_ingredients = obj.recipe_ingredients;
     this.instructions = obj.instructions;
     this.reviews = obj.reviews;
@@ -102,7 +103,8 @@ Recipe.prototype.recipeHtml = function () {
     ${this.yields_size} |</li>
     <li>${this.image} | </li>
     <li>${this.private} |
-    ${this.category_name} | </li>
+    ${this.category_name} | 
+    ${this.created_at} |</li>
     ${ingredients} | 
     ${instructions} |  
     ${reviews} 
