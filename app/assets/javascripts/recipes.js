@@ -2,8 +2,7 @@
 
 $(document).on('turbolinks:load', function () {
   console.log('JS Turbolinks loaded..')
-  listenForClickAllRecipes();
-  listenForClickMyRecipes();
+  listenForClickRecipes();
 })
 
 // $(document).ready(function() {
@@ -11,10 +10,10 @@ $(function () {
   console.log('JS jQuery loaded..');
 })
 
-function listenForClickAllRecipes() {
-  console.log('listForClickAllRecipes..');
-  // Listen for click on link with class all_recipes
-  $("a.all_recipes").on("click", function (event) {
+function listenForClickRecipes() {
+  console.log('listForClickRecipes..');
+  // Listen for click on link element with class all_recipes and my_recipes
+  $("a.all_recipes, a.my_recipes").on("click", function (event) {
     event.preventDefault();
     // debugger;
     // Fire ajax
@@ -24,30 +23,6 @@ function listenForClickAllRecipes() {
       dataType: 'json'
     }).done(function (response) {
       console.log('AllRecipes response: ', response);
-      // Invoke handlebar templates for recipes_index
-      recipesIndexHtml = HandlebarsTemplates['recipes/index']({
-        recipes: response
-      });
-      // Load the response into the DOM (add it to the current page)
-      $("#ajax-container").html(recipesIndexHtml);
-
-      listenForClickShowRecipe();
-    });
-  });
-}
-
-function listenForClickMyRecipes() {
-  console.log('listForClickMyRecipes..');
-  // Listen for click on link with class my_recipes
-  $("a.my_recipes").on("click", function (event) {
-    event.preventDefault();
-    // Fire ajax
-    $.ajax({
-      method: "GET",
-      url: this.href,
-      dataType: 'json'
-    }).done(function (response) {
-      console.log('MyRecipes response: ', response);
       // Invoke handlebar templates for recipes_index
       recipesIndexHtml = HandlebarsTemplates['recipes/index']({
         recipes: response
