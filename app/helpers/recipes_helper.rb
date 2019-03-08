@@ -16,14 +16,6 @@ module RecipesHelper
     end
   end
 
-  def sort_recipe_ingredients(recipe, object_id = nil)
-    recipe.recipe_ingredients.ordered_recipe_ingredients if object_id
-  end
-
-  def sort_instructions(recipe, object_id = nil)
-    recipe.instructions.ordered_instructions if object_id
-  end
-
   def link_to_recipe_actions(recipe)
     if current_user == recipe.user
       link_to("Edit Recipe", edit_user_recipe_path(current_user, recipe), class: 'btn btn-primary') + " " +

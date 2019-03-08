@@ -6,10 +6,10 @@ class Recipe < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :recipe_categories, dependent: :destroy
   has_many :categories, through: :recipe_categories
-  has_many :recipe_ingredients, dependent: :destroy, inverse_of: :recipe # inverse_of use by cocoon gem
+  has_many :recipe_ingredients, -> { order(id: :asc) }, dependent: :destroy, inverse_of: :recipe # inverse_of use by cocoon gem
   has_many :ingredients, through: :recipe_ingredients, class_name: 'Ingredient' # class_name use by cocoon gem
   has_many :measurements, through: :recipe_ingredients
-  has_many :instructions, dependent: :destroy, inverse_of: :recipe # inverse_of use by cocoon gem
+  has_many :instructions, -> { order(id: :asc) }, dependent: :destroy, inverse_of: :recipe # inverse_of use by cocoon gem
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :description, presence: true
