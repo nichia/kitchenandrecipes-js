@@ -59,7 +59,7 @@ function listenForClickShowRecipe() {
 
 class Recipe {
   constructor(obj) {
-    // debugger
+    // debugger;
     this.id = obj.id;
     this.name = obj.name;
     this.description = obj.description;
@@ -69,10 +69,21 @@ class Recipe {
     this.yields_size = obj.yields_size;
     this.image = obj.image;
     this.private = obj.private;
+    this.category_id = obj.categories[0]["id"];
     this.category_name = obj.categories[0]["name"];
     this.image = obj.image;
     this.created_at = obj.created_at;
-    this.recipe_ingredients = obj.recipe_ingredients;
+    this.user = obj.user;
+
+    // merge three array of objects (recipe_ingredients, ingredients and measurements)
+    this.recipe_ingredients = obj.recipe_ingredients.map((recipe_ingredient)=> {
+      var haveEqualIngredientId = (ingredient) => ingredient.id === recipe_ingredient.ingredient_id
+      var haveEqualMeasurementId = (measurement) => measurement.id === recipe_ingredient.measurement_id
+      var ingredientWithEqualId = obj.ingredients.find(haveEqualIngredientId)
+      var measurementWithEqualId = obj.measurements.find(haveEqualMeasurementId)
+
+      return Object.assign({}, recipe_ingredient, ingredientWithEqualId, measurementWithEqualId)
+    });
     this.instructions = obj.instructions;
     this.reviews = obj.reviews;
   };
@@ -92,28 +103,28 @@ Recipe.prototype.recipeHtml = function () {
     return `<li> ${instruction.description} </li>`;
   });
 
-  return (`
-    <li> ${this.id} | ${this.name} | ${this.category_name} | </li>
-    <li>${this.id} |
-    ${this.name} |
-    ${this.description} | </li>
-    <li>${this.prep_time} |
-    ${this.cook_time} | </li>
-    <li>${this.yields} | 
-    ${this.yields_size} |</li>
-    <li>${this.image} | </li>
-    <li>${this.private} |
-    ${this.category_name} | 
-    ${this.created_at} |</li>
-    ${ingredients} | 
-    ${instructions} |  
-    ${reviews} 
-  `);
+  // return (`
+  //   <li> ${this.id} | ${this.name} | ${this.category_name} | </li>
+  //   <li>${this.id} |
+  //   ${this.name} |
+  //   ${this.description} | </li>
+  //   <li>${this.prep_time} |
+  //   ${this.cook_time} | </li>
+  //   <li>${this.yields} | 
+  //   ${this.yields_size} |</li>
+  //   <li>${this.image} | </li>
+  //   <li>${this.private} |
+  //   ${this.category_name} | 
+  //   ${this.created_at} |</li>
+  //   ${ingredients} | 
+  //   ${instructions} |  
+  //   ${reviews} 
+  // `);
 
   // Invoke handlebar templates for recipes_show
-  // recipesShowHtml = HandlebarsTemplates['recipes/show']({
-  //   recipe: this
-  // });
+  recipesShowHtml = HandlebarsTemplates['recipes/show']({
+    recipe: this
+  });
 
   return recipesShowHtml;
 }
