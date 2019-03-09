@@ -32,27 +32,20 @@ class Recipe {
   };
 }
 
-Recipe.prototype.recipeHtml = function () {
+Recipe.prototype.recipeHtml = function (current_user) {
   // debugger;
-  var reviews = this.reviews.map(review => {
-    return `<li> ${review.rating} ^* ${review.comment} ^* ${review.user_id} </li>`;
-  });
 
-  var ingredients = this.recipe_ingredients.map(ingredient => {
-    return `<li> ${ingredient.description} * ${ingredient.quantity} </li>`;
-  });
-
-  var instructions = this.instructions.map(instruction => {
-    return `<li> ${instruction.description} </li>`;
-  });
+  console.log('XXuser: ', current_user);
 
   // Invoke handlebar templates for recipes_show
   recipesShowHtml = HandlebarsTemplates['recipes/show']({
-    recipe: this
+    recipe: this, current_user: current_user
   });
 
   return recipesShowHtml;
 }
+
+//==================================//
 
 function listenForClickRecipes() {
   console.log('listForClickRecipes..');
@@ -60,7 +53,7 @@ function listenForClickRecipes() {
   $("a.all_recipes, a.my_recipes").on("click", function (event) {
     event.preventDefault();
     // debugger;
-    // Fire ajax
+    // Fire ajax to get Index of Recipes
     $.ajax({
       method: "GET",
       url: this.href,
@@ -87,7 +80,7 @@ function listenForClickShowRecipe() {
     event.preventDefault();
     var thisUrl = this.href || this.parentElement.href
     // debugger;
-    // Fire ajax
+    // Fire ajax to get Show Recipe data
     $.ajax({
       method: "GET",
       url: thisUrl,
@@ -95,8 +88,15 @@ function listenForClickShowRecipe() {
     }).done(function (response) {
       console.log('ShowRecipe response: ', response);
       let recipe = new Recipe(response)
-      // Load the response into the DOM (add it to the current page)
-      $("#ajax-container").html(recipe.recipeHtml())
+      // Fire ajax to get current_user
+      $.ajax({
+        method: "GET",
+        url: '/current_user',
+      }).done(function (current_user) {
+        console.log('Current user: ', current_user);
+        // Load the response into the DOM (add it to the current page)
+        $("#ajax-container").html(recipe.recipeHtml(current_user))
+      });
     });
   });
 }

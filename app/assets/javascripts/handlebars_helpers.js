@@ -1,3 +1,14 @@
+// handlebars_helpers.js
+
+Handlebars.registerHelper('addReviewButton', function (recipe, currUser) {
+  var html = "";
+  return html;
+});
+
+Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
+  return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+});
+
 Handlebars.registerHelper("counter", function (index) {
   return index + 1;
 });

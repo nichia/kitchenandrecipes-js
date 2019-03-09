@@ -1,7 +1,7 @@
 // users.js
 
-function loadRecipeActions() {
-  console.log('loadRecipeActions...');
+function getCurrentUser() {
+  console.log('getCurrentUser...');
   // debugger;
   // Fire ajax
   $.ajax({
@@ -9,5 +9,6 @@ function loadRecipeActions() {
     url: '/current_user',
   }).done(function (current_user) {
     console.log('Current user: ', current_user);
+    return current_user
   });
 }

@@ -1,0 +1,118 @@
+{{!-- /recipes/show --}}
+
+{{debug}}
+<div class="container">
+  <div class="text-center">
+    <h1>{{recipe.name}}</h1>
+    <img class="card-img-top" src="{{recipe.image}}">
+
+    <p class="card-text"><small class="text-muted">by
+    <a href="/api/users/{{recipe.user_id}}/recipes", class="my_recipes">{{recipe.user.name}}</a>
+    | {{recipe.created_at}}
+    | {{recipe.reviews.length}} Reviews
+    </br>category <a href="/categories/{{recipe.category_id}}">{{recipe.category_name}}</a>
+    </small></p>
+    <hr>
+    <p>{{recipe.description}}</p>
+  </div>
+
+  <p><strong>Yields:</strong> {{recipe.yields}} {{recipe.yields_size}}</p>
+  <p><strong>Prep time:</strong> {{recipe.prep_time}}</p>
+  <p><strong>Cook time:</strong> {{recipe.cook_time}}</p>
+
+  {{!-- Ingredients --}}
+  <h5>Ingredients:</h5>
+  {{#each recipe.recipe_ingredients}}
+    <p><strong>{{quantity}}</strong> {{unit}}
+      {{name}} {{description}}</p>
+  {{/each}}
+  
+  {{!-- Instructions --}}
+  <h5>Instructions:</h5>
+  {{#each recipe.instructions}}
+    <p> {{counter @index}}. {{description}}</p>
+  {{/each}}
+
+  <hr>
+
+  <div class="text-center">
+    {{#ifEquals current_user recipe.user.name}}
+      <a class="btn btn-primary" href="/users/{{recipe.user.id}}/recipes/{{recipe.id}}/edit">Edit Recipe</a> 
+      <a data-confirm="Are you sure you want to delete this recipe?" class="btn btn-danger" rel="nofollow"data-method="delete" href="/users/{{recipe.user.id}}/recipes/{{recipe.id}}">Delete Recipe</a>
+    {{else}}
+      {{#addReviewButton recipe current_user}} {{/addReviewButton}}
+      <a data-confirm="Are you sure you want to clone this recipe?" class="btn btn-primary" rel="nofollow" data-method="post" href="/recipes/{{recipe.id}}/copy">Clone Recipe</a>
+    {{/ifEquals}}
+  </div>
+</div> {{!-- Container --}}
+
+
+{{!-------------  REVIEWS   ---------------}}
+{{!--
+
+<div class="container-fluids">
+  <p class="text-center card-text"><small class="text-muted">4 Reviews | 2.75 / 4 ratings</small></p>
+  <!-- Card columns -->
+  <div class="card-columns">
+    <!-- /reviews/_review -->
+
+    <!-- Card -->
+    <div class="card border-light mb-3" style="max-width: 18rem;">
+      <div class="card-header"><a href="/users/1"><img class="rounded-circle" style="max-height: 35px; max-width: 35px;"
+            src="http://localhost:3000/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--c29658f27c76d71fb89f61c64208cc6496a3e9af/4.jpg"></a><strong>
+          <a href="/users/1">Lorem</a></strong>
+      </div><!-- Card header -->
+      <div class="card-body">
+        <p class="card-text"><small class="text-muted">Feb 21, 2019</small></p>
+        <p class="card-text">Rating: 1 / 5</p>
+        <p class="card-text">Odit sapiente quibusdam. Aliquid sit minus. Illo voluptas enim.</p>
+      </div> <!-- Card body -->
+    </div> <!-- Card -->
+    <!-- /reviews/_review -->
+
+    <!-- Card -->
+    <div class="card border-light mb-3" style="max-width: 18rem;">
+      <div class="card-header"><a href="/users/4"><img class="rounded-circle" style="max-height: 35px; max-width: 35px;"
+            src="http://localhost:3000/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBDUT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--384bb38986a9cf48a85a657721da0f40189397d6/1.jpg"></a><strong>
+          <a href="/users/4">Agustina Heaney</a></strong>
+      </div><!-- Card header -->
+      <div class="card-body">
+        <p class="card-text"><small class="text-muted">Feb 21, 2019</small></p>
+        <p class="card-text">Rating: 4 / 5</p>
+        <p class="card-text">Culpa qui cupiditate. Consequatur atque ut. Alias nemo inventore.</p>
+      </div> <!-- Card body -->
+    </div> <!-- Card -->
+    <!-- /reviews/_review -->
+
+    <!-- Card -->
+    <div class="card border-light mb-3" style="max-width: 18rem;">
+      <div class="card-header"><a href="/users/5"><img class="rounded-circle" style="max-height: 35px; max-width: 35px;"
+            src="http://localhost:3000/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBDZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--a52066b22dddbb8d8b2ff56823616b76c539562e/5.jpg"></a><strong>
+          <a href="/users/5">Taisha Yundt</a></strong>
+      </div><!-- Card header -->
+      <div class="card-body">
+        <p class="card-text"><small class="text-muted">Feb 21, 2019</small></p>
+        <p class="card-text">Rating: 3 / 5</p>
+        <p class="card-text">Nostrum ut omnis. Id quod facere. Tempora quae est.</p>
+      </div> <!-- Card body -->
+    </div> <!-- Card -->
+    <!-- /reviews/_review -->
+
+    <!-- Card -->
+    <div class="card border-light mb-3" style="max-width: 18rem;">
+      <div class="card-header"><a href="/users/7"><img class="rounded-circle" style="max-height: 35px; max-width: 35px;"
+            src="http://localhost:3000/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBEQT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--518069d73c00f91b2026f2da9fa7df2b2f04e972/avatar_image5.jpg"></a><strong>
+          <a href="/users/7">Ladonna Ratke</a></strong>
+      </div><!-- Card header -->
+      <div class="card-body">
+        <p class="card-text"><small class="text-muted">Feb 21, 2019</small></p>
+        <p class="card-text">Rating: 3 / 5</p>
+        <p class="card-text">Impedit sit quia. Sunt repudiandae quia. Voluptatem architecto quia.</p>
+      </div> <!-- Card body -->
+    </div> <!-- Card -->
+
+  </div> <!-- Card columns -->
+
+</div>
+
+--}}
