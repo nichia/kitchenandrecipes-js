@@ -76,6 +76,7 @@ function listenForClickRecipes() {
 function listenForClickShowRecipe() {
   console.log('listForClickShowRecipe..');
   // Listen for click on link with class my_recipes
+  let current_user = false
   $(".show_recipe").on("click", function (event) {
     event.preventDefault();
     var thisUrl = this.href || this.parentElement.href
@@ -92,8 +93,10 @@ function listenForClickShowRecipe() {
       $.ajax({
         method: "GET",
         url: '/current_user',
-      }).done(function (current_user) {
-        console.log('Current user: ', current_user);
+      }).done(function (response) {
+        console.log('Current user: ', response);
+        current_user = new User(response)
+      }).always(function() {
         // Load the response into the DOM (add it to the current page)
         $("#ajax-container").html(recipe.recipeHtml(current_user))
       });

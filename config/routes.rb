@@ -31,5 +31,5 @@ Rails.application.routes.draw do
   get '/api/recipes/:id', to: 'api#show', as: 'api_recipe'
 
   # helper routes
-  get '/current_user', to: 'users#current_username'
+  get '/current_user', to: 'users#current_user_signed_in'
 end
