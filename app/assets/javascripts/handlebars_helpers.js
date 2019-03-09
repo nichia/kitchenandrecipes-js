@@ -1,5 +1,11 @@
 // handlebars_helpers.js
 
+Handlebars.registerHelper('avgRating', function (recipe) {
+  const reducer = (accumulator, currentvalue) => accumulator + currentvalue.rating;
+
+  return recipe.reviews.reduce(reducer, 0) / recipe.reviews.length;
+});
+
 Handlebars.registerHelper('addReviewButton', function (recipe, current_user) {
   if (recipe.reviews.find(e => e.user_id === current_user.id)) {
     debugger;
