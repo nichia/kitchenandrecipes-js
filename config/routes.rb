@@ -25,7 +25,11 @@ Rails.application.routes.draw do
 
   get 'search', to: 'recipes#search', as: 'recipe_search'
 
+  # api json datatype
   get '/api/recipes', to: 'api#index', as: 'api_recipes'
   get '/api/users/:id/recipes', to: 'api#index', as: 'api_user_recipes'
   get '/api/recipes/:id', to: 'api#show', as: 'api_recipe'
+
+  # helper routes
+  get '/current_user', to: 'users#current_username'
 end
