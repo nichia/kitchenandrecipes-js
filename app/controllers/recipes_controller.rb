@@ -16,7 +16,8 @@ class RecipesController < ApplicationController
     end
     respond_to do |format|
       format.html { render :index }
-      format.json { render json: @recipes }
+      # format.json { render json: @recipes }
+      format.json { render json: @recipes, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions']}
     end
   end
 
@@ -38,7 +39,8 @@ class RecipesController < ApplicationController
     @reviews = @recipe.reviews.page(params[:page])
     respond_to do |format|
       format.html { render :show }
-      format.json { render json: @recipe }
+      # format.json { render json: @recipe }
+      format.json { render json: @recipe, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions']}
     end
   end
 

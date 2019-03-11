@@ -8,10 +8,10 @@ Handlebars.registerHelper('avgRating', function (recipe) {
 
 Handlebars.registerHelper('addReviewButton', function (recipe, current_user) {
   if (recipe.reviews.find(e => e.user_id === current_user.id)) {
-    debugger;
+    // debugger;
     var html = ""
   } else {
-    debugger;
+    // debugger;
   var html = `<a class="btn btn-primary" href="/recipes/${recipe.id}/reviews/new">Add Review</a>`;
   }
   return html;

@@ -12,21 +12,21 @@ class Recipe {
     this.yields_size = obj.yields_size;
     this.image = obj.image;
     this.private = obj.private;
-    this.category_id = obj.categories[0]["id"];
-    this.category_name = obj.categories[0]["name"];
+    this.category_id = obj.recipe_categories[0]["category"]["id"];
+    this.category_name = obj.recipe_categories[0]["category"]["name"];
     this.image = obj.image;
     this.created_at = obj.created_at;
     this.user = obj.user;
+    this.recipe_ingredients = obj.recipe_ingredients;
+    // merge three array of objects (recipe_ingredients, ingredients and measurements) *** fixed with include option for serializing deeply nested associations ***
+    // this.recipe_ingredients = obj.recipe_ingredients.map((recipe_ingredient) => {
+    //   var haveEqualIngredientId = (ingredient) => ingredient.id === recipe_ingredient.ingredient_id
+    //   var haveEqualMeasurementId = (measurement) => measurement.id === recipe_ingredient.measurement_id
+    //   var ingredientWithEqualId = obj.ingredients.find(haveEqualIngredientId)
+    //   var measurementWithEqualId = obj.measurements.find(haveEqualMeasurementId)
 
-    // merge three array of objects (recipe_ingredients, ingredients and measurements)
-    this.recipe_ingredients = obj.recipe_ingredients.map((recipe_ingredient) => {
-      var haveEqualIngredientId = (ingredient) => ingredient.id === recipe_ingredient.ingredient_id
-      var haveEqualMeasurementId = (measurement) => measurement.id === recipe_ingredient.measurement_id
-      var ingredientWithEqualId = obj.ingredients.find(haveEqualIngredientId)
-      var measurementWithEqualId = obj.measurements.find(haveEqualMeasurementId)
-
-      return Object.assign({}, recipe_ingredient, ingredientWithEqualId, measurementWithEqualId)
-    });
+    //   return Object.assign({}, recipe_ingredient, ingredientWithEqualId, measurementWithEqualId)
+    // });
     this.instructions = obj.instructions;
     this.reviews = obj.reviews;
   };

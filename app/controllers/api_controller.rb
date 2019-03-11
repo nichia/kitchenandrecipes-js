@@ -10,7 +10,9 @@ class ApiController < ApplicationController
         render json: {errors: "This user #{params[:id]} does not exist"}, status: 404
       else
         recipes = user.recipes
-        render json: recipes, status: 200
+        # render json: recipes, status: 200
+        render json: recipes, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions']
+
       end
     else
       recipes = Recipe.public_and_current_user_recipes(current_user)
@@ -28,7 +30,8 @@ class ApiController < ApplicationController
     elsif recipe.private && recipe.user != current_user  
       render json: {errors: "You don't have permision to access this recipe"}, status: 403
     else
-      render json: recipes, status: 200
+      # render json: recipes, status: 200
+      render json: recipe, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions']
     end
   end
 end

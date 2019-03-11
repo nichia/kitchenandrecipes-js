@@ -23,8 +23,8 @@
   {{!-- Ingredients --}}
   <h5>Ingredients:</h5>
   {{#each recipe.recipe_ingredients}}
-    <p><strong>{{quantity}}</strong> {{unit}}
-      {{name}} {{description}}</p>
+    <p><strong>{{quantity}}</strong> {{measurement.unit}}
+      {{ingredient.name}} {{description}}</p>
   {{/each}}
   
   {{!-- Instructions --}}
@@ -44,10 +44,29 @@
       {{#addReviewButton recipe current_user}} {{/addReviewButton}}
       <a data-confirm="Are you sure you want to clone this recipe?" class="btn btn-primary" rel="nofollow" data-method="post" href="/recipes/{{recipe.id}}/copy">Clone Recipe</a>
     {{/ifEquals}}
-
-
-      <p class="text-center card-text"><small class="text-muted">{{recipe.reviews.length}} Reviews | {{#avgRating recipe}} {{/avgRating}} / {{recipe.reviews.length}} ratings</small></p>
   </div>
 </div> {{!-- Container --}}
 
 {{!-------------  Reviews -------------}}
+<div class="container-fluids">
+  <p class="text-center card-text"><small class="text-muted">{{recipe.reviews.length}} Reviews | {{#avgRating recipe}}
+      {{/avgRating}} / {{recipe.reviews.length}} ratings</small></p>
+  <!-- Card columns -->
+  <div class="card-columns">
+    {{#each recipe.reviews}}
+      {{!-- Card --}}
+      <div class="card border-light mb-3" style="max-width: 18rem;">
+        <div class="card-header"><a href="/users/{{user_id}}"><img class="rounded-circle"
+              style="max-height: 35px; max-width: 35px;" src="{{reviewer.avatar}}"></a><strong>
+            <a href="/users/{{user_id}}">{{reviewer.name}}</a></strong>
+        </div><!-- Card header -->
+        <div class="card-body">
+          <p class="card-text"><small class="text-muted">Feb 21, 2019</small></p>
+          <p class="card-text">Rating: {{rating}} / 5</p>
+          <p class="card-text">{{comment}}.</p>
+        </div> <!-- Card body -->
+      </div> <!-- Card -->
+    {{/each}}
+  </div> <!-- Card -->
+</div> <!-- Card columns -->
+</div>

@@ -12,7 +12,8 @@ class UsersController < ApplicationController
     if current_user
       render json: current_user, status: 200
     else
-      render plain: "", status: 204
+      # render plain: "", status: 204
+      render json: { error: 'Current User not found, no user signed in.' }, status: 404
     end
   end
 

@@ -15,4 +15,15 @@ class RecipeSerializer < ActiveModel::Serializer
   def image
     rails_blob_path(object.image, only_path: true) if object.image.attached?
   end
+
+  # def reviews
+  #   customized_reviews = []
+  #   object.reviews.each do |review|
+  #     custom_review = review.attributes
+  #     # belongs_to - get only :id, :name, :avatar
+  #     custom_review[:user] = review.reviewer.slice(:id, :name, :avatar)
+  #     customized_reviews.push(custom_review)
+  #   end
+  #   return customized_reviews
+  # end
 end
