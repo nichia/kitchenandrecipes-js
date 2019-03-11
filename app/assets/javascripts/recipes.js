@@ -16,6 +16,7 @@ class Recipe {
     this.category_name = obj.recipe_categories[0]["category"]["name"];
     this.image = obj.image;
     this.created_at = obj.created_at;
+    this.user_id = obj.user_id;
     this.user = obj.user;
     this.recipe_ingredients = obj.recipe_ingredients;
     // merge three array of objects (recipe_ingredients, ingredients and measurements) *** fixed with include option for serializing deeply nested associations ***
@@ -35,7 +36,7 @@ class Recipe {
 Recipe.prototype.recipeHtml = function (current_user) {
   // debugger;
 
-  console.log('XXuser: ', current_user);
+  console.log('current_user class: ', current_user);
 
   // Invoke handlebar templates for recipes_show
   recipesShowHtml = HandlebarsTemplates['recipes/show']({
@@ -50,7 +51,7 @@ Recipe.prototype.recipeHtml = function (current_user) {
 function listenForClickRecipes() {
   console.log('listForClickRecipes..');
   // Listen for click on link element with class all_recipes and my_recipes
-  $("a.all_recipes, a.my_recipes").on("click", function (event) {
+  $(".all_recipes, .my_recipes").on("click", function (event) {
     event.preventDefault();
     // debugger;
     // Fire ajax to get Index of Recipes
@@ -94,11 +95,12 @@ function listenForClickShowRecipe() {
         method: "GET",
         url: '/current_user',
       }).done(function (response) {
-        console.log('Current user: ', response);
+        console.log('CurrentUser response: ', response);
         current_user = new User(response)
       }).always(function() {
         // Load the response into the DOM (add it to the current page)
         $("#ajax-container").html(recipe.recipeHtml(current_user))
+        listenForClickRecipes();
       });
     });
   });
