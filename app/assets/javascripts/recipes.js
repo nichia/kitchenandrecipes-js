@@ -63,7 +63,7 @@ function listenForClickRecipes() {
       console.log('AllRecipes response: ', response);
       // Invoke handlebar templates for recipes_index
       recipesIndexHtml = HandlebarsTemplates['recipes/index']({
-        recipes: response
+        recipes: response, isAllIndex: ($(this).parent().prevObject[0].url.endsWith("/api/recipes"))
       });
       // Load the response into the DOM (add it to the current page)
       $("#ajax-container").html(recipesIndexHtml);

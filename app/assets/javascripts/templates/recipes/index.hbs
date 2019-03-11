@@ -1,16 +1,24 @@
 {{!-- /recipes/index --}}
 
-{{> partials/_jumbotron title = "Kitchen&Recipes"}}
+{{!-- Display index title as jumbotron or user image --}}
+{{#if isAllIndex}}
+  {{> partials/_jumbotron title = "Kitchen&Recipes"}}
+{{else}}
+  <div class="text-center">
+    <h1 class="display-4">{{recipes.[0].user.name}}</h1>
+    <img height="156" width="182" src="{{recipes.[0].user.avatar}}">
+  </div>
+{{/if}}
 
 <div class="container-fluids">
   <p class="text-center card-text"><small class="text-muted">{{recipes.length}} Recipes</small></p>
   <div class="card-columns">
     {{#each recipes}}
       <div class="card">
-        <a href="/recipes/{{id}}"><img class="card-img-top show_recipe" src="{{image}}"></a>
+        <a href="/api/recipes/{{id}}"><img class="card-img-top show_recipe" src="{{image}}"></a>
         <div class="card-body">
           <p class="card-text"><small class="text-muted">by <a class="my_recipes" href="/api/users/{{user_id}}/recipes" >{{user.name}}</a></small></p>
-          <h4 class="card-title"><a href="/recipes/{{id}}", class="show_recipe">{{name}}</a></h4>
+          <h4 class="card-title"><a href="/api/recipes/{{id}}", class="show_recipe">{{name}}</a></h4>
           <p class="card-text">{{description}}</p>
         </div>
       </div>

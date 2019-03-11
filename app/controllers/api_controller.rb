@@ -23,7 +23,7 @@ class ApiController < ApplicationController
 
   # GET /api/recipes/:id
   def show
-    binding.pry
+    # binding.pry
     recipe = Recipe.find_by(id: params[:id])
     if recipe == nil
       render json: {errors: "This recipe #{params[:id]} does not exist"}, status: 404
