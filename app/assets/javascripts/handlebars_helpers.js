@@ -12,7 +12,7 @@ Handlebars.registerHelper('addReviewButton', function (recipe, current_user) {
     var html = ""
   } else {
     // debugger;
-  var html = `<a class="btn btn-primary" href="/recipes/${recipe.id}/reviews/new">Add Review</a>`;
+  var html = `<a id="add_review" class="btn btn-primary" href="/recipes/${recipe.id}/reviews/new">Add Review</a>`;
   }
   return html;
 });

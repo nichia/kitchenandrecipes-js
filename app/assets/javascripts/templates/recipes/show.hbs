@@ -7,7 +7,7 @@
     <h1>{{recipe.name}}</h1>
     <img height="156" width="182" src="{{recipe.image}}">
     <p class="card-text"><small class="text-muted">by
-    <a href="/api/users/{{recipe.user_id}}/recipes", class="my_recipes">{{recipe.user.name}}</a>
+    <a href="/api/users/{{recipe.user_id}}/recipes", class="index_recipes">{{recipe.user.name}}</a>
     | {{recipe.created_at}}
     | {{recipe.reviews.length}} Reviews
     </br>category <a href="/categories/{{recipe.category_id}}">{{recipe.category_name}}</a>
@@ -58,9 +58,9 @@
     {{#each recipe.reviews}}
       {{!-- Card --}}
       <div class="card border-light mb-3" style="max-width: 18rem;">
-        <div class="card-header"><a href="/api/users/{{user_id}}/recipes", class="my_recipes"><img class="rounded-circle"
+        <div class="card-header"><a href="/api/users/{{user_id}}/recipes", class="index_recipes"><img class="rounded-circle"
               style="max-height: 35px; max-width: 35px;" src="{{reviewer.avatar}}"></a><strong>
-            <a href="/api/users/{{user_id}}/recipes", class="my_recipes">{{reviewer.name}}</a></strong>
+            <a href="/api/users/{{user_id}}/recipes", class="index_recipes">{{reviewer.name}}</a></strong>
         </div><!-- Card header -->
         <div class="card-body">
           <p class="card-text"><small class="text-muted">Feb 21, 2019</small></p>

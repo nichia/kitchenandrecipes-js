@@ -5,6 +5,11 @@ class ReviewsController < ApplicationController
   # GET /recipes/:recipe_id/reviews/new
   def new
     @review = Review.new
+    if params[:layout] && params[:layout] == "false"
+      render :new, layout: false
+    else
+      render :new
+    end
   end
   
   # GET /recipes/:recipe_id/reviews/:id/edit
@@ -18,7 +23,8 @@ class ReviewsController < ApplicationController
     @review = current_user.reviews.new(review_params)
     @review.recipe = @recipe
     if @review.save
-      redirect_to recipe_path(@review.recipe)
+      # redirect_to recipe_path(@review.recipe)
+      render json: @recipe, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 201
     else
       flash.now[:danger] = "Error adding review. Please try again"
       render :new

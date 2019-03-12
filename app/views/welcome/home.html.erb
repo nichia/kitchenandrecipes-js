@@ -6,10 +6,10 @@
   <!-- Render recipes  -->
   <%#= render partial: 'recipes/recipe', locals: { recipes: @recipes } %>
 
-  <%= link_to "All Recipes", api_recipes_path, class: "all_recipes" %>
+  <%= link_to "All Recipes", api_recipes_path, class: "index_recipes" %>
 
   <% if current_user %>
     |
-    <%= link_to "My Recipes", api_user_recipes_path(current_user), class: "my_recipes" %> 
+    <%= link_to "My Recipes", api_user_recipes_path(current_user), class: "index_recipes" %> 
   <% end %>
 </div>

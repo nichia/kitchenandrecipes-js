@@ -48,10 +48,10 @@ Recipe.prototype.recipeHtml = function (current_user) {
 
 //==================================//
 
-function listenForClickRecipes() {
-  console.log('listForClickRecipes..');
-  // Listen for click on link element with class all_recipes and my_recipes
-  $(".all_recipes, .my_recipes").on("click", function (event) {
+function listenForClickIndexRecipes() {
+  console.log('listForClickIndexRecipes..');
+  // Listen for click on link element with class index_recipes
+  $(".index_recipes").on("click", function (event) {
     event.preventDefault();
     // debugger;
     // Fire ajax to get Index of Recipes
@@ -69,14 +69,14 @@ function listenForClickRecipes() {
       $("#ajax-container").html(recipesIndexHtml);
 
       listenForClickShowRecipe();
-      listenForClickRecipes();
+      listenForClickIndexRecipes();
     });
   });
 }
     
 function listenForClickShowRecipe() {
   console.log('listForClickShowRecipe..');
-  // Listen for click on link with class my_recipes
+  // Listen for click on link with class show_recipe
   let current_user = false
   $(".show_recipe").on("click", function (event) {
     event.preventDefault();
@@ -100,8 +100,72 @@ function listenForClickShowRecipe() {
       }).always(function() {
         // Load the response into the DOM (add it to the current page)
         $("#ajax-container").html(recipe.recipeHtml(current_user))
-        listenForClickRecipes();
+        listenForClickIndexRecipes();
+        listenForClickAddReview();
       });
+    });
+  });
+}
+
+function listenForClickAddReview() {
+  console.log('listForClickAddReview..');
+  // Listen for click on link element with id add_review
+  $("#add_review").on("click", function (event) {
+    event.preventDefault();
+    // debugger;
+    // Fire ajax to get new review form
+    // let url = this.attributes.÷href.textContent + "?layout=false";
+    let url = this.href + "?layout=false";
+    $.ajax({
+      method: "GET",
+      url: url
+    }).always(function (response) {
+      console.log('AddReview response: ', response);
+      // Load the response into the DOM (add it to the current page)
+      $("#ajax-container").html(response);
+      listenForClickSubmitNewReview();
+    });
+  });
+}
+
+function listenForClickSubmitNewReview() {
+  console.log('listForClickSubmitReview..');
+  // debugger;
+  // Listen for click on submit wtih new_review class
+  $("#new_review").on("submit", function (event) {
+    event.preventDefault();
+    let data = $(this).serialize();
+    let url = this.action;
+    // debugger;
+    // Fire ajax to post new review form
+    $.ajax({
+      method: "POST",
+      url: url,
+      data: data,
+      dataType: 'json',
+      success: response => {
+        let recipe = new Recipe(response)
+        // debugger;
+        // Fire ajax to get current_user
+        $.ajax({
+          method: "GET",
+          url: '/current_user',
+        }).done(function (response) {
+          console.log('CurrentUser response: ', response);
+          current_user = new User(response)
+        }).always(function () {
+          // Load the response into the DOM (add it to the current page)
+          $("#ajax-container").html(recipe.recipeHtml(current_user))
+          listenForClickIndexRecipes();
+          listentForClickAddReview();
+        });
+      },
+      error: response => {
+        const customMessage = `<h3>Error adding review.</h3>`
+        // debugger;
+        // Load the response into the DOM (add it to the current page)
+        $("#ajax-container").html(customMessage);
+      }
     });
   });
 }

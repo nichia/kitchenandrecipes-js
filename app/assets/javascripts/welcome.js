@@ -2,7 +2,7 @@
 
 $(document).on('turbolinks:load', function () {
   console.log('JS Turbolinks loaded..')
-  listenForClickRecipes();
+  listenForClickIndexRecipes();
 })
 
 // $(document).ready(function() {
