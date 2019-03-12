@@ -103,6 +103,7 @@ function listenForClickShowRecipe() {
         // Load the response into the DOM (add it to the current page)
         $("#ajax-container").html(recipe.recipeHtml(current_user))
         listenForClickIndexRecipes();
+        listenForClickDeleteRecipe();
         listenForClickAddReview();
       });
     });
@@ -113,10 +114,9 @@ function listenForClickShowRecipe() {
 
 function listenForClickAddRecipe() {
   console.log('listForClickAddRecipe..');
-  // Listen for click on link element with class add_recipes
+  // Listen for click on link element with class add_recipe
   $(".add_recipe").on("click", function (event) {
     event.preventDefault();
-    debugger;
     // Fire ajax to get new recipe form
     // let url = this.attributes.÷href.textContent + "?layout=false";
     let url = this.href + "?layout=false";
@@ -167,6 +167,37 @@ function listenForClickSubmitNewRecipe() {
       },
       error: response => {
         const customMessage = `<h3>Error adding recipe.</h3>`
+        // Load the response into the DOM (add it to the current page)
+        $("#ajax-container").html(customMessage);
+      }
+    });
+  });
+}
+
+//===== listenForClickDeleteRecipe =====//
+
+function listenForClickDeleteRecipe() {
+  console.log('listForClickDeleteRecipe..');
+  // Listen for click on link element with id delete_recipe
+  $("#delete_recipe").on("click", function (event) {
+    event.preventDefault();
+    debugger;
+    // Fire ajax to delete recipe
+    let url = this.href;
+    $.ajax({
+      method: "DELETE",
+      url: url,
+      success: response => {
+        console.log('DeleteRecipe response: ', response);
+        debugger;
+        // Load the response into the DOM (add it to the current page)
+        $("#ajax-container").html(response);
+        listenForClickShowRecipe();
+        listenForClickIndexRecipes();      
+      },
+      error: response => {
+        debugger;
+        const customMessage = `<h3>Error deleting recipe.</h3>`
         // Load the response into the DOM (add it to the current page)
         $("#ajax-container").html(customMessage);
       }

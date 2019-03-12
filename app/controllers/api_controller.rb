@@ -11,12 +11,12 @@ class ApiController < ApplicationController
       else
         recipes = user.recipes
         # render json: recipes, status: 200
-        render json: recipes, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions']
-
+        render json: recipes, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 200
       end
     else
       recipes = Recipe.public_and_current_user_recipes(current_user)
-      render json: recipes, status: 200
+      # render json: recipes, status: 200
+      render json: recipes, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 200
     end
   end
 
@@ -31,7 +31,7 @@ class ApiController < ApplicationController
       render json: {errors: "You don't have permision to access this recipe"}, status: 403
     else
       # render json: recipes, status: 200
-      render json: recipe, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions']
+      render json: recipe, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 200
     end
   end
 end
