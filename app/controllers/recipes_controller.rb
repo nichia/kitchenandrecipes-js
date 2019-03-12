@@ -26,6 +26,11 @@ class RecipesController < ApplicationController
   def new
     @recipe = Recipe.new
     set_recipe_nested_forms
+    if params[:layout] && params[:layout] == "false"
+      render :new, layout: false
+    else
+      render :new
+    end
   end
 
   # GET /recipes/:id
@@ -72,25 +77,26 @@ class RecipesController < ApplicationController
   # POST /recipes
   # POST /users/:user_id/recipes
   def create
-    #raise params.inspect
+    # raise params.inspect
+    # binding.pry
     @recipe = current_user.recipes.new(recipe_params)
-
-    if @recipe.valid?
-      if @recipe.save
+    if @recipe.save
+      if params[:layout] && params[:layout] == "false"
+        render json: @recipe, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 201
+      else
         flash[:info] = "Recipe successfully created"
-        redirect_to recipe_path(@recipe) and return
+        redirect_to recipe_path(@recipe)
       end
+    else
+      # if errors with save action,
+      # list error messages and go back to new view
+      flash.now[:danger] = ("Please fix the following errors:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
+      # re-populate the category field (removed: to be added for admin only)
+      # category = params[:recipe][:categories_attributes].values[0]
+      # @recipe.categories.build(category_type: category[:category_type], name: category[:name])
+
+      render :new
     end
-
-    # if recipe is not valid or errors with save action,
-    # list error messages and go back to new view
-    flash.now[:danger] = ("Please fix the following errors:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
-
-    # re-populate the category field (removed: to be added for admin only)
-    # category = params[:recipe][:categories_attributes].values[0]
-    # @recipe.categories.build(category_type: category[:category_type], name: category[:name])
-
-    render :new
   end
 
   # PATCH /recipes/:id

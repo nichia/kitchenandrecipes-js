@@ -11,5 +11,7 @@
   <% if current_user %>
     |
     <%= link_to "My Recipes", api_user_recipes_path(current_user), class: "index_recipes" %> 
+    |
+    <%= link_to "Add Recipe", new_user_recipe_path(current_user), class: "add_recipe" %> 
   <% end %>
 </div>

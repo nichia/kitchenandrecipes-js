@@ -23,8 +23,11 @@ class ReviewsController < ApplicationController
     @review = current_user.reviews.new(review_params)
     @review.recipe = @recipe
     if @review.save
-      # redirect_to recipe_path(@review.recipe)
-      render json: @recipe, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 201
+      if params[:layout] && params[:layout] == "false"
+        render json: @recipe, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 201
+      else
+        redirect_to recipe_path(@review.recipe)
+      end
     else
       flash.now[:danger] = "Error adding review. Please try again"
       render :new

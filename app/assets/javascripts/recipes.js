@@ -46,7 +46,7 @@ Recipe.prototype.recipeHtml = function (current_user) {
   return recipesShowHtml;
 }
 
-//==================================//
+//===== listenForClickIndexRecipes =====//
 
 function listenForClickIndexRecipes() {
   console.log('listForClickIndexRecipes..');
@@ -74,6 +74,8 @@ function listenForClickIndexRecipes() {
   });
 }
     
+//===== listenForClickShowRecipe =====//
+
 function listenForClickShowRecipe() {
   console.log('listForClickShowRecipe..');
   // Listen for click on link with class show_recipe
@@ -107,9 +109,76 @@ function listenForClickShowRecipe() {
   });
 }
 
+//===== listenForClickAddRecipe =====//
+
+function listenForClickAddRecipe() {
+  console.log('listForClickAddRecipe..');
+  // Listen for click on link element with class add_recipes
+  $(".add_recipe").on("click", function (event) {
+    event.preventDefault();
+    debugger;
+    // Fire ajax to get new recipe form
+    // let url = this.attributes.÷href.textContent + "?layout=false";
+    let url = this.href + "?layout=false";
+    $.ajax({
+      method: "GET",
+      url: url
+    }).always(function (response) {
+      console.log('AddRecipe response: ', response);
+      // Load the response into the DOM (add it to the current page)
+      $("#ajax-container").html(response);
+      listenForClickSubmitNewRecipe();
+    });
+  });
+}
+
+function listenForClickSubmitNewRecipe() {
+  console.log('listForClickSubmitRecipe..');
+  // debugger;
+  // Listen for click on submit wtih id new_recipe
+  $("#new_recipe").on("submit", function (event) {
+    event.preventDefault();
+    // let formData = $(this).serialize();   // submit data only, not files
+    let formData = new FormData($(this)[0]); // submit data & files in one form
+    let url = this.action + "?layout=false";
+    // Fire ajax to post new recipe form
+    $.ajax({
+      method: "POST",
+      url: url,
+      data: formData,
+      dataType: 'json',
+      processData: false,
+      contentType: false,
+      cache: false,
+      success: response => {
+        let recipe = new Recipe(response)
+        // Fire ajax to get current_user
+        $.ajax({
+          method: "GET",
+          url: '/current_user',
+        }).done(function (response) {
+          console.log('CurrentUser response: ', response);
+          current_user = new User(response)
+        }).always(function () {
+          // Load the response into the DOM (add it to the current page)
+          $("#ajax-container").html(recipe.recipeHtml(current_user))
+          listenForClickIndexRecipes();
+        });
+      },
+      error: response => {
+        const customMessage = `<h3>Error adding recipe.</h3>`
+        // Load the response into the DOM (add it to the current page)
+        $("#ajax-container").html(customMessage);
+      }
+    });
+  });
+}
+
+//===== listenForClickAddReview =====//
+
 function listenForClickAddReview() {
   console.log('listForClickAddReview..');
-  // Listen for click on link element with id add_review
+  // Listen for click on button with id add_review
   $("#add_review").on("click", function (event) {
     event.preventDefault();
     // debugger;
@@ -131,17 +200,17 @@ function listenForClickAddReview() {
 function listenForClickSubmitNewReview() {
   console.log('listForClickSubmitReview..');
   // debugger;
-  // Listen for click on submit wtih new_review class
+  // Listen for click on submit wtih id new_review
   $("#new_review").on("submit", function (event) {
     event.preventDefault();
-    let data = $(this).serialize();
-    let url = this.action;
+    let formData = $(this).serialize();
+    let url = this.action + "?layout=false";
     // debugger;
     // Fire ajax to post new review form
     $.ajax({
       method: "POST",
       url: url,
-      data: data,
+      data: formData,
       dataType: 'json',
       success: response => {
         let recipe = new Recipe(response)
@@ -157,7 +226,6 @@ function listenForClickSubmitNewReview() {
           // Load the response into the DOM (add it to the current page)
           $("#ajax-container").html(recipe.recipeHtml(current_user))
           listenForClickIndexRecipes();
-          listentForClickAddReview();
         });
       },
       error: response => {
