@@ -25,7 +25,6 @@ class RecipesController < ApplicationController
   def new
     @recipe = Recipe.new
     set_recipe_nested_forms
-    binding.pry
     render :new, layout: (params[:no_layout] ? false : true)
   end
 
@@ -45,7 +44,6 @@ class RecipesController < ApplicationController
     end
   end
 
-  # GET /recipes/:id/edit
   # GET /users/:user_id/recipes/:id/edit
   def edit
   end
@@ -67,10 +65,9 @@ class RecipesController < ApplicationController
   def create_copy
     #raise params.inspect
     copy = @recipe.recipe_cloner(current_user)
-    redirect_to recipe_path(copy)
+    redirect_to user_recipe_path(current_user, copy)
   end
 
-  # POST /recipes
   # POST /users/:user_id/recipes
   def create
     # raise params.inspect
@@ -81,7 +78,7 @@ class RecipesController < ApplicationController
         render json: @recipe, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 201
       else
         flash[:info] = "Recipe successfully created"
-        redirect_to recipe_path(@recipe)
+        redirect_to user_recipe_path(current_user, @recipe)
       end
     else
       # if errors with save action,
@@ -95,7 +92,6 @@ class RecipesController < ApplicationController
     end
   end
 
-  # PATCH /recipes/:id
   # PATCH /users/:user_id/recipes/:id
   def update
     #raise params.inspect
