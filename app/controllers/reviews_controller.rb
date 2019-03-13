@@ -5,11 +5,7 @@ class ReviewsController < ApplicationController
   # GET /recipes/:recipe_id/reviews/new
   def new
     @review = Review.new
-    if params[:layout] && params[:layout] == "false"
-      render :new, layout: false
-    else
-      render :new
-    end
+    render :new, layout: (params[:no_layout] ? false : true)
   end
   
   # GET /recipes/:recipe_id/reviews/:id/edit
@@ -23,7 +19,7 @@ class ReviewsController < ApplicationController
     @review = current_user.reviews.new(review_params)
     @review.recipe = @recipe
     if @review.save
-      if params[:layout] && params[:layout] == "false"
+      if params[:no_layout]
         render json: @recipe, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 201
       else
         redirect_to recipe_path(@review.recipe)

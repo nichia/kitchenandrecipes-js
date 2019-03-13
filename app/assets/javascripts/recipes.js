@@ -35,9 +35,7 @@ class Recipe {
 
 Recipe.prototype.recipeHtml = function (current_user) {
   // debugger;
-
   console.log('current_user class: ', current_user);
-
   // Invoke handlebar templates for recipes_show
   recipesShowHtml = HandlebarsTemplates['recipes/show']({
     recipe: this, current_user: current_user
@@ -55,6 +53,7 @@ function listenForClickIndexRecipes() {
     event.preventDefault();
     // debugger;
     // Fire ajax to get Index of Recipes
+    let current_user = false
     $.ajax({
       method: "GET",
       url: this.href,
@@ -79,12 +78,13 @@ function listenForClickIndexRecipes() {
 function listenForClickShowRecipe() {
   console.log('listForClickShowRecipe..');
   // Listen for click on link with class show_recipe
-  let current_user = false
   $(".show_recipe").on("click", function (event) {
     event.preventDefault();
-    var thisUrl = this.href || this.parentElement.href
     // debugger;
+    // let thisUrl = this.attributes.href.textContent || this.parentElement.attributes.href.textContent
+    let thisUrl = this.attributes.href.textContent
     // Fire ajax to get Show Recipe data
+    let current_user = false
     $.ajax({
       method: "GET",
       url: thisUrl,
@@ -96,10 +96,16 @@ function listenForClickShowRecipe() {
       $.ajax({
         method: "GET",
         url: '/current_user',
+        dataType: 'json'
       }).done(function (response) {
+        // alert( "success" );
         console.log('CurrentUser response: ', response);
         current_user = new User(response)
+      }).fail(function() {
+        // alert( "error" );
+        console.log('error');
       }).always(function() {
+        // alert( "complete");
         // Load the response into the DOM (add it to the current page)
         $("#ajax-container").html(recipe.recipeHtml(current_user))
         listenForClickIndexRecipes();
@@ -118,11 +124,12 @@ function listenForClickAddRecipe() {
   $(".add_recipe").on("click", function (event) {
     event.preventDefault();
     // Fire ajax to get new recipe form
-    // let url = this.attributes.÷href.textContent + "?layout=false";
-    let url = this.href + "?layout=false";
+    // let url = this.href + "?no_layout=false";
+    let thisUrl = this.attributes.href.textContent + "?no_layout=false";
+    debugger;
     $.ajax({
       method: "GET",
-      url: url
+      url: thisUrl
     }).always(function (response) {
       console.log('AddRecipe response: ', response);
       // Load the response into the DOM (add it to the current page)
@@ -140,11 +147,11 @@ function listenForClickSubmitNewRecipe() {
     event.preventDefault();
     // let formData = $(this).serialize();   // submit data only, not files
     let formData = new FormData($(this)[0]); // submit data & files in one form
-    let url = this.action + "?layout=false";
+    let thisUrl = this.action + "?no_layout=false";
     // Fire ajax to post new recipe form
     $.ajax({
       method: "POST",
-      url: url,
+      url: thisUrl,
       data: formData,
       dataType: 'json',
       processData: false,
@@ -153,6 +160,7 @@ function listenForClickSubmitNewRecipe() {
       success: response => {
         let recipe = new Recipe(response)
         // Fire ajax to get current_user
+        let current_user = false
         $.ajax({
           method: "GET",
           url: '/current_user',
@@ -181,26 +189,32 @@ function listenForClickDeleteRecipe() {
   // Listen for click on link element with id delete_recipe
   $("#delete_recipe").on("click", function (event) {
     event.preventDefault();
-    debugger;
+    // debugger;
     // Fire ajax to delete recipe
-    let url = this.href;
+    // note: this.href === event.target.href (includes baseURI of http://localhost:3000)
+    let thisUrl = "/api" + this.attributes.href.textContent;
     $.ajax({
       method: "DELETE",
-      url: url,
-      success: response => {
-        console.log('DeleteRecipe response: ', response);
-        debugger;
-        // Load the response into the DOM (add it to the current page)
-        $("#ajax-container").html(response);
-        listenForClickShowRecipe();
-        listenForClickIndexRecipes();      
-      },
+      url: thisUrl,
+      // success: response => {
+      //   console.log('DeleteRecipe response: ', response);
+      //   // Load the response into the DOM (add it to the current page)
+      //   $("#ajax-container").html(response);
+      //   listenForClickShowRecipe();
+      //   listenForClickIndexRecipes();      
+      // },
       error: response => {
-        debugger;
+        console.log('Error response: ', response);
         const customMessage = `<h3>Error deleting recipe.</h3>`
         // Load the response into the DOM (add it to the current page)
         $("#ajax-container").html(customMessage);
       }
+    }).always(function (response) {
+      console.log('AfterDelete response: ', response);
+      // Load the response into the DOM (add it to the current page)
+      $("#ajax-container").html(response);
+      listenForClickShowRecipe();
+      listenForClickIndexRecipes();      
     });
   });
 }
@@ -214,11 +228,11 @@ function listenForClickAddReview() {
     event.preventDefault();
     // debugger;
     // Fire ajax to get new review form
-    // let url = this.attributes.÷href.textContent + "?layout=false";
-    let url = this.href + "?layout=false";
+    // let thisUrl = this.href + "?no_layout=false";
+    let thisUrl = this.attributes.href.textContent + "?no_layout=false";
     $.ajax({
       method: "GET",
-      url: url
+      url: thisUrl
     }).always(function (response) {
       console.log('AddReview response: ', response);
       // Load the response into the DOM (add it to the current page)
@@ -235,12 +249,12 @@ function listenForClickSubmitNewReview() {
   $("#new_review").on("submit", function (event) {
     event.preventDefault();
     let formData = $(this).serialize();
-    let url = this.action + "?layout=false";
+    let thisUrl = this.action + "?no_layout=false";
     // debugger;
     // Fire ajax to post new review form
     $.ajax({
       method: "POST",
-      url: url,
+      url: thisUrl,
       data: formData,
       dataType: 'json',
       success: response => {

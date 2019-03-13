@@ -21,16 +21,12 @@ class RecipesController < ApplicationController
     end
   end
 
-  # GET /recipes/new
   # GET /users/:user_id/recipes/new
   def new
     @recipe = Recipe.new
     set_recipe_nested_forms
-    if params[:layout] && params[:layout] == "false"
-      render :new, layout: false
-    else
-      render :new
-    end
+    binding.pry
+    render :new, layout: (params[:no_layout] ? false : true)
   end
 
   # GET /recipes/:id
@@ -81,7 +77,7 @@ class RecipesController < ApplicationController
     # binding.pry
     @recipe = current_user.recipes.new(recipe_params)
     if @recipe.save
-      if params[:layout] && params[:layout] == "false"
+      if params[:no_layout]
         render json: @recipe, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 201
       else
         flash[:info] = "Recipe successfully created"
@@ -119,18 +115,11 @@ class RecipesController < ApplicationController
     end
   end
 
- # DELETE /recipes/:id
  # DELETE /users/:user_id/recipes/:id
   def destroy
     @recipe.destroy
-    # binding.pry
-    # if params[:layout] && params[:layout] == "false"
-      recipes = current_user.recipes
-      render json: recipes, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 200
-    # else
-    #   flash[:info] = "Recipe successfuly deleted!"
-    #   redirect_to user_recipes_path(current_user)
-    # end
+    flash[:info] = "Recipe successfuly deleted!"
+    redirect_to user_recipes_path(current_user)
   end
 
   private

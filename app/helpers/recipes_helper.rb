@@ -19,7 +19,7 @@ module RecipesHelper
   def link_to_recipe_actions(recipe)
     if current_user == recipe.user
       link_to("Edit Recipe", edit_user_recipe_path(current_user, recipe), class: 'btn btn-primary') + " " +
-      link_to("Delete Recipe", user_recipe_path(recipe), method: :delete, data: { confirm: "Are you sure you want to delete this recipe?" }, class: 'btn btn-danger')
+      link_to("Delete Recipe", user_recipe_path(current_user, recipe), method: :delete, data: { confirm: "Are you sure you want to delete this recipe?" }, class: 'btn btn-danger')
     elsif current_user
       if reviewer_found?
         link_to("Clone Recipe", recipe_copy_path(recipe), method: :post, data: { confirm: "Are you sure you want to clone this recipe?" }, class: 'btn btn-primary')
