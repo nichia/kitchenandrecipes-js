@@ -1,7 +1,7 @@
-{{!-- /recipes/index --}}
+{{!-- /recipes/index (recipes, pagination, isMainIndex) --}}
 
 {{!-- Display index title as jumbotron or user image --}}
-{{#if isAllIndex}}
+{{#if isMainIndex}}
   {{> partials/_jumbotron title = "Kitchen&Recipes"}}
 {{else}}
   <div class="text-center">
@@ -24,4 +24,13 @@
       </div>
     {{/each}}
   </div>
+  {{!-- Show more recipes button --}}
+  {{#if pagination.links}}
+    <ul class="pagination">
+    {{#each pagination.links}}
+      <li class="page-item">
+        <a id="{{@key}}" class="page-link" href="{{this}}">{{@key}}</a>
+      </li>
+    {{/each}}
+  {{/if}}
 </div>

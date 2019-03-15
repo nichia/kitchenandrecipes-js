@@ -1,5 +1,4 @@
 class ApiController < ApplicationController
-
   # GET /api/recipes
   # GET /api/users/:user_id/recipes
   def index
@@ -9,14 +8,14 @@ class ApiController < ApplicationController
       if user == nil
         render json: {errors: "This user #{params[:id]} does not exist"}, status: 404
       else
-        recipes = user.recipes
+        recipes = paginate user.recipes.page(params[:page])
         # render json: recipes, status: 200
-        render json: recipes, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 200
+        render json: recipes, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], meta: pagination_meta(recipes), status: 200, adapter: :json
       end
     else
-      recipes = Recipe.public_and_current_user_recipes(current_user)
+      recipes = paginate Recipe.public_and_current_user_recipes(current_user).page(params[:page])
       # render json: recipes, status: 200
-      render json: recipes, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 200
+      render json: recipes, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], meta: pagination_meta(recipes), status: 200, adapter: :json
     end
   end
 
@@ -41,4 +40,17 @@ class ApiController < ApplicationController
     recipes = current_user.recipes
     render json: recipes, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 200
   end
+end
+
+def pagination_meta(collection)  
+  # binding.pry
+  {
+    current_page: collection.current_page,        
+    next_page: collection.next_page,        
+    prev_page: collection.prev_page,        
+    total_pages: collection.total_pages,        
+    total_count: collection.total_count,
+    isfirst_page: collection.first_page?,
+    islast_page: collection.last_page? 
+  }
 end

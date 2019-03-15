@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Rails::Pagination
   protect_from_forgery with: :exception
   # routes to the login / signup if not authenticated
   before_action :authenticate_user!, :except => [:home, :show, :index, :search, :current_user_signed_in]

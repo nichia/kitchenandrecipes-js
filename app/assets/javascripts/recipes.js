@@ -58,21 +58,68 @@ function listenForClickIndexRecipes() {
       method: "GET",
       url: this.href,
       dataType: 'json'
-    }).done(function (response) {
-      console.log('AllRecipes response: ', response);
+    // }).done(function (response) {
+    }).done(function (response, textStatus, jqXHR) {
+      console.log('AllRecipes response: ', response, ' Header: ', jqXHR);
+      let paginationData = {
+        perPage: jqXHR.getResponseHeader('per-page'),
+        total: jqXHR.getResponseHeader('total'),
+        links: jqXHR.getResponseHeader('link')
+      }
+      let pagination = new Pagination(response.meta, paginationData)
+      console.log('pagination data: ', pagination)
+      // debugger;
       // Invoke handlebar templates for recipes_index
       recipesIndexHtml = HandlebarsTemplates['recipes/index']({
-        recipes: response, isAllIndex: ($(this).parent().prevObject[0].url.endsWith("/api/recipes"))
+        recipes: response.recipes, pagination: pagination, isMainIndex: ($(this).parent().prevObject[0].url.endsWith("/api/recipes"))
       });
       // Load the response into the DOM (add it to the current page)
       $("#ajax-container").html(recipesIndexHtml);
 
       listenForClickShowRecipe();
       listenForClickIndexRecipes();
+      listenForClickPagination();
     });
   });
 }
-    
+
+//===== listenForClickPagination =====//
+
+function listenForClickPagination() {
+  console.log('listForClickPagination..');
+  // Listen for click on link element with class index_recipes
+  $('#next, #prev, #first, #last').on("click", function (event) {
+    event.preventDefault();
+    // Fire ajax to get Index of Recipes
+    let current_user = false
+    $.ajax({
+      method: "GET",
+      url: this.href,
+      dataType: 'json'
+      // }).done(function (response) {
+    }).done(function (response, textStatus, jqXHR) {
+      console.log('AllRecipes response: ', response, ' Header: ', jqXHR);
+      let paginationData = {
+        perPage: jqXHR.getResponseHeader('per-page'),
+        total: jqXHR.getResponseHeader('total'),
+        links: jqXHR.getResponseHeader('link')
+      }
+      let pagination = new Pagination(response.meta, paginationData)
+      console.log('pagination data: ', pagination)
+      // Invoke handlebar templates for recipes_index
+      recipesIndexHtml = HandlebarsTemplates['recipes/index']({
+        recipes: response.recipes, pagination: pagination, isMainIndex: ($(this).parent().prevObject[0].url.endsWith("/api/recipes"))
+      });
+      // Load the response into the DOM (add it to the current page)
+      $("#ajax-container").html(recipesIndexHtml);
+
+      listenForClickShowRecipe();
+      listenForClickIndexRecipes();
+      listenForClickPagination();
+    });
+  });
+}
+
 //===== listenForClickShowRecipe =====//
 
 function listenForClickShowRecipe() {
@@ -81,8 +128,10 @@ function listenForClickShowRecipe() {
   $(".show_recipe").on("click", function (event) {
     event.preventDefault();
     // debugger;
-    // let thisUrl = this.attributes.href.textContent || this.parentElement.attributes.href.textContent
-    let thisUrl = this.attributes.href.textContent
+    // for images, access via this.parentElement.href
+    let thisUrl = this.href || this.parentElement.href
+    // let thisUrl = this.attributes.href || this.parentElement.attributes.href  *does not work
+    // let thisUrl = this.attributes.href.textContent
     // Fire ajax to get Show Recipe data
     let current_user = false
     $.ajax({
@@ -126,7 +175,7 @@ function listenForClickAddRecipe() {
     // Fire ajax to get new recipe form
     // let url = this.href + "?no_layout=false";
     let thisUrl = this.attributes.href.textContent + "?no_layout=false";
-    debugger;
+    // debugger;
     $.ajax({
       method: "GET",
       url: thisUrl

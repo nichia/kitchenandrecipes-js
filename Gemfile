@@ -49,8 +49,10 @@ gem 'omniauth-google-oauth2'
 
 # Use Cocoon for dynamic nested forms handling
 gem 'cocoon', '~> 1.2', '>= 1.2.12'
-# User Kaminari for pagination
+# Use Kaminari for pagination
 gem 'kaminari'
+# Use api-pagination to send paginated links in the Link header
+gem 'api-pagination'
 # Use Amazon S3 service
 gem 'aws-sdk-s3', require: false
 

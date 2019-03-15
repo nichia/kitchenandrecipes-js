@@ -1,4 +1,4 @@
-{{!-- /recipes/show --}}
+{{!-- /recipes/show (recipe, current_user) --}}
 
 {{#debug}} {{/debug}}
 
@@ -35,7 +35,7 @@
 
   <hr>
 
-{{!-------------  Show Recipe Action Buttons (Edit, Delete, Clone-------------}}
+{{!-------------  Show Recipe Action Buttons (Edit, Delete, Clone) -------------}}
   <div class="text-center">
     {{#ifEquals current_user.id recipe.user.id}}
       <a class="btn btn-primary" href="/users/{{recipe.user.id}}/recipes/{{recipe.id}}/edit">Edit Recipe</a> 
