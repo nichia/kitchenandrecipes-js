@@ -2,6 +2,7 @@
 
 $(document).on('turbolinks:load', function () {
   console.log('JS Turbolinks loaded..')
+  clearMessages();
   listenForClickIndexRecipes();
   listenForClickAddRecipe();
 })
@@ -11,3 +12,6 @@ $(function () {
   console.log('JS jQuery loaded..');
 })
 
+function clearMessages() {
+  $('.flash-message').removeClass('.flash-message')
+}

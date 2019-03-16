@@ -1,6 +1,6 @@
 class Recipe < ApplicationRecord
   include ActiveModel::Serialization
-  paginates_per 5
+  paginates_per 10
 
   has_one_attached :image
   belongs_to :user

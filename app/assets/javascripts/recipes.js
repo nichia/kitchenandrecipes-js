@@ -19,13 +19,13 @@ class Recipe {
     this.user_id = obj.user_id;
     this.user = obj.user;
     this.recipe_ingredients = obj.recipe_ingredients;
-    // merge three array of objects (recipe_ingredients, ingredients and measurements) *** fixed with include option for serializing deeply nested associations ***
+    // merge three array of objects (recipe_ingredients, ingredients and measurements) 
+    // *** fixed with include option for serializing deeply nested associations ***
     // this.recipe_ingredients = obj.recipe_ingredients.map((recipe_ingredient) => {
     //   var haveEqualIngredientId = (ingredient) => ingredient.id === recipe_ingredient.ingredient_id
     //   var haveEqualMeasurementId = (measurement) => measurement.id === recipe_ingredient.measurement_id
     //   var ingredientWithEqualId = obj.ingredients.find(haveEqualIngredientId)
     //   var measurementWithEqualId = obj.measurements.find(haveEqualMeasurementId)
-
     //   return Object.assign({}, recipe_ingredient, ingredientWithEqualId, measurementWithEqualId)
     // });
     this.instructions = obj.instructions;
@@ -71,7 +71,7 @@ function listenForClickIndexRecipes() {
       // debugger;
       // Invoke handlebar templates for recipes_index
       recipesIndexHtml = HandlebarsTemplates['recipes/index']({
-        recipes: response.recipes, pagination: pagination, isMainIndex: ($(this).parent().prevObject[0].url.endsWith("/api/recipes"))
+        recipes: response.recipes, pagination: pagination, isMainIndex: ($(this).parent().prevObject[0].url.includes("/api/recipes"))
       });
       // Load the response into the DOM (add it to the current page)
       $("#ajax-container").html(recipesIndexHtml);
@@ -108,7 +108,7 @@ function listenForClickPagination() {
       console.log('pagination data: ', pagination)
       // Invoke handlebar templates for recipes_index
       recipesIndexHtml = HandlebarsTemplates['recipes/index']({
-        recipes: response.recipes, pagination: pagination, isMainIndex: ($(this).parent().prevObject[0].url.endsWith("/api/recipes"))
+        recipes: response.recipes, pagination: pagination, isMainIndex: ($(this).parent().prevObject[0].url.includes("/api/recipes"))
       });
       // Load the response into the DOM (add it to the current page)
       $("#ajax-container").html(recipesIndexHtml);
