@@ -53,7 +53,6 @@ function listenForClickIndexRecipes() {
     event.preventDefault();
     // debugger;
     // Fire ajax to get Index of Recipes
-    let current_user = false
     $.ajax({
       method: "GET",
       url: this.href,
@@ -91,7 +90,6 @@ function listenForClickPagination() {
   $('#next, #prev, #first, #last').on("click", function (event) {
     event.preventDefault();
     // Fire ajax to get Index of Recipes
-    let current_user = false
     $.ajax({
       method: "GET",
       url: this.href,
@@ -133,7 +131,6 @@ function listenForClickShowRecipe() {
     // let thisUrl = this.attributes.href || this.parentElement.attributes.href  *does not work
     // let thisUrl = this.attributes.href.textContent
     // Fire ajax to get Show Recipe data
-    let current_user = false
     $.ajax({
       method: "GET",
       url: thisUrl,
@@ -141,26 +138,12 @@ function listenForClickShowRecipe() {
     }).done(function (response) {
       console.log('ShowRecipe response: ', response);
       let recipe = new Recipe(response)
-      // Fire ajax to get current_user
-      $.ajax({
-        method: "GET",
-        url: '/current_user',
-        dataType: 'json'
-      }).done(function (response) {
-        // alert( "success" );
-        console.log('CurrentUser response: ', response);
-        current_user = new User(response)
-      }).fail(function() {
-        // alert( "error" );
-        console.log('error');
-      }).always(function() {
-        // alert( "complete");
-        // Load the response into the DOM (add it to the current page)
-        $("#ajax-container").html(recipe.recipeHtml(current_user))
-        listenForClickIndexRecipes();
-        listenForClickDeleteRecipe();
-        listenForClickAddReview();
-      });
+      // alert( "complete");
+      // Load the response into the DOM (add it to the current page)
+      $("#ajax-container").html(recipe.recipeHtml(current_user))
+      listenForClickIndexRecipes();
+      listenForClickDeleteRecipe();
+      listenForClickAddReview();
     });
   });
 }
@@ -208,19 +191,9 @@ function listenForClickSubmitNewRecipe() {
       cache: false,
       success: response => {
         let recipe = new Recipe(response)
-        // Fire ajax to get current_user
-        let current_user = false
-        $.ajax({
-          method: "GET",
-          url: '/current_user',
-        }).done(function (response) {
-          console.log('CurrentUser response: ', response);
-          current_user = new User(response)
-        }).always(function () {
-          // Load the response into the DOM (add it to the current page)
-          $("#ajax-container").html(recipe.recipeHtml(current_user))
-          listenForClickIndexRecipes();
-        });
+        // Load the response into the DOM (add it to the current page)
+        $("#ajax-container").html(recipe.recipeHtml(current_user))
+        listenForClickIndexRecipes();
       },
       error: response => {
         const customMessage = `<h3>Error adding recipe.</h3>`
