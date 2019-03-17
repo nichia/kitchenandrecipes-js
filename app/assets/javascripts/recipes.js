@@ -19,15 +19,6 @@ class Recipe {
     this.user_id = obj.user_id;
     this.user = obj.user;
     this.recipe_ingredients = obj.recipe_ingredients;
-    // merge three array of objects (recipe_ingredients, ingredients and measurements) 
-    // *** fixed with include option for serializing deeply nested associations ***
-    // this.recipe_ingredients = obj.recipe_ingredients.map((recipe_ingredient) => {
-    //   var haveEqualIngredientId = (ingredient) => ingredient.id === recipe_ingredient.ingredient_id
-    //   var haveEqualMeasurementId = (measurement) => measurement.id === recipe_ingredient.measurement_id
-    //   var ingredientWithEqualId = obj.ingredients.find(haveEqualIngredientId)
-    //   var measurementWithEqualId = obj.measurements.find(haveEqualMeasurementId)
-    //   return Object.assign({}, recipe_ingredient, ingredientWithEqualId, measurementWithEqualId)
-    // });
     this.instructions = obj.instructions;
     this.reviews = obj.reviews;
   };
@@ -52,33 +43,38 @@ function listenForClickIndexRecipes() {
   $(".index_recipes").on("click", function (event) {
     event.preventDefault();
     // debugger;
-    // Fire ajax to get Index of Recipes
-    $.ajax({
-      method: "GET",
-      url: this.href,
-      dataType: 'json'
-    // }).done(function (response) {
-    }).done(function (response, textStatus, jqXHR) {
-      console.log('AllRecipes response: ', response, ' Header: ', jqXHR);
-      let paginationData = {
-        perPage: jqXHR.getResponseHeader('per-page'),
-        total: jqXHR.getResponseHeader('total'),
-        links: jqXHR.getResponseHeader('link')
-      }
-      let pagination = new Pagination(response.meta, paginationData)
-      console.log('pagination data: ', pagination)
-      // debugger;
-      // Invoke handlebar templates for recipes_index
-      recipesIndexHtml = HandlebarsTemplates['recipes/index']({
-        recipes: response.recipes, pagination: pagination, isMainIndex: ($(this).parent().prevObject[0].url.includes("/api/recipes"))
-      });
-      // Load the response into the DOM (add it to the current page)
-      $("#ajax-container").html(recipesIndexHtml);
+    loadRecipes(this);
+  });
+}
 
-      listenForClickShowRecipe();
-      listenForClickIndexRecipes();
-      listenForClickPagination();
+function loadRecipes(thisObj) {
+  // Fire ajax to get Index of Recipes
+  // debugger;
+  $.ajax({
+    method: "GET",
+    url: thisObj.href,
+    dataType: 'json'
+    // }).done(function (response) {
+  }).done(function (response, textStatus, jqXHR) {
+    console.log('AllRecipes response: ', response, ' Header: ', jqXHR);
+    let paginationData = {
+      perPage: jqXHR.getResponseHeader('per-page'),
+      total: jqXHR.getResponseHeader('total'),
+      links: jqXHR.getResponseHeader('link')
+    }
+    let pagination = new Pagination(response.meta, paginationData)
+    console.log('pagination data: ', pagination)
+    // debugger;
+    // Invoke handlebar templates for recipes_index
+    recipesIndexHtml = HandlebarsTemplates['recipes/index']({
+      recipes: response.recipes, pagination: pagination, isMainIndex: ($(this).parent().prevObject[0].url.includes("/api/recipes"))
     });
+    // Load the response into the DOM (add it to the current page)
+    $("#ajax-container").html(recipesIndexHtml);
+
+    listenForClickShowRecipe();
+    listenForClickIndexRecipes();
+    listenForClickPagination();
   });
 }
 
@@ -89,32 +85,7 @@ function listenForClickPagination() {
   // Listen for click on link element with class index_recipes
   $('#next, #prev, #first, #last').on("click", function (event) {
     event.preventDefault();
-    // Fire ajax to get Index of Recipes
-    $.ajax({
-      method: "GET",
-      url: this.href,
-      dataType: 'json'
-      // }).done(function (response) {
-    }).done(function (response, textStatus, jqXHR) {
-      console.log('AllRecipes response: ', response, ' Header: ', jqXHR);
-      let paginationData = {
-        perPage: jqXHR.getResponseHeader('per-page'),
-        total: jqXHR.getResponseHeader('total'),
-        links: jqXHR.getResponseHeader('link')
-      }
-      let pagination = new Pagination(response.meta, paginationData)
-      console.log('pagination data: ', pagination)
-      // Invoke handlebar templates for recipes_index
-      recipesIndexHtml = HandlebarsTemplates['recipes/index']({
-        recipes: response.recipes, pagination: pagination, isMainIndex: ($(this).parent().prevObject[0].url.includes("/api/recipes"))
-      });
-      // Load the response into the DOM (add it to the current page)
-      $("#ajax-container").html(recipesIndexHtml);
-
-      listenForClickShowRecipe();
-      listenForClickIndexRecipes();
-      listenForClickPagination();
-    });
+    loadRecipes(this);
   });
 }
 
@@ -218,13 +189,6 @@ function listenForClickDeleteRecipe() {
     $.ajax({
       method: "DELETE",
       url: thisUrl,
-      // success: response => {
-      //   console.log('DeleteRecipe response: ', response);
-      //   // Load the response into the DOM (add it to the current page)
-      //   $("#ajax-container").html(response);
-      //   listenForClickShowRecipe();
-      //   listenForClickIndexRecipes();      
-      // },
       error: response => {
         console.log('Error response: ', response);
         const customMessage = `<h3>Error deleting recipe.</h3>`
@@ -282,18 +246,9 @@ function listenForClickSubmitNewReview() {
       success: response => {
         let recipe = new Recipe(response)
         // debugger;
-        // Fire ajax to get current_user
-        $.ajax({
-          method: "GET",
-          url: '/current_user',
-        }).done(function (response) {
-          console.log('CurrentUser response: ', response);
-          current_user = new User(response)
-        }).always(function () {
-          // Load the response into the DOM (add it to the current page)
-          $("#ajax-container").html(recipe.recipeHtml(current_user))
-          listenForClickIndexRecipes();
-        });
+        // Load the response into the DOM (add it to the current page)
+        $("#ajax-container").html(recipe.recipeHtml(current_user))
+        listenForClickIndexRecipes();
       },
       error: response => {
         const customMessage = `<h3>Error adding review.</h3>`
