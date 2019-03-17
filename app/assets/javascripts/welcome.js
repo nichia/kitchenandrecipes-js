@@ -24,8 +24,6 @@ async function asyncCall() {
   var result = await loadCurrentUser();
   console.log('result', result);
   loadRecipes("/api/recipes");
-  // listenForClickIndexRecipes();
-  // listenForClickAddRecipe();
 }
 
 function loadCurrentUser() {
