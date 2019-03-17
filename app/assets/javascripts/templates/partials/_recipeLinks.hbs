@@ -1,0 +1,9 @@
+{{!-- /partials/_recipeLinks (current_user) --}}
+
+<a class="index_recipes" href="/api/recipes" >All Recipes</a>
+{{#if current_user}}
+  |
+  <a class="index_recipes" href="/api/users/{{current_user.id}}/recipes" >My Recipes</a>
+  |
+  <a class="add_recipe" href="/users/{{current_user.id}}/recipes/new" >Add Recipes</a>
+{{/if}}

@@ -10,7 +10,10 @@
     <a href="/api/users/{{recipe.user_id}}/recipes", class="index_recipes">{{recipe.user.name}}</a>
     | {{recipe.created_at}}
     | {{recipe.reviews.length}} Reviews
-    </br>category <a href="/categories/{{recipe.category_id}}">{{recipe.category_name}}</a>
+    </br>
+    {{> partials/_recipeLinks current_user = current_user}}
+    |
+    category <a href="/categories/{{recipe.category_id}}">{{recipe.category_name}}</a>
     </small></p>
     <hr>
     <p>{{recipe.description}}</p>

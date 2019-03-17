@@ -1,5 +1,10 @@
-{{!-- /partials/jumbotron --}}
+{{!-- /partials/_jumbotron (title, current_user) --}}
 
 <div class="jumbotron" style="background-image: url(<%= asset_path 'jumbotron.jpeg' %>); background-size: 100%;">
   <h1 class="text-center display-4">{{title}}</h1>
+
+  <!-- Single Page Application (listens for .index_recipes, .add_recipe) -->
+  <p class="text-center">
+    {{> partials/_recipeLinks current_user = current_user}}
+  </p>
 </div>

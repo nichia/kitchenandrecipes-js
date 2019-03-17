@@ -1,20 +1,23 @@
 <!-- /welcome/home -->
 
 <div id="ajax-container">
-  <%= render partial: 'shared/jumbotron', locals: { title: "Kitchen&Recipes" } %>
-  
-  <!-- Single Page Application (listens for .index_recipes, .add_recipe) -->
-  <div class="text-center">
-    <%= link_to "All Recipes", api_recipes_path, class: "index_recipes" %>
+  <%#= render partial: 'shared/jumbotron', locals: { title: "Kitchen&Recipes" } %>
+  <div class="jumbotron" style="background-image: url(<%= asset_path 'jumbotron.jpeg' %>); background-size: 100%;">
+    <h1 class="text-center display-4">Kitchen&Recipes</h1>
 
-    <% if current_user %>
-      |
-      <%= link_to "My Recipes", api_user_recipes_path(current_user), class: "index_recipes" %> 
-      |
-      <%= link_to "Add Recipe", new_user_recipe_path(current_user), class: "add_recipe" %> 
-    <% end %>
+    <!-- Single Page Application (listens for .index_recipes, .add_recipe) -->
+    <div class="text-center">
+      <%= link_to "All Recipes", api_recipes_path, class: "index_recipes" %>
+
+      <% if current_user %>
+        |
+        <%= link_to "My Recipes", api_user_recipes_path(current_user), class: "index_recipes" %> 
+        |
+        <%= link_to "Add Recipe", new_user_recipe_path(current_user), class: "add_recipe" %> 
+      <% end %>
+    </div>
   </div>
 
   <!-- Render recipes  -->
-  <%#= render partial: 'recipes/recipe_spa', locals: { recipes: @recipes } %>
+  <%#= render partial: 'recipes/recipe', locals: { recipes: @recipes } %>
 </div>

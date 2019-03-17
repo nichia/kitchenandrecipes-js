@@ -1,8 +1,8 @@
-{{!-- /recipes/index (recipes, pagination, isMainIndex) --}}
+{{!-- /recipes/index (recipes, pagination, current_user, isMainIndex) --}}
 
 {{!-- Display index title as jumbotron or user image --}}
 {{#if isMainIndex}}
-  {{> partials/_jumbotron title = "Kitchen&Recipes"}}
+  {{> partials/_jumbotron title = "Kitchen&Recipes" current_user = current_user}}
 {{else}}
   <div class="text-center">
     <h1 class="display-4">{{recipes.[0].user.name}}</h1>
@@ -11,7 +11,15 @@
 {{/if}}
 
 <div class="container-fluids">
-  <p class="text-center card-text"><small class="text-muted">{{recipes.length}} Recipes</small></p>
+  <p class="text-center card-text">
+    <small class="text-muted">
+      {{#unless isMainIndex}}
+        {{> partials/_recipeLinks current_user = current_user}}
+        |
+      {{/unless}}
+      {{recipes.length}} Recipes
+    </small>
+  </p>
   <div class="card-columns">
     {{#each recipes}}
       <div class="card">

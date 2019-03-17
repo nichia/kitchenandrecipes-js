@@ -50,11 +50,15 @@ function listenForClickIndexRecipes() {
 function loadRecipes(thisObj) {
   // Fire ajax to get Index of Recipes
   // debugger;
+  if (typeof thisObj === "object") {
+    thisUrl = thisObj.href;
+  } else {
+    thisUrl = thisObj;
+  }
   $.ajax({
     method: "GET",
-    url: thisObj.href,
+    url: thisUrl,
     dataType: 'json'
-    // }).done(function (response) {
   }).done(function (response, textStatus, jqXHR) {
     console.log('AllRecipes response: ', response, ' Header: ', jqXHR);
     let paginationData = {
@@ -67,14 +71,11 @@ function loadRecipes(thisObj) {
     // debugger;
     // Invoke handlebar templates for recipes_index
     recipesIndexHtml = HandlebarsTemplates['recipes/index']({
-      recipes: response.recipes, pagination: pagination, isMainIndex: ($(this).parent().prevObject[0].url.includes("/api/recipes"))
+      recipes: response.recipes, pagination: pagination, current_user: current_user, isMainIndex: ($(this).parent().prevObject[0].url.includes("/api/recipes"))
     });
-    // Load the response into the DOM (add it to the current page)
+    // Load the recipesIndexHtml into the DOM (add it to the current page)
     $("#ajax-container").html(recipesIndexHtml);
-
-    listenForClickShowRecipe();
-    listenForClickIndexRecipes();
-    listenForClickPagination();
+    listenForClickMainLinks();
   });
 }
 
@@ -113,6 +114,7 @@ function listenForClickShowRecipe() {
       // Load the response into the DOM (add it to the current page)
       $("#ajax-container").html(recipe.recipeHtml(current_user))
       listenForClickIndexRecipes();
+      listenForClickAddRecipe();
       listenForClickDeleteRecipe();
       listenForClickAddReview();
     });
@@ -137,6 +139,13 @@ function listenForClickAddRecipe() {
       console.log('AddRecipe response: ', response);
       // Load the response into the DOM (add it to the current page)
       $("#ajax-container").html(response);
+
+      // Invoke handlebar templates for displaying links
+      linksHtml = HandlebarsTemplates['recipes/links']({current_user: current_user});
+      // Load the linksHtml into the DOM (add it #ajax-links tag)
+      $("#ajax-links").html(linksHtml);
+
+      listenForClickMainLinks();
       listenForClickSubmitNewRecipe();
     });
   });
@@ -164,8 +173,7 @@ function listenForClickSubmitNewRecipe() {
         let recipe = new Recipe(response)
         // Load the response into the DOM (add it to the current page)
         $("#ajax-container").html(recipe.recipeHtml(current_user))
-        listenForClickIndexRecipes();
-      },
+  listenForClickMainLinks();      },
       error: response => {
         const customMessage = `<h3>Error adding recipe.</h3>`
         // Load the response into the DOM (add it to the current page)
@@ -182,7 +190,7 @@ function listenForClickDeleteRecipe() {
   // Listen for click on link element with id delete_recipe
   $("#delete_recipe").on("click", function (event) {
     event.preventDefault();
-    // debugger;
+    debugger;
     // Fire ajax to delete recipe
     // note: this.href === event.target.href (includes baseURI of http://localhost:3000)
     let thisUrl = "/api" + this.attributes.href.textContent;
@@ -199,8 +207,7 @@ function listenForClickDeleteRecipe() {
       console.log('AfterDelete response: ', response);
       // Load the response into the DOM (add it to the current page)
       $("#ajax-container").html(response);
-      listenForClickShowRecipe();
-      listenForClickIndexRecipes();      
+      listenForClickMainLinks();  
     });
   });
 }
@@ -248,7 +255,7 @@ function listenForClickSubmitNewReview() {
         // debugger;
         // Load the response into the DOM (add it to the current page)
         $("#ajax-container").html(recipe.recipeHtml(current_user))
-        listenForClickIndexRecipes();
+        listenForClickMainLinks();
       },
       error: response => {
         const customMessage = `<h3>Error adding review.</h3>`
@@ -258,4 +265,11 @@ function listenForClickSubmitNewReview() {
       }
     });
   });
+}
+
+function listenForClickMainLinks() {
+  listenForClickIndexRecipes();
+  listenForClickAddRecipe();
+  listenForClickShowRecipe();
+  listenForClickPagination();     
 }
