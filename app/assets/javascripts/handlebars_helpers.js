@@ -3,7 +3,11 @@
 Handlebars.registerHelper('avgRating', function (recipe) {
   const reducer = (accumulator, currentvalue) => accumulator + currentvalue.rating;
 
-  return recipe.reviews.reduce(reducer, 0) / recipe.reviews.length;
+  if (recipe.reviews.length > 0){
+    return recipe.reviews.reduce(reducer, 0) / recipe.reviews.length;
+  } else {
+    return 0;
+  }
 });
 
 Handlebars.registerHelper('addReviewButton', function (recipe, current_user) {

@@ -15,24 +15,42 @@ class Recipe {
     this.category_id = obj.recipe_categories[0]["category"]["id"];
     this.category_name = obj.recipe_categories[0]["category"]["name"];
     this.image = obj.image;
-    this.created_at = obj.created_at;
+    this.created_at = (new Date(obj.created_at)).toShortFormat();
     this.user_id = obj.user_id;
     this.user = obj.user;
     this.recipe_ingredients = obj.recipe_ingredients;
     this.instructions = obj.instructions;
     this.reviews = obj.reviews;
+    this.reviews.forEach(function (review) {
+      review.created_date = (new Date(review.created_at)).toShortFormat();
+    });
   };
 }
 
-Recipe.prototype.recipeHtml = function (current_user) {
+Recipe.prototype.recipeHtml = function(current_user) {
   // debugger;
-  console.log('current_user class: ', current_user);
+  console.log("current_user class: ", current_user);
   // Invoke handlebar templates for recipes_show
-  recipesShowHtml = HandlebarsTemplates['recipes/show']({
-    recipe: this, current_user: current_user
+  recipesShowHtml = HandlebarsTemplates["recipes/show"]({
+    recipe: this,
+    current_user: current_user
   });
 
   return recipesShowHtml;
+};
+
+// Attaching a new function toShortFormat() to any instance of Date() class
+Date.prototype.toShortFormat = function () {
+  var month_names = ["Jan", "Feb", "Mar",
+    "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep",
+    "Oct", "Nov", "Dec"];
+
+  var day = this.getDate();
+  var month_index = this.getMonth();
+  var year = this.getFullYear();
+
+  return "" + month_names[month_index] + " " + day + ", " + year;
 }
 
 //===== listenForClickIndexRecipes =====//
