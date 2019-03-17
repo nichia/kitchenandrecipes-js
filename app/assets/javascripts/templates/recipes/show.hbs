@@ -70,8 +70,10 @@
           <p class="card-text">Rating: {{rating}} / 5</p>
           <p class="card-text">{{comment}}.</p>
 
-          <footer class="blockquote-footer"><a href="/recipes/{{../recipe.id}}/reviews/{{id}}/edit">Edit</a> |
-          <a rel="nofollow" data-method="delete" href="/recipes/{{../recipe.id}}/reviews/{{id}}">Remove</a></footer>
+          {{#ifEquals ../current_user.id user_id}}
+            <footer class="blockquote-footer"><a href="/recipes/{{../recipe.id}}/reviews/{{id}}/edit">Edit</a> |
+            <a rel="nofollow" data-method="delete" href="/recipes/{{../recipe.id}}/reviews/{{id}}">Remove</a></footer>
+          {{/ifEquals}}
         </div> <!-- Card body -->
       </div> <!-- Card -->
     {{/each}}
