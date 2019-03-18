@@ -71,7 +71,7 @@ class RecipesController < ApplicationController
   # POST /users/:user_id/recipes
   def create
     # raise params.inspect
-    # binding.pry
+    binding.pry
     @recipe = current_user.recipes.new(recipe_params)
     if @recipe.save
       if params[:no_layout]
@@ -113,7 +113,9 @@ class RecipesController < ApplicationController
 
  # DELETE /users/:user_id/recipes/:id
   def destroy
-    @recipe.destroy
+    binding.pry
+    recipe = Recipe.find(params[:id])
+    recipe.destroy
     flash[:info] = "Recipe successfuly deleted!"
     redirect_to user_recipes_path(current_user)
   end

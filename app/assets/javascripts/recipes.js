@@ -22,7 +22,7 @@ class Recipe {
     this.instructions = obj.instructions;
     this.reviews = obj.reviews;
     this.reviews.forEach(function (review) {
-      review.created_date = (new Date(review.created_at)).toShortFormat();
+    review.created_date = (new Date(review.created_at)).toShortFormat();
     });
   };
 }
@@ -127,6 +127,7 @@ function listenForClickShowRecipe() {
       dataType: 'json'
     }).done(function (response) {
       console.log('ShowRecipe response: ', response);
+      debugger
       let recipe = new Recipe(response)
       // alert( "complete");
       // Load the response into the DOM (add it to the current page)
@@ -208,22 +209,32 @@ function listenForClickDeleteRecipe() {
   // Listen for click on link element with id delete_recipe
   $("#delete_recipe").on("click", function (event) {
     event.preventDefault();
-    debugger;
     // Fire ajax to delete recipe
     // note: this.href === event.target.href (includes baseURI of http://localhost:3000)
+    // const token = $('meta[name="csrf-token"]').attr("content"); // fix the 422 unprocessable entity error
     let thisUrl = "/api" + this.attributes.href.textContent;
+    debugger;
     $.ajax({
       method: "DELETE",
+      beforeSend: function (xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')) },
       url: thisUrl,
+      contentType: 'application/json',
+      dataType: 'json',
+      // headers: {
+      //   'X-CSRF-Token': token,
+      //   'Content-Type': 'application/json',
+      // },
       error: response => {
         console.log('Error response: ', response);
         const customMessage = `<h3>Error deleting recipe.</h3>`
         // Load the response into the DOM (add it to the current page)
+        debugger;
         $("#ajax-container").html(customMessage);
       }
     }).always(function (response) {
       console.log('AfterDelete response: ', response);
       // Load the response into the DOM (add it to the current page)
+      debugger;
       $("#ajax-container").html(response);
       listenForClickMainLinks();  
     });

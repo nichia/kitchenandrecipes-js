@@ -5,11 +5,15 @@ let current_user = false
 
 $(document).on('turbolinks:load', function () {
   console.log('JS Turbolinks loaded..')
-  clearMessages();
-  asyncCall();
+  // Single Page Application when accessing via root route "/"
+  if (window.location.pathname === "/") {
+    clearMessages();
+    asyncCall();
+  };
 })
 
 // $(document).ready(function() {
+// Not always loaded... not sure yet under what condition this gets loaded
 $(function () {
   console.log('JS jQuery loaded..');
 })
@@ -29,7 +33,7 @@ async function asyncCall() {
 function loadCurrentUser() {
   return new Promise(resolve => {
     // Fire ajax to get current_user
-    console.log('load cu: ', current_user)
+    console.log('loadCurrentUser: ', current_user)
     $.ajax({
       method: "GET",
       url: '/current_user',
