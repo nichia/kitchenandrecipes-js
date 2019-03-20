@@ -46,6 +46,7 @@ class RecipesController < ApplicationController
 
   # GET /users/:user_id/recipes/:id/edit
   def edit
+    render :edit, layout: (params[:no_layout] ? false : true)
   end
 
   # GET /search
@@ -106,7 +107,6 @@ class RecipesController < ApplicationController
       # @recipe.categories.build(category_type: category[:category_type], name: category[:name])
       if params[:no_layout]
         # binding.pry
-        # render json: @recipe, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], error: flash.now[:danger], status: 409, adapter: :json
         render json: { error: flash.now[:danger] }, status: 409
       else
         render :new
@@ -118,16 +118,19 @@ class RecipesController < ApplicationController
   def update
     #raise params.inspect
     if @recipe.update(recipe_params)
-      flash[:info] = "Recipe successfuly updated"
-      redirect_to user_recipe_path(current_user, @recipe)
+      if params[:no_layout]
+        render json: @recipe, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 201
+      else
+        flash[:info] = "Recipe successfuly updated"
+        redirect_to user_recipe_path(current_user, @recipe)
+      end
     else
-      # if recipe is not valid or errors with update action,
-      # list error messages and go back to new
       flash.now[:danger] = ("Please fix the following errors:<br/>".html_safe + @recipe.errors.full_messages.join("<br/>").html_safe)
-      # re-populate the category field (removed: to be added for admin only)
-      # category = params[:recipe][:categories_attributes].values[0]
-      # @recipe.categories.build(category_type: category[:category_type], name: category[:name])
-      render :edit
+      if params[:no_layout]
+        render json: { error: flash.now[:danger] }, status: 409
+      else
+        render :edit
+      end
     end
   end
 

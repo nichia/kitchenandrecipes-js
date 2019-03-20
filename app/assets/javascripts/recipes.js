@@ -159,12 +159,13 @@ function listenForClickAddRecipe() {
       // Load the response into the DOM (add it to the current page)
       $("#ajax-container").html(response);
 
-      // Invoke handlebar templates for displaying links
+      // Invoke handlebar templates for displaying links (to list recipes)
       linksHtml = HandlebarsTemplates['recipes/links']({current_user: current_user});
       // Load the linksHtml into the DOM (add it #ajax-links tag)
       $("#ajax-links").html(linksHtml);
 
       listenForClickSubmitNewRecipe();
+      listenForClickAfterShowRecipe();
     });
   });
 }
@@ -210,6 +211,74 @@ function listenForClickSubmitNewRecipe() {
   });
 }
 
+
+//===== listenForClickUpdateRecipe =====//
+
+function listenForClickUpdateRecipe() {
+  console.log('listForClickEditRecipe..');
+  // Listen for click on link element with id update_recipe
+  $("#update_recipe").on("click", function (event) {
+    event.preventDefault();
+    clearMessages();
+    // Fire ajax to get edit recipe form
+    // let url = this.href + "?no_layout=false";
+    let thisUrl = this.attributes.href.textContent + "?no_layout=false";
+    debugger;
+    $.ajax({
+      method: "GET",
+      url: thisUrl
+    }).always(function (response) {
+      console.log('AddRecipe response: ', response);
+      // Load the response into the DOM (add it to the current page)
+      $("#ajax-container").html(response);
+
+      // Invoke handlebar templates for displaying links (to list recipes)
+      linksHtml = HandlebarsTemplates['recipes/links']({ current_user: current_user });
+      // Load the linksHtml into the DOM (add it #ajax-links tag)
+      $("#ajax-links").html(linksHtml);
+
+      listenForClickSubmitUpdateRecipe();
+      listenForClickAfterShowRecipe();
+    });
+  });
+}
+
+function listenForClickSubmitUpdateRecipe() {
+  console.log('listForClickSubmitUpdateRecipe..');
+  // Listen for click on submit wtih class edit_recipe
+  $(".edit_recipe").on("submit", function (event) {
+    event.preventDefault();
+    let formData = new FormData($(this)[0]); // submit data & files in one form
+    let thisUrl = this.action + "?no_layout=false";
+    // Fire ajax to post new recipe form
+    $.ajax({
+      method: "PATCH",
+      url: thisUrl,
+      data: formData,
+      dataType: 'json',
+      processData: false,
+      contentType: false,
+      cache: false,
+    }).done(function (response, textStatus, jqXHR) {
+      console.log('Done UpdateRecipe response: ', response, 'textStatus:', textStatus, ' Header: ', jqXHR);
+      const customMessage = `<h3>Recipe successfully updated.</h3>`;
+      // Load the response into the DOM (add it to the current page)
+      $(".flash-message").html(customMessage);
+      let recipe = new Recipe(response)
+      // Load the response into the DOM (add it to the current page)
+      $("#ajax-container").html(recipe.recipeHtml(current_user))
+      listenForClickAfterShowRecipe();
+    }).fail(function (response, textStatus, jqXHR) {
+      // }).fail(function (jqXHR, textStatus, err) {
+      console.log('Fail UpdateRecipe response: ', response, 'textStatus:', textStatus, ' Header: ', jqXHR);
+      const customMessage = `<h3>Error updating recipe: ${response.responseJSON.error}</h3>`;
+      // Load the response into the DOM (add it to the current page)
+      $(".flash-message").html(customMessage);
+      $(".btn.btn-primary").prop("disabled", false);  // enable the Create Recipe button
+    });
+  });
+}
+
 //===== listenForClickCloneRecipe =====//
 
 function listenForClickCloneRecipe() {
@@ -245,7 +314,6 @@ function listenForClickCloneRecipe() {
         const customMessage = `<h3>${response.responseJSON.error}</h3>`;
         // Load the response into the DOM (add it to the current page)
         $(".flash-message").html(customMessage);
-        debugger;
       });
     };
   });
@@ -364,7 +432,7 @@ function listenForClickMainLinks() {
 function listenForClickAfterShowRecipe() {
   listenForClickIndexRecipes();
   listenForClickAddRecipe();
-  // listenForClickEditRecipe();
+  listenForClickUpdateRecipe();
   listenForClickCloneRecipe();
   listenForClickDeleteRecipe();
   listenForClickAddReview();

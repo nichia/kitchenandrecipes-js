@@ -41,7 +41,7 @@
 {{!-------------  Show Recipe Action Buttons (Edit, Delete, Clone) -------------}}
   <div class="text-center">
     {{#ifEquals current_user.id recipe.user.id}}
-      <a class="btn btn-primary" href="/users/{{recipe.user.id}}/recipes/{{recipe.id}}/edit">Edit Recipe</a> 
+      <a class="btn btn-primary" href="/users/{{recipe.user.id}}/recipes/{{recipe.id}}/edit" id="update_recipe">Edit Recipe</a> 
       <a href="/users/{{current_user.id}}/recipes/{{recipe.id}}" class="btn btn-danger" id="delete_recipe" rel="nofollow">Delete Recipe</a>
     {{else}}
       {{#if current_user}}
