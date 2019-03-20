@@ -127,7 +127,7 @@ function listenForClickShowRecipe() {
       dataType: 'json'
     }).done(function (response) {
       console.log('ShowRecipe response: ', response);
-      debugger
+      // debugger
       let recipe = new Recipe(response)
       // alert( "complete");
       // Load the response into the DOM (add it to the current page)
@@ -206,38 +206,46 @@ function listenForClickSubmitNewRecipe() {
 
 function listenForClickDeleteRecipe() {
   console.log('listForClickDeleteRecipe..');
-  // Listen for click on link element with id delete_recipe
+  // Listen for click on link element with id delete_recipe and data-confirm 
   $("#delete_recipe").on("click", function (event) {
     event.preventDefault();
     // Fire ajax to delete recipe
     // note: this.href === event.target.href (includes baseURI of http://localhost:3000)
-    // const token = $('meta[name="csrf-token"]').attr("content"); // fix the 422 unprocessable entity error
-    let thisUrl = "/api" + this.attributes.href.textContent;
-    debugger;
-    $.ajax({
-      method: "DELETE",
-      beforeSend: function (xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')) },
-      url: thisUrl,
-      contentType: 'application/json',
-      dataType: 'json',
-      // headers: {
-      //   'X-CSRF-Token': token,
-      //   'Content-Type': 'application/json',
-      // },
-      error: response => {
-        console.log('Error response: ', response);
-        const customMessage = `<h3>Error deleting recipe.</h3>`
+    // debugger;
+    var choice = confirm("Are you sure you want to delete this recipe ?");
+    if (choice) {
+      let thisUrl = this.attributes.href.textContent; // $(this).attr('href')
+      const authenticity_token = $('meta[name="csrf-token"]').attr("content"); // fix the 422 unprocessable entity error
+      $.ajax({
+        method: "DELETE",
+        // beforeSend: function (xhr) { xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content')) },
+        url: thisUrl,
+        headers: {
+          "X-CSRF-Token": authenticity_token,
+          "Content-Type": "application/json"
+        },
+        error: response => {
+          console.log("Error response: ", response);
+          alert(`error ${current_user.id}`);
+          const customMessage = `<h3>Error deleting recipe.</h3>`;
+          // Load the response into the DOM (add it to the current page)
+          $(".flash-message").html(customMessage);
+          loadRecipes("/api/recipes");
+        }
+      }).always(function(response, textStatus, jqXHR) {
         // Load the response into the DOM (add it to the current page)
-        debugger;
-        $("#ajax-container").html(customMessage);
-      }
-    }).always(function (response) {
-      console.log('AfterDelete response: ', response);
-      // Load the response into the DOM (add it to the current page)
-      debugger;
-      $("#ajax-container").html(response);
-      listenForClickMainLinks();  
-    });
+        console.log(
+          "AllRecipes response: ",
+          response,
+          " Header: ",
+          jqXHR
+        );
+        const customMessage = `<h3>Sucessfully deleted recipe</h3>`;
+        // Load the response into the DOM (add it to the current page)
+        $(".flash-message").html(customMessage);
+        loadRecipes(`/api/users/${current_user.id}/recipes`);
+      });
+    };
   });
 }
 

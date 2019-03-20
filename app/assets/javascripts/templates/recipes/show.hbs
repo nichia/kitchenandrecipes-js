@@ -42,7 +42,7 @@
   <div class="text-center">
     {{#ifEquals current_user.id recipe.user.id}}
       <a class="btn btn-primary" href="/users/{{recipe.user.id}}/recipes/{{recipe.id}}/edit">Edit Recipe</a> 
-      <a data-confirm="Are you sure you want to delete this recipe?" class="btn btn-danger" id="delete_recipe" rel="nofollow" data-method="delete" href="/users/{{recipe.user.id}}/recipes/{{recipe.id}}">Delete Recipe</a>
+      <a href="/api/recipes/{{recipe.id}}" class="btn btn-danger" id="delete_recipe" rel="nofollow">Delete Recipe</a>
     {{else}}
       {{#if current_user}}
         {{#addReviewButton recipe current_user}} {{/addReviewButton}}

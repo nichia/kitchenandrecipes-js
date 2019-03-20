@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   get '/api/recipes', to: 'api#index', as: 'api_recipes'
   get '/api/users/:id/recipes', to: 'api#index', as: 'api_user_recipes'
   get '/api/recipes/:id', to: 'api#show', as: 'api_recipe'
-  delete '/api/users/:user_id/recipes/:id', to: 'api#destroy'
+  delete '/api/recipes/:id', to: 'api#destroy'
 
   # helper routes
   get 'current_user', to: 'users#current_user_signed_in'

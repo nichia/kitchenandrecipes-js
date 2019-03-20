@@ -36,10 +36,8 @@ class ApiController < ApplicationController
    # DELETE /api/recipes/:id
   def destroy
     recipe = Recipe.find(params[:id])
-    recipe.destroy
-    binding.pry
-    recipes = current_user.recipes
-    render json: recipes, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 200
+    deleted = recipe.destroy
+    render json: deleted, status: 204
   end
 
   def pagination_meta(collection)  

@@ -71,7 +71,7 @@ class RecipesController < ApplicationController
   # POST /users/:user_id/recipes
   def create
     # raise params.inspect
-    binding.pry
+    # binding.pry
     @recipe = current_user.recipes.new(recipe_params)
     if @recipe.save
       if params[:no_layout]
@@ -87,7 +87,6 @@ class RecipesController < ApplicationController
       # re-populate the category field (removed: to be added for admin only)
       # category = params[:recipe][:categories_attributes].values[0]
       # @recipe.categories.build(category_type: category[:category_type], name: category[:name])
-
       render :new
     end
   end
@@ -113,7 +112,6 @@ class RecipesController < ApplicationController
 
  # DELETE /users/:user_id/recipes/:id
   def destroy
-    binding.pry
     recipe = Recipe.find(params[:id])
     recipe.destroy
     flash[:info] = "Recipe successfuly deleted!"
