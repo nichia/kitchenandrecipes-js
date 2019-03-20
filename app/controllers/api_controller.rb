@@ -35,7 +35,7 @@ class ApiController < ApplicationController
 
    # DELETE /api/recipes/:id
   def destroy
-    recipe = Recipe.find(params[:id])
+    recipe = Recipe.find_by(id: params[:id])
     deleted = recipe.destroy
     render json: deleted, status: 204
   end

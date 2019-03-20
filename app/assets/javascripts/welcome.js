@@ -20,7 +20,7 @@ $(function () {
 
 
 function clearMessages() {
-  $(".flash-message").removeClass(".flash-message");
+  $(".flash-message").removeClass(".flash-message").html("");
 }
 
 async function asyncCall() {

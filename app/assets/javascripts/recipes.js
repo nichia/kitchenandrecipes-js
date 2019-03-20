@@ -22,7 +22,7 @@ class Recipe {
     this.instructions = obj.instructions;
     this.reviews = obj.reviews;
     this.reviews.forEach(function (review) {
-    review.created_date = (new Date(review.created_at)).toShortFormat();
+      review.created_date = (new Date(review.created_at)).toShortFormat();
     });
   };
 }
@@ -72,13 +72,13 @@ function loadRecipes(thisObj) {
     thisUrl = thisObj.href;
   } else {
     thisUrl = thisObj;
-  }
+  };
   $.ajax({
     method: "GET",
     url: thisUrl,
     dataType: 'json'
   }).done(function (response, textStatus, jqXHR) {
-    console.log('AllRecipes response: ', response, ' Header: ', jqXHR);
+    console.log('AllRecipes response: ', response, 'textStatus:', textStatus, ' Header: ', jqXHR);
     let paginationData = {
       perPage: jqXHR.getResponseHeader('per-page'),
       total: jqXHR.getResponseHeader('total'),
@@ -104,6 +104,7 @@ function listenForClickPagination() {
   // Listen for click on link element with class index_recipes
   $('#next, #prev, #first, #last').on("click", function (event) {
     event.preventDefault();
+    clearMessages();
     loadRecipes(this);
   });
 }
@@ -115,7 +116,8 @@ function listenForClickShowRecipe() {
   // Listen for click on link with class show_recipe
   $(".show_recipe").on("click", function (event) {
     event.preventDefault();
-    // debugger;
+    clearMessages();
+   // debugger;
     // for images, access via this.parentElement.href
     let thisUrl = this.href || this.parentElement.href
     // let thisUrl = this.attributes.href || this.parentElement.attributes.href  *does not work
@@ -132,10 +134,7 @@ function listenForClickShowRecipe() {
       // alert( "complete");
       // Load the response into the DOM (add it to the current page)
       $("#ajax-container").html(recipe.recipeHtml(current_user))
-      listenForClickIndexRecipes();
-      listenForClickAddRecipe();
-      listenForClickDeleteRecipe();
-      listenForClickAddReview();
+      listenForClickAfterShowRecipe();
     });
   });
 }
@@ -147,6 +146,7 @@ function listenForClickAddRecipe() {
   // Listen for click on link element with class add_recipe
   $(".add_recipe").on("click", function (event) {
     event.preventDefault();
+    clearMessages();
     // Fire ajax to get new recipe form
     // let url = this.href + "?no_layout=false";
     let thisUrl = this.attributes.href.textContent + "?no_layout=false";
@@ -164,7 +164,6 @@ function listenForClickAddRecipe() {
       // Load the linksHtml into the DOM (add it #ajax-links tag)
       $("#ajax-links").html(linksHtml);
 
-      listenForClickMainLinks();
       listenForClickSubmitNewRecipe();
     });
   });
@@ -180,6 +179,7 @@ function listenForClickSubmitNewRecipe() {
     let formData = new FormData($(this)[0]); // submit data & files in one form
     let thisUrl = this.action + "?no_layout=false";
     // Fire ajax to post new recipe form
+    // debugger;
     $.ajax({
       method: "POST",
       url: thisUrl,
@@ -188,16 +188,24 @@ function listenForClickSubmitNewRecipe() {
       processData: false,
       contentType: false,
       cache: false,
-      success: response => {
-        let recipe = new Recipe(response)
-        // Load the response into the DOM (add it to the current page)
-        $("#ajax-container").html(recipe.recipeHtml(current_user))
-  listenForClickMainLinks();      },
-      error: response => {
-        const customMessage = `<h3>Error adding recipe.</h3>`
-        // Load the response into the DOM (add it to the current page)
-        $("#ajax-container").html(customMessage);
-      }
+    }).done(function (response, textStatus, jqXHR) {
+      console.log('Done NewRecipe response: ', response, 'textStatus:', textStatus, ' Header: ', jqXHR);
+      const customMessage = `<h3>Recipe successfully created.</h3>`;
+      // Load the response into the DOM (add it to the current page)
+      $(".flash-message").html(customMessage);
+      // debugger;
+      let recipe = new Recipe(response)
+      // Load the response into the DOM (add it to the current page)
+      $("#ajax-container").html(recipe.recipeHtml(current_user))
+      listenForClickAfterShowRecipe();
+    }).fail(function (response, textStatus, jqXHR) {
+    // }).fail(function (jqXHR, textStatus, err) {
+      console.log('Fail NewRecipe response: ', response, 'textStatus:', textStatus, ' Header: ', jqXHR);
+      const customMessage = `<h3>Error adding recipe: ${response.responseJSON.error}</h3>`;
+      // Load the response into the DOM (add it to the current page)
+      $(".flash-message").html(customMessage);
+      // debugger;
+      $(".btn.btn-primary").prop("disabled", false);  // enable the Create Recipe button
     });
   });
 }
@@ -209,6 +217,7 @@ function listenForClickDeleteRecipe() {
   // Listen for click on link element with id delete_recipe and data-confirm 
   $("#delete_recipe").on("click", function (event) {
     event.preventDefault();
+    clearMessages();
     // Fire ajax to delete recipe
     // note: this.href === event.target.href (includes baseURI of http://localhost:3000)
     // debugger;
@@ -256,6 +265,7 @@ function listenForClickAddReview() {
   // Listen for click on button with id add_review
   $("#add_review").on("click", function (event) {
     event.preventDefault();
+    clearMessages();
     // debugger;
     // Fire ajax to get new review form
     // let thisUrl = this.href + "?no_layout=false";
@@ -278,6 +288,7 @@ function listenForClickSubmitNewReview() {
   // Listen for click on submit wtih id new_review
   $("#new_review").on("submit", function (event) {
     event.preventDefault();
+    clearMessages();
     let formData = $(this).serialize();
     let thisUrl = this.action + "?no_layout=false";
     // debugger;
@@ -309,4 +320,11 @@ function listenForClickMainLinks() {
   listenForClickAddRecipe();
   listenForClickShowRecipe();
   listenForClickPagination();     
+}
+
+function listenForClickAfterShowRecipe() {
+  listenForClickIndexRecipes();
+  listenForClickAddRecipe();
+  listenForClickDeleteRecipe();
+  listenForClickAddReview();
 }
