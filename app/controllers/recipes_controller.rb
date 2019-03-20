@@ -133,9 +133,13 @@ class RecipesController < ApplicationController
 
  # DELETE /users/:user_id/recipes/:id
   def destroy
-    @recipe.destroy
-    flash[:info] = "Recipe successfuly deleted!"
-    redirect_to user_recipes_path(current_user)
+    deleted = @recipe.destroy
+    if params[:no_layout]
+      render json: deleted, status: 204
+    else
+      flash[:info] = "Recipe successfuly deleted!"
+      redirect_to user_recipes_path(current_user)
+    end
   end
 
   private

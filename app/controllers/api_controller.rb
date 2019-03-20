@@ -33,13 +33,6 @@ class ApiController < ApplicationController
     end
   end
 
-   # DELETE /api/recipes/:id
-  def destroy
-    recipe = Recipe.find_by(id: params[:id])
-    deleted = recipe.destroy
-    render json: deleted, status: 204
-  end
-
   def pagination_meta(collection)  
     # binding.pry
     {

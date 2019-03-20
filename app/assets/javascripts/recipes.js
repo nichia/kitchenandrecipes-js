@@ -264,7 +264,7 @@ function listenForClickDeleteRecipe() {
     // debugger;
     var choice = confirm("Are you sure you want to delete this recipe?");
     if (choice) {
-      let thisUrl = this.attributes.href.textContent; // $(this).attr('href')
+      let thisUrl = this.attributes.href.textContent + "?no_layout=false"; // $(this).attr('href')
       const authenticity_token = $('meta[name="csrf-token"]').attr("content"); // fix the 422 unprocessable entity error
       $.ajax({
         method: "DELETE",
@@ -274,15 +274,13 @@ function listenForClickDeleteRecipe() {
           "X-CSRF-Token": authenticity_token,
           "Content-Type": "application/json"
         },
-        error: response => {
+      }).fail(function (response, textStatus, jqXHR) {
           console.log("Error response: ", response);
-          alert(`error ${current_user.id}`);
           const customMessage = `<h3>Error deleting recipe.</h3>`;
           // Load the response into the DOM (add it to the current page)
           $(".flash-message").html(customMessage);
           loadRecipes("/api/recipes");
-        }
-      }).always(function(response, textStatus, jqXHR) {
+      }).done(function(response, textStatus, jqXHR) {
         // Load the response into the DOM (add it to the current page)
         console.log(
           "AllRecipes response: ",
