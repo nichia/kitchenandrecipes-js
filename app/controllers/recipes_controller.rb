@@ -65,7 +65,23 @@ class RecipesController < ApplicationController
   def create_copy
     #raise params.inspect
     copy = @recipe.recipe_cloner(current_user)
-    redirect_to user_recipe_path(current_user, copy)
+    if copy
+      if params[:no_layout]
+        # binding.pry
+        render json: copy, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 201
+      else
+        flash[:info] = "Recipe successfully cloned"
+        redirect_to user_recipe_path(current_user, copy)
+      end
+    else
+      flash[:danger] ="Error cloning recipe! Please try again."
+      if params[:no_layout]
+        # binding.pry
+        render json: { error: flash[:danger] }, status: 409
+      else
+        redirect_to recipe_path(@recipe)
+      end
+    end
   end
 
   # POST /users/:user_id/recipes
@@ -117,8 +133,7 @@ class RecipesController < ApplicationController
 
  # DELETE /users/:user_id/recipes/:id
   def destroy
-    recipe = Recipe.find(params[:id])
-    recipe.destroy
+    @recipe.destroy
     flash[:info] = "Recipe successfuly deleted!"
     redirect_to user_recipes_path(current_user)
   end

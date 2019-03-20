@@ -210,6 +210,47 @@ function listenForClickSubmitNewRecipe() {
   });
 }
 
+//===== listenForClickCloneRecipe =====//
+
+function listenForClickCloneRecipe() {
+  console.log('listForClickCloneRecipe..');
+  // Listen for click on click wtih id clone_recipe
+  $("#clone_recipe").on("click", function (event) {
+    event.preventDefault();
+    var choice = confirm("Are you sure you want to clone this recipe?");
+    if (choice) {
+      let thisUrl = this.attributes.href.textContent + "?no_layout=false"; 
+      const authenticity_token = $('meta[name="csrf-token"]').attr("content");
+      // debugger;
+      // Fire ajax to clone recipe
+      $.ajax({
+        method: "POST",
+        url: thisUrl,
+        headers: {
+          "X-CSRF-Token": authenticity_token,
+          "Content-Type": "application/json"
+        },
+      }).done(function (response, textStatus, jqXHR) {
+        console.log('Done CloneRecipe response: ', response, 'textStatus:', textStatus, ' Header: ', jqXHR);
+        const customMessage = `<h3>Recipe successfully cloned.</h3>`;
+        // Load the response into the DOM (add it to the current page)
+        $(".flash-message").html(customMessage);
+        // debugger;
+        let recipe = new Recipe(response)
+        // Load the response into the DOM (add it to the current page)
+        $("#ajax-container").html(recipe.recipeHtml(current_user))
+        listenForClickAfterShowRecipe();
+      }).fail(function (response, textStatus, jqXHR) {
+        console.log('Fail CloneRecipe response: ', response, 'textStatus:', textStatus, ' Header: ', jqXHR);
+        const customMessage = `<h3>${response.responseJSON.error}</h3>`;
+        // Load the response into the DOM (add it to the current page)
+        $(".flash-message").html(customMessage);
+        debugger;
+      });
+    };
+  });
+}
+
 //===== listenForClickDeleteRecipe =====//
 
 function listenForClickDeleteRecipe() {
@@ -221,7 +262,7 @@ function listenForClickDeleteRecipe() {
     // Fire ajax to delete recipe
     // note: this.href === event.target.href (includes baseURI of http://localhost:3000)
     // debugger;
-    var choice = confirm("Are you sure you want to delete this recipe ?");
+    var choice = confirm("Are you sure you want to delete this recipe?");
     if (choice) {
       let thisUrl = this.attributes.href.textContent; // $(this).attr('href')
       const authenticity_token = $('meta[name="csrf-token"]').attr("content"); // fix the 422 unprocessable entity error
@@ -325,6 +366,8 @@ function listenForClickMainLinks() {
 function listenForClickAfterShowRecipe() {
   listenForClickIndexRecipes();
   listenForClickAddRecipe();
+  // listenForClickEditRecipe();
+  listenForClickCloneRecipe();
   listenForClickDeleteRecipe();
   listenForClickAddReview();
 }

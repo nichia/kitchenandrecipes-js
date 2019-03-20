@@ -46,7 +46,7 @@
     {{else}}
       {{#if current_user}}
         {{#addReviewButton recipe current_user}} {{/addReviewButton}}
-        <a data-confirm="Are you sure you want to clone this recipe?" class="btn btn-primary"rel="nofollow" data-method="post" href="/recipes/{{recipe.id}}/copy">Clone Recipe</a>
+        <a href="/recipes/{{recipe.id}}/copy" class="btn btn-primary" id="clone_recipe" rel="nofollow">Clone Recipe</a>
       {{/if}}
     {{/ifEquals}}
   </div>
