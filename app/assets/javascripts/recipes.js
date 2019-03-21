@@ -379,6 +379,6 @@ function listenForClickAfterShowRecipe() {
   listenForClickCloneRecipe();
   listenForClickDeleteRecipe();
   listenForClickAddReview();
-  listenForClickEditReview();
+  listenForClickUpdateReview();
   listenForClickDeleteReview();
 }

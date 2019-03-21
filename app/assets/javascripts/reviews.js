@@ -19,7 +19,14 @@ function listenForClickAddReview() {
       console.log("AddReview response: ", response);
       // Load the response into the DOM (add it to the current page)
       $("#ajax-container").html(response);
+
+      // Invoke handlebar templates for displaying links (to list recipes)
+      linksHtml = HandlebarsTemplates['recipes/links']({ current_user: current_user });
+      // Load the linksHtml into the DOM (add it #ajax-links tag)
+      $("#ajax-links").html(linksHtml);
+
       listenForClickSubmitNewReview();
+      listenForClickAfterShowRecipe();
     });
   });
 }
@@ -40,46 +47,92 @@ function listenForClickSubmitNewReview() {
       url: thisUrl,
       data: formData,
       dataType: "json",
-      success: response => {
-        let recipe = new Recipe(response);
-        // debugger;
-        // Load the response into the DOM (add it to the current page)
-        $("#ajax-container").html(recipe.recipeHtml(current_user));
-        listenForClickAfterShowRecipe();
-      },
-      error: response => {
-        const customMessage = `<h3>Error adding review.</h3>`;
-        // debugger;
-        // Load the response into the DOM (add it to the current page)
-        $("#ajax-container").html(customMessage);
-      }
+    }).done(function (response, textStatus, jqXHR) {
+      console.log('Done NewReview response: ', response, 'textStatus:', textStatus, ' Header: ', jqXHR);
+      const customMessage = `<h3>Review successfully created.</h3>`;
+      // Load the response into the DOM (add it to the current page)
+      $(".flash-message").html(customMessage);
+      // debugger;
+      let recipe = new Recipe(response)
+      // Load the response into the DOM (add it to the current page)
+      $("#ajax-container").html(recipe.recipeHtml(current_user))
+      listenForClickAfterShowRecipe();
+    }).fail(function (response, textStatus, jqXHR) {
+      // }).fail(function (jqXHR, textStatus, err) {
+      console.log('Fail NewReview response: ', response, 'textStatus:', textStatus, ' Header: ', jqXHR);
+      const customMessage = `<h3>Error adding review. ${response.responseJSON.error}</h3>`;
+      // Load the response into the DOM (add it to the current page)
+      $(".flash-message").html(customMessage);
+      // debugger;
+      $(".btn.btn-primary").prop("disabled", false);  // enable the Create Review button
     });
   });
 }
 
-//===== listenForClickEditReview =====//
+//===== listenForClickUpdateReview =====//
 
-function listenForClickEditReview() {
+function listenForClickUpdateReview() {
   console.log("listForClickEditReview..");
-  // Listen for click on button with id edit_review
-  $("#edit_review").on("click", function (event) {
+  // Listen for click on link element with id update_review
+  $("#update_review").on("click", function(event) {
     event.preventDefault();
     clearMessages();
-    debugger;
+    // Fire ajax to get edit review form
     let thisUrl = this.attributes.href.textContent + "?no_layout=false";
     $.ajax({
       method: "GET",
       url: thisUrl
-    }).always(function (response) {
-      console.log("AddReview response: ", response);
+    }).always(function(response) {
+      console.log("UpdateReview response: ", response);
       // Load the response into the DOM (add it to the current page)
       $("#ajax-container").html(response);
-      listenForClickSubmitNewReview();
+
+      // Invoke handlebar templates for displaying links (to list recipes)
+      linksHtml = HandlebarsTemplates['recipes/links']({ current_user: current_user });
+      // Load the linksHtml into the DOM (add it #ajax-links tag)
+      $("#ajax-links").html(linksHtml);
+
+      listenForClickSubmitUpdateReview();
+      listenForClickAfterShowRecipe();
     });
   });
 }
 
-
+function listenForClickSubmitUpdateReview() {
+  console.log("listForClickSubmitUpdateReview..");
+  // debugger;
+  // Listen for click on submit wtih class edit_review
+  $(".edit_review").on("submit", function (event) {
+    event.preventDefault();
+    clearMessages();
+    let formData = $(this).serialize();
+    let thisUrl = this.action + "?no_layout=false";
+    // debugger;
+    // Fire ajax to post updated review form
+    $.ajax({
+      method: "PATCH",
+      url: thisUrl,
+      data: formData,
+      dataType: "json",
+    }).done(function (response, textStatus, jqXHR) {
+      console.log('Done UpdateReview response: ', response, 'textStatus:', textStatus, ' Header: ', jqXHR);
+      const customMessage = `<h3>Review successfully updated.</h3>`;
+      // Load the response into the DOM (add it to the current page)
+      $(".flash-message").html(customMessage);
+      let recipe = new Recipe(response)
+      // Load the response into the DOM (add it to the current page)
+      $("#ajax-container").html(recipe.recipeHtml(current_user))
+      listenForClickAfterShowRecipe();
+    }).fail(function (response, textStatus, jqXHR) {
+      // }).fail(function (jqXHR, textStatus, err) {
+      console.log('Fail UpdateReview response: ', response, 'textStatus:', textStatus, ' Header: ', jqXHR);
+      const customMessage = `<h3>Error updating review. ${response.responseJSON.error}</h3>`;
+      // Load the response into the DOM (add it to the current page)
+      $(".flash-message").html(customMessage);
+      $(".btn.btn-primary").prop("disabled", false);  // enable the Update Review button
+    });
+  });
+}
 
 //===== listenForClickDeleteReview =====//
 
@@ -89,7 +142,7 @@ function listenForClickDeleteReview() {
   $("#delete_review").on("click", function (event) {
     event.preventDefault();
     clearMessages();
-    debugger;
+    // debugger;
     let thisUrl = this.attributes.href.textContent + "?no_layout=false";
     $.ajax({
       method: "DELETE",
