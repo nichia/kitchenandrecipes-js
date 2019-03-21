@@ -37,7 +37,8 @@
     <ul class="pagination">
     {{#each pagination.links}}
       <li class="page-item">
-        <a id="{{@key}}" class="page-link" href="{{this}}">{{@key}}</a>
+        {{!-- <a id="{{@key}}" class="page-link" href="{{this}}">{{@key}}</a> --}}
+        <a id="{{this.[0]}}" class="page-link" href="{{this.[1]}}">{{this.[0]}}</a>
       </li>
     {{/each}}
   {{/if}}
