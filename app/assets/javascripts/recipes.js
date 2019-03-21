@@ -329,7 +329,7 @@ function listenForClickDeleteRecipe() {
     clearMessages();
     // Fire ajax to delete recipe
     // note: this.href === event.target.href (includes baseURI of http://localhost:3000)
-    // debugger;
+    debugger;
     var choice = confirm("Are you sure you want to delete this recipe?");
     if (choice) {
       let thisUrl = this.attributes.href.textContent + "?no_layout=false"; // $(this).attr('href')
@@ -365,63 +365,6 @@ function listenForClickDeleteRecipe() {
   });
 }
 
-//===== listenForClickAddReview =====//
-
-function listenForClickAddReview() {
-  console.log('listForClickAddReview..');
-  // Listen for click on button with id add_review
-  $("#add_review").on("click", function (event) {
-    event.preventDefault();
-    clearMessages();
-    // debugger;
-    // Fire ajax to get new review form
-    // let thisUrl = this.href + "?no_layout=false";
-    let thisUrl = this.attributes.href.textContent + "?no_layout=false";
-    $.ajax({
-      method: "GET",
-      url: thisUrl
-    }).always(function (response) {
-      console.log('AddReview response: ', response);
-      // Load the response into the DOM (add it to the current page)
-      $("#ajax-container").html(response);
-      listenForClickSubmitNewReview();
-    });
-  });
-}
-
-function listenForClickSubmitNewReview() {
-  console.log('listForClickSubmitReview..');
-  // debugger;
-  // Listen for click on submit wtih id new_review
-  $("#new_review").on("submit", function (event) {
-    event.preventDefault();
-    clearMessages();
-    let formData = $(this).serialize();
-    let thisUrl = this.action + "?no_layout=false";
-    // debugger;
-    // Fire ajax to post new review form
-    $.ajax({
-      method: "POST",
-      url: thisUrl,
-      data: formData,
-      dataType: 'json',
-      success: response => {
-        let recipe = new Recipe(response)
-        // debugger;
-        // Load the response into the DOM (add it to the current page)
-        $("#ajax-container").html(recipe.recipeHtml(current_user))
-        listenForClickMainLinks();
-      },
-      error: response => {
-        const customMessage = `<h3>Error adding review.</h3>`
-        // debugger;
-        // Load the response into the DOM (add it to the current page)
-        $("#ajax-container").html(customMessage);
-      }
-    });
-  });
-}
-
 function listenForClickMainLinks() {
   listenForClickIndexRecipes();
   listenForClickAddRecipe();
@@ -436,4 +379,6 @@ function listenForClickAfterShowRecipe() {
   listenForClickCloneRecipe();
   listenForClickDeleteRecipe();
   listenForClickAddReview();
+  listenForClickEditReview();
+  listenForClickDeleteReview();
 }

@@ -71,8 +71,8 @@
           <p class="card-text">{{comment}}.</p>
 
           {{#ifEquals ../current_user.id user_id}}
-            <footer class="blockquote-footer"><a href="/recipes/{{../recipe.id}}/reviews/{{id}}/edit">Edit</a> |
-            <a rel="nofollow" data-method="delete" href="/recipes/{{../recipe.id}}/reviews/{{id}}">Remove</a></footer>
+            <footer class="blockquote-footer"><a href="/recipes/{{../recipe.id}}/reviews/{{id}}/edit" id="edit_review">Edit</a> |
+            <a rel="nofollow" href="/recipes/{{../recipe.id}}/reviews/{{id}}" id="delete_review">Remove</a></footer>
           {{/ifEquals}}
         </div> <!-- Card body -->
       </div> <!-- Card -->

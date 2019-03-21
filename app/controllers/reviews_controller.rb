@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: [:edit, :update, :destroy]
-  before_action :set_recipe, only: [:new, :edit, :update, :create]
+  before_action :set_recipe, only: [:new, :edit, :update, :create, :destroy]
 
   # GET /recipes/:recipe_id/reviews/new
   def new
@@ -25,8 +25,13 @@ class ReviewsController < ApplicationController
         redirect_to recipe_path(@review.recipe)
       end
     else
+      # binding.pry
       flash.now[:danger] = "Error adding review. Please try again"
-      render :new
+      if params[:no_layout]
+        render json: { error: flash.now[:danger] }, status: 409
+      else
+        render :new
+      end
     end
   end
   
@@ -43,12 +48,16 @@ class ReviewsController < ApplicationController
   
   # DELETE /recipes/:recipe_id/reviews/:id
   def destroy
-    # binding.pry
+    binding.pry
     @review.destroy
-    flash[:info] = "Review successfully deleted"
-    redirect_to recipe_path(@review.recipe)
+    if params[:no_layout]
+      render json: @recipe, include: ['user', 'reviews', 'reviews.reviewer', 'recipe_categories', 'recipe_categories.category', 'recipe_ingredients', 'recipe_ingredients.ingredient', 'recipe_ingredients.measurement', 'instructions'], status: 201
+    else
+      flash[:info] = "Review successfully deleted"
+      redirect_to recipe_path(@review.recipe)
+    end
   end
-  
+
   private
   
   def set_review
