@@ -1,5 +1,33 @@
 // handlebars_helpers.js
 
+Handlebars.registerHelper('titleCase', function (str) {
+  str = str.toLowerCase().split(' ').map(function (word) {
+    return (word.charAt(0).toUpperCase() + word.slice(1))
+  })
+  return str.join(' ');
+});
+
+Handlebars.registerHelper('pageButton', function (str) {
+  // return str.capitalize();
+  switch (str) {
+    case 'first':
+      return "« First";
+    case 'prev':
+      return "‹ Prev";
+    case 'next':
+      return "Next ›";
+    case 'last':
+      return "Last »";
+    default:
+      return str;
+  }
+});
+
+// Attaching a new function capitalize() to any instance of String() class
+String.prototype.capitalize = function () {
+  return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 Handlebars.registerHelper('avgRating', function (recipe) {
   const reducer = (accumulator, currentvalue) => accumulator + currentvalue.rating;
 

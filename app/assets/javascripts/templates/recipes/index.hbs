@@ -5,7 +5,7 @@
   {{> partials/_jumbotron title = "Kitchen&Recipes" current_user = current_user}}
 {{else}}
   <div class="text-center">
-    <h1 class="display-4">{{recipes.[0].user.name}}</h1>
+    <h1 class="display-4">{{#titleCase recipes.[0].user.name}} {{/titleCase}}</h1>
     <img height="156" width="182" src="{{recipes.[0].user.avatar}}">
   </div>
 {{/if}}
@@ -25,8 +25,8 @@
       <div class="card">
         <a href="/api/recipes/{{id}}"><img class="card-img-top show_recipe" src="{{image}}"></a>
         <div class="card-body">
-          <p class="card-text"><small class="text-muted">by <a class="index_recipes" href="/api/users/{{user_id}}/recipes" >{{user.name}}</a></small></p>
-          <h4 class="card-title"><a href="/api/recipes/{{id}}", class="show_recipe">{{name}}</a></h4>
+          <p class="card-text"><small class="text-muted">by <a class="index_recipes" href="/api/users/{{user_id}}/recipes" >{{#titleCase user.name}} {{/titleCase}}</a></small></p>
+          <h4 class="card-title"><a href="/api/recipes/{{id}}", class="show_recipe">{{#titleCase name}} {{/titleCase}}</a></h4>
           <p class="card-text">{{description}}</p>
         </div>
       </div>
@@ -38,7 +38,8 @@
     {{#each pagination.links}}
       <li class="page-item">
         {{!-- <a id="{{@key}}" class="page-link" href="{{this}}">{{@key}}</a> --}}
-        <a id="{{this.[0]}}" class="page-link" href="{{this.[1]}}">{{this.[0]}}</a>
+        <a id="{{this.[0]}}" class="page-link" href="{{this.[1]}}">{{#pageButton this.[0]}}
+        {{/pageButton}}</a>
       </li>
     {{/each}}
   {{/if}}
