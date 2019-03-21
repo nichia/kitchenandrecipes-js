@@ -97,18 +97,6 @@ function loadRecipes(thisObj) {
   });
 }
 
-//===== listenForClickPagination =====//
-
-function listenForClickPagination() {
-  console.log('listForClickPagination..');
-  // Listen for click on link element with class index_recipes
-  $('#next, #prev, #first, #last').on("click", function (event) {
-    event.preventDefault();
-    clearMessages();
-    loadRecipes(this);
-  });
-}
-
 //===== listenForClickShowRecipe =====//
 
 function listenForClickShowRecipe() {
@@ -250,7 +238,7 @@ function listenForClickSubmitUpdateRecipe() {
     event.preventDefault();
     let formData = new FormData($(this)[0]); // submit data & files in one form
     let thisUrl = this.action + "?no_layout=false";
-    // Fire ajax to post new recipe form
+    // Fire ajax to post update recipe form
     $.ajax({
       method: "PATCH",
       url: thisUrl,
@@ -274,7 +262,7 @@ function listenForClickSubmitUpdateRecipe() {
       const customMessage = `<h3>Error updating recipe: ${response.responseJSON.error}</h3>`;
       // Load the response into the DOM (add it to the current page)
       $(".flash-message").html(customMessage);
-      $(".btn.btn-primary").prop("disabled", false);  // enable the Create Recipe button
+      $(".btn.btn-primary").prop("disabled", false);  // enable the Update Recipe button
     });
   });
 }

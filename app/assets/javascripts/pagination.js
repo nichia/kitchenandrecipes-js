@@ -31,3 +31,15 @@ class Pagination {
     };
   };
 }
+
+//===== listenForClickPagination =====//
+
+function listenForClickPagination() {
+  console.log('listForClickPagination..');
+  // Listen for click on link element with class index_recipes
+  $('#next, #prev, #first, #last').on("click", function (event) {
+    event.preventDefault();
+    clearMessages();
+    loadRecipes(this);
+  });
+}
