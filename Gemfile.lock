@@ -325,7 +325,7 @@ DEPENDENCIES
   cocoon (~> 1.2, >= 1.2.12)
   coffee-rails (~> 4.2)
   database_cleaner
-  devise
+  devise (~> 4.6.0)
   dotenv-rails
   faker
   handlebars_assets
