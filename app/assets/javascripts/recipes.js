@@ -105,7 +105,7 @@ function listenForClickShowRecipe() {
   $(".show_recipe").on("click", function (event) {
     event.preventDefault();
     clearMessages();
-   // debugger;
+    // debugger;
     // for images, access via this.parentElement.href
     let thisUrl = this.href || this.parentElement.href
     // let thisUrl = this.attributes.href || this.parentElement.attributes.href  *does not work
@@ -211,7 +211,7 @@ function listenForClickUpdateRecipe() {
     // Fire ajax to get edit recipe form
     // let url = this.href + "?no_layout=false";
     let thisUrl = this.attributes.href.textContent + "?no_layout=false";
-    debugger;
+    // debugger;
     $.ajax({
       method: "GET",
       url: thisUrl
@@ -317,7 +317,7 @@ function listenForClickDeleteRecipe() {
     clearMessages();
     // Fire ajax to delete recipe
     // note: this.href === event.target.href (includes baseURI of http://localhost:3000)
-    debugger;
+    // debugger;
     var choice = confirm("Are you sure you want to delete this recipe?");
     if (choice) {
       let thisUrl = this.attributes.href.textContent + "?no_layout=false"; // $(this).attr('href')
