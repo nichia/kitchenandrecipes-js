@@ -53,6 +53,77 @@ Date.prototype.toShortFormat = function () {
   return "" + month_names[month_index] + " " + day + ", " + year;
 }
 
+//===== listenForClickSortRecipes =====//
+//===== Project Review Live coding - Add a link for all recipes sorted by name =====//
+
+function listenForClickSortRecipes() {
+  console.log('listForClickIndexRecipes..');
+  // Listen for click on link element with class sort_recipes
+  $(".sort_recipes").on("click", function (event) {
+    event.preventDefault();
+    // debugger;
+    loadSortedRecipes(this);
+  });
+}
+
+function loadSortedRecipes(thisObj) {
+  // Fire ajax to get Index of Recipes
+  // debugger;
+  if (typeof thisObj === "object") {
+    thisUrl = thisObj.href;
+  } else {
+    thisUrl = thisObj;
+  }
+  $.ajax({
+    method: "GET",
+    url: thisUrl,
+    dataType: "json"
+  }).done(function(response, textStatus, jqXHR) {
+    console.log(
+      "AllRecipes response: ",
+      response,
+      "textStatus:",
+      textStatus,
+      " Header: ",
+      jqXHR
+    );
+    let paginationData = {
+      perPage: jqXHR.getResponseHeader("per-page"),
+      total: jqXHR.getResponseHeader("total"),
+      links: jqXHR.getResponseHeader("link")
+    };
+    let pagination = new Pagination(response.meta, paginationData);
+    console.log("pagination data: ", pagination);
+    
+    // sort response.recipes by name
+    response.recipes.sort((a, b) => {
+      var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+      var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      
+      // names must be equal
+      return 0;
+    });
+    
+    // Invoke handlebar templates for recipes_index
+    recipesIndexHtml = HandlebarsTemplates["recipes/index"]({
+      recipes: response.recipes,
+      pagination: pagination,
+      current_user: current_user,
+      isMainIndex: $(this)
+        .parent()
+        .prevObject[0].url.includes("/api/recipes")
+    });
+    // Load the recipesIndexHtml into the DOM (add it to the current page)
+    $("#ajax-container").html(recipesIndexHtml);
+    listenForClickMainLinks();
+  });
+}
 //===== listenForClickIndexRecipes =====//
 
 function listenForClickIndexRecipes() {
@@ -354,6 +425,7 @@ function listenForClickDeleteRecipe() {
 }
 
 function listenForClickMainLinks() {
+  listenForClickSortRecipes();
   listenForClickIndexRecipes();
   listenForClickAddRecipe();
   listenForClickShowRecipe();
