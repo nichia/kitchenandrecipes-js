@@ -1,0 +1,81 @@
+{{!-- /recipes/show (recipe, current_user) --}}
+
+{{#debug}} {{/debug}}
+
+<div class="container">
+  <div class="text-center">
+    <h1>{{#titleCase recipe.name}} {{/titleCase}}</h1>
+    <img height="156" width="182" src="{{recipe.image}}">
+    <p class="card-text"><small class="text-muted">by
+    <a href="/api/users/{{recipe.user_id}}/recipes", class="index_recipes">{{#titleCase recipe.user.name}}
+    {{/titleCase}}</a>
+    | {{recipe.created_at}}
+    | {{recipe.reviews.length}} Reviews
+    </br>
+    {{> partials/_recipeLinks current_user = current_user}}
+    </small></p>
+    <hr>
+    <p>{{recipe.description}}</p>
+  </div>
+
+  <p><strong>Yields:</strong> {{recipe.yields}} {{recipe.yields_size}}</p>
+  <p><strong>Prep time:</strong> {{recipe.prep_time}}</p>
+  <p><strong>Cook time:</strong> {{recipe.cook_time}}</p>
+
+  {{!-- Ingredients --}}
+  <h5>Ingredients:</h5>
+  {{#each recipe.recipe_ingredients}}
+    <p><strong>{{quantity}}</strong> {{measurement.unit}}
+      {{#titleCase ingredient.name}} {{/titleCase}} {{description}}</p>
+  {{/each}}
+  
+  {{!-- Instructions --}}
+  <h5>Instructions:</h5>
+  {{#each recipe.instructions}}
+    <p> {{counter @index}}. {{description}}</p>
+  {{/each}}
+
+  <hr>
+
+{{!-------------  Show Recipe Action Buttons (Edit, Delete, Clone) -------------}}
+  <div class="text-center">
+    {{#ifEquals current_user.id recipe.user.id}}
+      <a class="btn btn-primary" href="/users/{{recipe.user.id}}/recipes/{{recipe.id}}/edit" id="update_recipe">Edit Recipe</a> 
+      <a href="/users/{{current_user.id}}/recipes/{{recipe.id}}" class="btn btn-danger" id="delete_recipe" rel="nofollow">Delete Recipe</a>
+    {{else}}
+      {{#if current_user}}
+        {{#addReviewButton recipe current_user}} {{/addReviewButton}}
+        <a href="/recipes/{{recipe.id}}/copy" class="btn btn-primary" id="clone_recipe" rel="nofollow">Clone Recipe</a>
+      {{/if}}
+    {{/ifEquals}}
+  </div>
+</div> {{!-- Container --}}
+
+{{!-------------  Reviews -------------}}
+<div class="container-fluids">
+  <p class="text-center card-text"><small class="text-muted">{{recipe.reviews.length}} Reviews | {{#avgRating recipe}}
+      {{/avgRating}} / {{recipe.reviews.length}} ratings</small></p>
+  <!-- Card columns -->
+  <div class="card-columns">
+    {{#each recipe.reviews}}
+      {{!-- Card --}}
+      <div class="card border-light mb-3" style="max-width: 18rem;">
+        <div class="card-header"><a href="/api/users/{{user_id}}/recipes", class="index_recipes"><img class="rounded-circle"
+              style="max-height: 35px; max-width: 35px;" src="{{reviewer.avatar}}"></a><strong>
+            <a href="/api/users/{{user_id}}/recipes", class="index_recipes">{{reviewer.name}}</a></strong>
+        </div><!-- Card header -->
+        <div class="card-body">
+          <p class="card-text"><small class="text-muted">{{created_date}}</small></p>
+          <p class="card-text">Rating: {{rating}} / 5</p>
+          <p class="card-text">{{comment}}.</p>
+
+          {{#ifEquals ../current_user.id user_id}}
+            <footer class="blockquote-footer"><a href="/recipes/{{../recipe.id}}/reviews/{{id}}/edit" id="update_review">Edit</a> |
+            <a rel="nofollow" href="/recipes/{{../recipe.id}}/reviews/{{id}}" id="delete_review">Remove</a></footer>
+          {{/ifEquals}}
+        </div> <!-- Card body -->
+      </div> <!-- Card -->
+    {{/each}}
+  </div> <!-- Card -->
+</div> <!-- Card columns -->
+</div>
