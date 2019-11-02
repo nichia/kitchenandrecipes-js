@@ -39,7 +39,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'dotenv-rails'
 
 # Use Devise for authentication
-gem 'devise', '~> 4.6.0'
+gem 'devise', '~> 4.7.1'
 # Use Omniauth Facebook plugin
 gem 'omniauth-facebook'
 # Use Omniauth Github plugin
